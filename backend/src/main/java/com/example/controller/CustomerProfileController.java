@@ -15,6 +15,7 @@ import com.example.service.CustomerProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/customer")
 @Tag(name = "Customer Profile", description = "Customer profile and personalization APIs")

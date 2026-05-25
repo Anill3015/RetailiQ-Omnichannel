@@ -1,12 +1,10 @@
 package com.example.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import com.example.entity.CustomerProfile;
 import com.example.exception.CustomerProfileNotFoundException;
 import com.example.repository.CustomerProfileRepository;
@@ -22,7 +20,7 @@ public class CustomerProfileService {
     private RecommendationRepository recommendationRepository;
 
     public CustomerProfile addCustomerProfile(CustomerProfile profile) {
-        profile.setLoyaltyTier("SILVER"); // default tier
+        profile.setLoyaltyTier("SILVER");
         return repository.save(profile);
     }
 
@@ -38,10 +36,21 @@ public class CustomerProfileService {
             throw new CustomerProfileNotFoundException(id);
         }
 
-        int recCount = recommendationRepository
-                .findByCustomer_CustomerId(id).size();
+        // ✅ Fetch existing profile to preserve recommendations reference
+        CustomerProfile existing = repository.findById(id)
+                .orElseThrow(() -> new CustomerProfileNotFoundException(id));
 
-        profile.setLoyaltyTier(calculateLoyaltyTier(recCount));
+        // ✅ Copy recommendations from existing to avoid orphan error
+        profile.setRecommendations(existing.getRecommendations());
+
+        // ✅ Calculate loyalty tier safely
+        try {
+            List recommendations = recommendationRepository.findByCustomer_CustomerId(id);
+            int recCount = (recommendations != null) ? recommendations.size() : 0;
+            profile.setLoyaltyTier(calculateLoyaltyTier(recCount));
+        } catch (Exception e) {
+            profile.setLoyaltyTier(existing.getLoyaltyTier());
+        }
 
         return repository.save(profile);
     }

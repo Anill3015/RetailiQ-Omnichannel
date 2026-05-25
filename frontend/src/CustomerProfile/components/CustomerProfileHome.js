@@ -19,7 +19,7 @@ export default function CustomerProfileHome(){
  
                     </li>
                     <li>
-                        
+                        <Link to="findCustomerProfileById">Find CustomerProfile by ID</Link>
                     </li>
                 </ul>
             </nav>

@@ -16,6 +16,7 @@ import CreateCustomerProfile from './CustomerProfile/components/CreateCustomerPr
 import DeleteCustomerProfile from './CustomerProfile/components/DeleteCustomerProfile';
 import UpdateCustomerProfile from './CustomerProfile/components/UpdateCustomerProfile';
 import FindCustomerProfile from './CustomerProfile/components/FindCustomerProfile';
+import FindCustomerProfileById from './CustomerProfile/components/FindCustomerProfileById';
 
 import ExceptionEventHome from './ExceptionEvent/components/ExceptionEventHome';
 import CreateExceptionEvent from './ExceptionEvent/components/CreateExceptionEvent';
@@ -89,7 +90,7 @@ import PromotionTypeHome from './PromotionType/components/PromotionTypeHome';
 import CreatePromotionType from './PromotionType/components/CreatePromotionType';
 import FindPromotionType from './PromotionType/components/FindPromotionType';
 
-import RecommendationHome from './Product/components/ProductHome';
+import RecommendationHome from './Recommendation/components/RecommendationHome';
 import CreateRecommendation from './Recommendation/components/CreateRecommendation';
 import FindRecommendation from './Recommendation/components/FindRecommendation';
 import UpdateRecommendation from './Recommendation/components/UpdateRecommendation';
@@ -121,11 +122,18 @@ import CreateProduct from './Product/components/CreateProduct';
 import FindProduct from './Product/components/FindProduct';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
+<<<<<<< Updated upstream
 import FindAllExceptionEvent from './ExceptionEvent/components/FindAllExceptionEvent';
 import FindExceptionEventById from './ExceptionEvent/components/FindExceptionEventById';
 import FindAllKPIReport from './KPIReport/components/FindAllKPIReport';
 import FindReturnAuthorizationById from './ReturnAuthorization/components/FindReturnAuthorizationById';
 import FindAllReturnAuthorization from './ReturnAuthorization/components/FindAllReturnAuthorization';
+=======
+import DeleteRecommendation from './Recommendation/components/DeleteRecommendation';
+import FindRecommendationById from './Recommendation/components/FindRecommendationById';
+import FindReplenishmentById from './Replenishment/components/FindReplenishmentById';
+import FindForecastById from './Forecast/components/FindForecastById';
+>>>>>>> Stashed changes
 
 function App() {
   return (
@@ -133,7 +141,8 @@ function App() {
       <Routes>
         <Route path="Forecast" element={<ForecastHome/>}>
             <Route path="createForecast" element={<CreateForecast/>}></Route>
-            <Route path="FindForecast" element={<DeleteForecast/>}></Route>
+            <Route path="deleteForecast" element={<DeleteForecast/>}></Route>
+            <Route path="FindForecastById" element={<FindForecastById/>}></Route>
             <Route path="findForecast" element={<FindForecast/>}></Route>
             <Route path="updateForecast/:fcid" element={<UpdateForecast/>}></Route>
         </Route>
@@ -145,10 +154,10 @@ function App() {
         <Route path="CustomerProfile" element={<CustomerProfileHome/>}>
             <Route path="createCustomerProfile" element={<CreateCustomerProfile/>}></Route>
             <Route path="deleteCustomerProfile/:cpid" element={<DeleteCustomerProfile/>}></Route>
-            <Route path="findCustomerProfile/:cpid" element={<FindCustomerProfile/>}></Route>
+            <Route path="findCustomerProfile" element={<FindCustomerProfile/>}></Route>
             <Route path="updateCustomerProfile/:cpid" element={<UpdateCustomerProfile/>}></Route>
+            <Route path="findCustomerProfileById/:cpid" element={<FindCustomerProfileById/>}></Route>
         </Route>
-
          <Route path="ExceptionEvent" element={<ExceptionEventHome/>}>
             <Route path="createExceptionEvent" element={<CreateExceptionEvent/>}></Route>
             <Route path="deleteExceptionEvent/:id" element={<DeleteExceptionEvent/>}></Route>
@@ -243,17 +252,21 @@ function App() {
         </Route>
 
          <Route path="Recommendation" element={<RecommendationHome/>}>
-            <Route path="createRecommendation" element={<CreateRecommendation/>}></Route>
-            <Route path="findRecommendation" element={<FindRecommendation/>}></Route>
-            <Route path="updateRecommendation" element={<UpdateRecommendation/>}></Route>
+            <Route path="createRecommendation" element={<CreateRecommendation/>}/>
+            <Route path="deleteRecommendation/:rid" element={<DeleteRecommendation/>}/>
+            <Route path="findRecommendation" element={<FindRecommendation/>}/>
+            <Route path="findRecommendationById" element={<FindRecommendationById/>}/>
+            <Route path="updateRecommendation/:rid" element={<UpdateRecommendation/>}/>
+            
         </Route>
 
         <Route path="Replenishment" element={<ReplenishmentHome/>}>
-            <Route path="createReplenishment" element={<CreateReplenishment/>}></Route>
-            <Route path="deleteReplenishment" element={<DeleteReplenishment/>}></Route>
-            <Route path="findReplenishment" element={<FindReplenishment/>}></Route>
-            <Route path="updateReplenishment" element={<UpdateReplenishment/>}></Route>
-        </Route>
+    <Route path="createReplenishment" element={<CreateReplenishment/>}/>
+    <Route path="findReplenishment" element={<FindReplenishment/>}/>
+    <Route path="findReplenishmentById" element={<FindReplenishmentById/>}/>
+    <Route path="updateReplenishment/:rid" element={<UpdateReplenishment/>}/>
+    <Route path="deleteReplenishment/:rid" element={<DeleteReplenishment/>}/>
+</Route>
 
         <Route path="ReturnAuthorization" element={<ReturnAuthorizationHome/>}>
             <Route path="createReturnAuthorization" element={<CreateReturnAuthorization/>}></Route>

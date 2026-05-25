@@ -15,6 +15,7 @@ import com.example.service.RecommendationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/recommendation")
 @Tag(name = "Recommendation", description = "Personalized recommendation APIs")
@@ -53,6 +54,20 @@ public class RecommendationController {
         response.setMessage("Recommendation updated successfully");
 
         return ResponseEntity.ok(response);
+    }
+
+    // ✅ Added delete endpoint
+    @Operation(summary = "Delete recommendation")
+    @DeleteMapping("/delete/{id}")
+    public String deleteRecommendation(@PathVariable Long id) {
+        return service.deleteRecommendation(id);
+    }
+
+    // ✅ Added find by ID endpoint
+    @Operation(summary = "Find recommendation by ID")
+    @GetMapping("/find/{id}")
+    public Recommendation findById(@PathVariable Long id) {
+        return service.findRecommendationById(id);
     }
 
     @Operation(summary = "Get recommendations by customer")
