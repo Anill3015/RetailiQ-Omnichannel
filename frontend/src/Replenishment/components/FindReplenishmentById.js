@@ -17,9 +17,9 @@ export default function FindReplenishmentById() {
                 setOrder(response.data);
                 setError("");
             })
-            .catch(() => {
+            .catch((error) => {
                 setOrder(null);
-                setError("Order not found with ID: " + orderId);
+                setError("Order not found with ID: " + orderId + error.message );
             });
     };
 

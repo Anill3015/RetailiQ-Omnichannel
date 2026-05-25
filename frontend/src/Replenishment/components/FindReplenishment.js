@@ -62,7 +62,6 @@ export default function FindReplenishment() {
                                 <td>{o.quantity}</td>
                                 <td>{o.status}</td>
                                 <td>
-                                    {/* ✅ Absolute paths */}
                                     <Link to={`/Replenishment/updateReplenishment/${o.orderId}`}>Edit</Link>
                                     {" | "}
                                     <Link to={`/Replenishment/deleteReplenishment/${o.orderId}`}>Delete</Link>

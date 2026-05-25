@@ -12,9 +12,9 @@ export default function FindCustomerProfileById() {
                 setCustomer(response.data);
                 setError("");
             })
-            .catch(() => {
+            .catch((err) => {
                 setCustomer(null);
-                setError("Customer not found with ID: " + id);
+                setError("Customer not found with ID: " + id + err.message);
             });
     };
 

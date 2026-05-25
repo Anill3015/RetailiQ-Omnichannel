@@ -12,7 +12,6 @@ export default function UpdateRecommendation() {
     useEffect(() => {
         if (!rid) return;
 
-        // ✅ Fetch by rec ID directly
         axios.get(`http://localhost:9011/api/recommendation/find/${rid}`)
             .then((response) => {
                 const r = response.data;
