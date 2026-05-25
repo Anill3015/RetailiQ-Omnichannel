@@ -205,12 +205,12 @@ function App() {
         </Route> 
 
         <Route path="Location" element={<LocationHome/>}>
-            <Route path="createLocation" element={<CreateLocation/>}></Route>
-            <Route path="deleteLocation" element={<DeleteLocation/>}></Route>
-            <Route path="findLocation" element={<FindLocation/>}></Route>
-            <Route path="findLocationById" element={<FindLocationById/>}></Route>
-            <Route path="updateLocation" element={<UpdateLocation/>}></Route>
-        </Route> 
+    <Route path="createLocation" element={<CreateLocation/>}/>
+    <Route path="findLocation" element={<FindLocation/>}/>
+    <Route path="findLocationById" element={<FindLocationById/>}/>
+    <Route path="updateLocation/:lid" element={<UpdateLocation/>}/>
+    <Route path="deleteLocation/:lid" element={<DeleteLocation/>}/>
+</Route>
         <Route path="Notification" element={<NotificationHome/>}>
             <Route path="createNotification" element={<CreateNotification/>}></Route>
             <Route path="deleteNotification" element={<DeleteNotification/>}></Route>
