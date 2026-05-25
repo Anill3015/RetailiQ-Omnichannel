@@ -9,17 +9,11 @@ export default function ProductHome(){
                         <Link to="createProduct">Add Product</Link>
                     </li>
                     <li>
-                        <Link to="deleteProduct">Delete Product</Link>
-                    </li>
-                    <li>
                         <Link to="findProduct">Find Product</Link>
                     </li>
-                    <li>
-                        <Link to="updateProduct">Update Product</Link>
+                     <li>
+                        <Link to="findProductById">FindProductById</Link>
  
-                    </li>
-                    <li>
-                        
                     </li>
                 </ul>
             </nav>

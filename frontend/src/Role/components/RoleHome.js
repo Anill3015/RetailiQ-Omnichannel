@@ -5,15 +5,9 @@ export default function RoleHome(){
         <div>
             <nav>
                 <ul>
-                    <li>
-                        <Link to="createRole">Add Role</Link>
-                    </li>
-                    <li>
-                        <Link to="findRole">Find Role</Link>
-                    </li>
-                    <li>
-                        <Link to="deleteRole">Delete Role</Link>
-                    </li>
+                    <li><Link to="createRole">Add Role</Link></li>
+                    <li><Link to="findAllRole">All Roles</Link></li>
+                    <li><Link to="findRoleById">Find Role By ID</Link></li>
                 </ul>
             </nav>
             <Outlet></Outlet>

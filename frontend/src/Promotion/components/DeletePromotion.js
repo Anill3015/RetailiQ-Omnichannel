@@ -2,15 +2,15 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-export default function DeleteRole() {
+export default function DeletePromotion() {
     const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.delete(`http://localhost:9011/role/delete/${id}`)
+        axios.delete(`http://localhost:9011/promotion/delete/${id}`)
             .then((res) => {
                 alert(res.data);
-                navigate("/Role/findRole");
+                navigate("/Promotion/findPromotion");
             })
             .catch((err) => {
                 if (err.response) {
@@ -18,13 +18,9 @@ export default function DeleteRole() {
                 } else {
                     alert("Network error: " + err.message);
                 }
-                navigate("/Role/findRole");
+                navigate("/Promotion/findPromotion");
             });
     }, [id]);
 
-    return (
-        <div>
-            <h2>Deleting Role...</h2>
-        </div>
-    );
+    return <div><h2>Deleting Promotion...</h2></div>;
 }

@@ -1,13 +1,10 @@
 package com.example.controller;
 
+import com.example.dto.UpdateUserRequest;
 import com.example.entity.User;
 import com.example.service.UserService;
 
-import com.example.entity.AuditLog;
-import com.example.service.AuditLogService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
@@ -15,12 +12,13 @@ import org.springframework.data.domain.Sort;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 @Tag(name = "User Controller")
+@CrossOrigin(origins="http://localhost:3000")
 public class UserController {
 
     private final UserService service;
@@ -35,10 +33,17 @@ public class UserController {
         return service.save(user);
     }
 
+    // ✅ Now uses UpdateUserRequest DTO instead of User entity
     @PutMapping("/update")
     @Operation(summary = "Update User")
-    public User update(@RequestBody User user) {
-        return service.save(user);
+    public User update(@RequestBody UpdateUserRequest request) {
+        return service.update(
+                request.getUserId(),
+                request.getRoleId(),
+                request.getName(),
+                request.getEmail(),
+                request.getPhone()
+        );
     }
 
     @GetMapping("/find/{id}")
@@ -54,6 +59,12 @@ public class UserController {
         return "User deleted successfully";
     }
 
+    @GetMapping("/fetchAll")
+    @Operation(summary = "Fetch All Users")
+    public List<User> fetchAll() {
+        return service.getAllUsers();
+    }
+
     @GetMapping("/fetchAllPaginated")
     @Operation(summary = "Fetch Users with Pagination")
     public Page<User> getAll(
@@ -65,7 +76,7 @@ public class UserController {
         Pageable pageable = PageRequest.of(
                 pgno, size,
                 asc ? Sort.by(sorting).ascending()
-                    : Sort.by(sorting).descending());
+                        : Sort.by(sorting).descending());
 
         return service.getAll(pageable);
     }

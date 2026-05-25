@@ -79,12 +79,16 @@ import UpdateOrder from './Order/components/UpdateOrder';
 import PriceListHome from './PriceList/components/PriceListHome';
 import CreatePriceList from './PriceList/components/CreatePriceList';
 import FindPriceList from './PriceList/components/FindPriceList';
+import FindPriceListById from './PriceList/components/FindPriceListById';
 import UpdatePriceList from './PriceList/components/UpdatePriceList';
 import DeletePriceList from './PriceList/components/DeletePriceList';
 
 import PromotionHome from './Promotion/components/PromotionHome';
 import CreatePromotion from './Promotion/components/CreatePromotion';
 import FindPromotion from './Promotion/components/FindPromotion';
+import UpdatePromotion from './Promotion/components/UpdatePromotion';
+import FindPromotionById from './Promotion/components/FindPromotionById';
+import DeletePromotion from './Promotion/components/DeletePromotion';
 
 import PromotionTypeHome from './PromotionType/components/PromotionTypeHome';
 import CreatePromotionType from './PromotionType/components/CreatePromotionType';
@@ -108,18 +112,21 @@ import DeleteReturnAuthorization from './ReturnAuthorization/components/DeleteRe
 
 import RoleHome from './Role/components/RoleHome';
 import CreateRole from './Role/components/CreateRole';
-import FindRole from './Role/components/FindRole';
+import FindAllRole from './Role/components/FindAllRole';
+import FindRoleById from './Role/components/FindRoleById';
 import DeleteRole from './Role/components/DeleteRole';
 
 import UserHome from './User/components/UserHome';
 import CreateUser from './User/components/CreateUser';
-import FindUser from './User/components/FindUser';
+import FindAllUser from './User/components/FindAllUser';
 import UpdateUser from './User/components/UpdateUser';
 import DeleteUser from './User/components/DeleteUser';
+import FindUserById from './User/components/FindUserById';
 
 import ProductHome from './Product/components/ProductHome';
 import CreateProduct from './Product/components/CreateProduct';
 import FindProduct from './Product/components/FindProduct';
+import FindProductById from './Product/components/FindProductById';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
 import FindAllExceptionEvent from './ExceptionEvent/components/FindAllExceptionEvent';
@@ -145,8 +152,8 @@ function App() {
             <Route path="updateForecast/:fcid" element={<UpdateForecast/>}></Route>
         </Route>
 
-        <Route path="AuditLog" element={<AuditLogHome/>}>\
-            <Route path="findAuditLog" element={<FindAuditLog/>}></Route>
+        <Route path="AuditLog" element={<AuditLogHome/>}>
+            <Route path="findAuditLog" element={<FindAuditLog/>}/>
         </Route>
 
         <Route path="CustomerProfile" element={<CustomerProfileHome/>}>
@@ -227,27 +234,32 @@ function App() {
 </Route>
 
         <Route path="PriceList" element={<PriceListHome/>}>
-            <Route path="createPriceList" element={<CreatePriceList/>}></Route>
-            <Route path="deletePriceList" element={<DeletePriceList/>}></Route>
-            <Route path="findPriceList" element={<FindPriceList/>}></Route>
-            <Route path="updatePriceList" element={<UpdatePriceList/>}></Route>
+            <Route path="createPriceList"       element={<CreatePriceList/>}/>
+            <Route path="findPriceList"         element={<FindPriceList/>}/>
+            <Route path="findPriceListById"     element={<FindPriceListById/>}/>
+            <Route path="editPriceList/:id"     element={<UpdatePriceList/>}/>
+            <Route path="deletePriceList/:id"   element={<DeletePriceList/>}/>
         </Route>
 
         <Route path="Product" element={<ProductHome/>}>
-            <Route path="createProduct" element={<CreateProduct/>}></Route>
-            <Route path="deleteProduct" element={<DeleteProduct/>}></Route>
-            <Route path="findProduct" element={<FindProduct/>}></Route>
-            <Route path="updateProduct" element={<UpdateProduct/>}></Route>
+            <Route path="createProduct"     element={<CreateProduct/>}/>
+            <Route path="findProduct"       element={<FindProduct/>}/>
+            <Route path="findProductById"   element={<FindProductById/>}/>
+            <Route path="editProduct/:id"   element={<UpdateProduct/>}/>
+            <Route path="deleteProduct/:id" element={<DeleteProduct/>}/>
         </Route>
     
-       <Route path="Promotion" element={<PromotionHome/>}>
-            <Route path="createPromotion" element={<CreatePromotion/>}></Route>
-            <Route path="findPromotion" element={<FindPromotion/>}></Route>
+        <Route path="Promotion" element={<PromotionHome/>}>
+            <Route path="createPromotion"       element={<CreatePromotion/>}/>
+            <Route path="findPromotion"         element={<FindPromotion/>}/>
+            <Route path="findPromotionById"     element={<FindPromotionById/>}/>
+            <Route path="editPromotion/:id"     element={<UpdatePromotion/>}/>
+            <Route path="deletePromotion/:id"   element={<DeletePromotion/>}/>
         </Route>
 
         <Route path="PromotionType" element={<PromotionTypeHome/>}>
-            <Route path="createPromotionType" element={<CreatePromotionType/>}></Route>
-            <Route path="findPromotionType" element={<FindPromotionType/>}></Route>
+            <Route path="createPromotionType"   element={<CreatePromotionType/>}/>
+            <Route path="findPromotionType"     element={<FindPromotionType/>}/>
         </Route>
 
          <Route path="Recommendation" element={<RecommendationHome/>}>
@@ -275,17 +287,19 @@ function App() {
             <Route path="updateReturnAuthorization/:id" element={<UpdateReturnAuthorization/>}></Route>
         </Route>
 
-         <Route path="Role" element={<RoleHome/>}>
-            <Route path="createRole" element={<CreateRole/>}></Route>
-            <Route path="deleteRole" element={<DeleteRole/>}></Route>
-            <Route path="findRole" element={<FindRole/>}></Route>
+        <Route path="Role" element={<RoleHome/>}>
+            <Route path="createRole"       element={<CreateRole/>}/>
+            <Route path="findAllRole"         element={<FindAllRole/>}/>
+            <Route path="findRoleById"     element={<FindRoleById/>}/>
+            <Route path="deleteRole/:id"   element={<DeleteRole/>}/>
         </Route>
-
+        
         <Route path="User" element={<UserHome/>}>
-            <Route path="createUser" element={<CreateUser/>}></Route>
-            <Route path="deleteUser" element={<DeleteUser/>}></Route>
-            <Route path="findUser" element={<FindUser/>}></Route>
-            <Route path="updateUser" element={<UpdateUser/>}></Route>
+            <Route path="createUser"     element={<CreateUser/>}/>
+            <Route path="deleteUser/:id" element={<DeleteUser/>}/>
+            <Route path="findAllUser"       element={<FindAllUser/>}/>
+            <Route path="editUser/:id"   element={<UpdateUser/>}/>
+            <Route path="findUserById"   element={<FindUserById/>}/>
         </Route>
       </Routes>
 
