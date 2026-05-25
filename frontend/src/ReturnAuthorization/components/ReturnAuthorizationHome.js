@@ -9,13 +9,16 @@ export default function ReturnAuthorizationHome(){
                         <Link to="createReturnAuthorization">Add ReturnAuthorization</Link>
                     </li>
                     <li>
-                        <Link to="findReturnAuthorization">Find ReturnAuthorization</Link>
+                        <Link to="findReturnAuthorizationById">Find ReturnAuthorization By Id</Link>
                     </li>
                     <li>
                         <Link to="updateReturnAuthorization">Update ReturnAuthorization</Link>
                     </li>
                     <li>
                         <Link to="deleteReturnAuthorization">Delete ReturnAuthorization</Link>
+                    </li>
+                    <li>
+                        <Link to="findAllReturnAuthorization">Find All ReturnAuthorization</Link>
                     </li>
                 </ul>
             </nav>

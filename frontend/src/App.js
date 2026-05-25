@@ -18,7 +18,6 @@ import UpdateCustomerProfile from './CustomerProfile/components/UpdateCustomerPr
 import FindCustomerProfile from './CustomerProfile/components/FindCustomerProfile';
 
 import ExceptionEventHome from './ExceptionEvent/components/ExceptionEventHome';
-import FindExceptionEvent from './ExceptionEvent/components/FindExceptionEvent';
 import CreateExceptionEvent from './ExceptionEvent/components/CreateExceptionEvent';
 import DeleteExceptionEvent from './ExceptionEvent/components/DeleteExceptionEvent';
 import UpdateExceptionEvent from './ExceptionEvent/components/UpdateExceptionEvent';
@@ -53,7 +52,6 @@ import DeleteInventoryPosition from './InventoryPosition/components/DeleteInvent
 
 import KPIReportHome from './KPIReport/components/KPIReportHome';
 import CreateKPIReport from './KPIReport/components/CreateKPIReport';
-import FindKPIReport from './KPIReport/components/FindKPIReport';
 import FindKPIReportById from './KPIReport/components/FindKPIReportById';
 import UpdateKPIReport from './KPIReport/components/UpdateKPIReport';
 import DeleteKPIReport from './KPIReport/components/DeleteKPIReport';
@@ -104,7 +102,6 @@ import DeleteReplenishment from './Replenishment/components/DeleteReplenishment'
 
 import ReturnAuthorizationHome from './ReturnAuthorization/components/ReturnAuthorizationHome';
 import CreateReturnAuthorization from './ReturnAuthorization/components/CreateReturnAuthorization';
-import FindReturnAuthorization from './ReturnAuthorization/components/FindReturnAuthorization';
 import UpdateReturnAuthorization from './ReturnAuthorization/components/UpdateReturnAuthorization';
 import DeleteReturnAuthorization from './ReturnAuthorization/components/DeleteReturnAuthorization';
 
@@ -124,6 +121,11 @@ import CreateProduct from './Product/components/CreateProduct';
 import FindProduct from './Product/components/FindProduct';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
+import FindAllExceptionEvent from './ExceptionEvent/components/FindAllExceptionEvent';
+import FindExceptionEventById from './ExceptionEvent/components/FindExceptionEventById';
+import FindAllKPIReport from './KPIReport/components/FindAllKPIReport';
+import FindReturnAuthorizationById from './ReturnAuthorization/components/FindReturnAuthorizationById';
+import FindAllReturnAuthorization from './ReturnAuthorization/components/FindAllReturnAuthorization';
 
 function App() {
   return (
@@ -149,9 +151,10 @@ function App() {
 
          <Route path="ExceptionEvent" element={<ExceptionEventHome/>}>
             <Route path="createExceptionEvent" element={<CreateExceptionEvent/>}></Route>
-            <Route path="deleteExceptionEvent" element={<DeleteExceptionEvent/>}></Route>
-            <Route path="findExceptionEvent" element={<FindExceptionEvent/>}></Route>
-            <Route path="updateExceptionEvent" element={<UpdateExceptionEvent/>}></Route>
+            <Route path="deleteExceptionEvent/:id" element={<DeleteExceptionEvent/>}></Route>
+            <Route path="findExceptionEventById" element={<FindExceptionEventById/>}></Route>
+            <Route path="updateExceptionEvent/:id" element={<UpdateExceptionEvent/>}></Route>
+            <Route path="findAllExceptionEvent" element={<FindAllExceptionEvent/>}></Route>
         </Route>
 
          <Route path="FulfillmentInstruction" element={<FulfillmentInstructionHome/>}>
@@ -188,10 +191,10 @@ function App() {
         </Route> 
           <Route path="KPIReport" element={<KPIReportHome/>}>
             <Route path="createKPIReport" element={<CreateKPIReport/>}></Route>
-            <Route path="deleteKPIReport" element={<DeleteKPIReport/>}></Route>
-            <Route path="findKPIReport" element={<FindKPIReport/>}></Route>
-            <Route path="findKPIReport" element={<FindKPIReport/>}></Route>
-            <Route path="updateKPIReport" element={<UpdateKPIReport/>}></Route>
+            <Route path="deleteKPIReport/:id" element={<DeleteKPIReport/>}></Route>
+            <Route path="findKPIReportById" element={<FindKPIReportById/>}></Route>
+            <Route path="findAllKPIReport" element={<FindAllKPIReport/>}></Route>
+            <Route path="updateKPIReport/:id" element={<UpdateKPIReport/>}></Route>
         </Route> 
 
         <Route path="Location" element={<LocationHome/>}>
@@ -254,9 +257,10 @@ function App() {
 
         <Route path="ReturnAuthorization" element={<ReturnAuthorizationHome/>}>
             <Route path="createReturnAuthorization" element={<CreateReturnAuthorization/>}></Route>
-            <Route path="deleteReturnAuthorization" element={<DeleteReturnAuthorization/>}></Route>
-            <Route path="findReturnAuthorization" element={<FindReturnAuthorization/>}></Route>
-            <Route path="updateReturnAuthorization" element={<UpdateReturnAuthorization/>}></Route>
+            <Route path="deleteReturnAuthorization/:id" element={<DeleteReturnAuthorization/>}></Route>
+            <Route path="findReturnAuthorizationById" element={<FindReturnAuthorizationById/>}></Route>
+            <Route path="findAllReturnAuthorization" element={<FindAllReturnAuthorization/>}></Route>
+            <Route path="updateReturnAuthorization/:id" element={<UpdateReturnAuthorization/>}></Route>
         </Route>
 
          <Route path="Role" element={<RoleHome/>}>

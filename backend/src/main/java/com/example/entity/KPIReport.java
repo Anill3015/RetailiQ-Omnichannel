@@ -6,69 +6,70 @@ import java.time.LocalDateTime;
 @Entity
 public class KPIReport {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reportId;
 
     private String scope;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String metrics;
 
     private LocalDateTime generatedDate;
-    
-    
 
-	public KPIReport() {
-		super();
-	}
+    // ✅ Default Constructor
+    public KPIReport() {
+    }
 
-	public KPIReport(Long reportId, String scope, String metrics, LocalDateTime generatedDate) {
-		super();
-		this.reportId = reportId;
-		this.scope = scope;
-		this.metrics = metrics;
-		this.generatedDate = generatedDate;
-	}
+    // ✅ Parameterized Constructor
+    public KPIReport(Long reportId, String scope, String metrics, LocalDateTime generatedDate) {
+        this.reportId = reportId;
+        this.scope = scope;
+        this.metrics = metrics;
+        this.generatedDate = generatedDate;
+    }
 
-	public Long getReportId() {
-		return reportId;
-	}
+    // ✅ Getters and Setters
 
-	public void setReportId(Long reportId) {
-		this.reportId = reportId;
-	}
+    public Long getReportId() {
+        return reportId;
+    }
 
-	public String getScope() {
-		return scope;
-	}
+    public void setReportId(Long reportId) {
+        this.reportId = reportId;
+    }
 
-	public void setScope(String scope) {
-		this.scope = scope;
-	}
+    public String getScope() {
+        return scope;
+    }
 
-	public String getMetrics() {
-		return metrics;
-	}
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
 
-	public void setMetrics(String metrics) {
-		this.metrics = metrics;
-	}
+    public String getMetrics() {
+        return metrics;
+    }
 
-	public LocalDateTime getGeneratedDate() {
-		return generatedDate;
-	}
+    public void setMetrics(String metrics) {
+        this.metrics = metrics;
+    }
 
-	public void setGeneratedDate(LocalDateTime generatedDate) {
-		this.generatedDate = generatedDate;
-	}
+    public LocalDateTime getGeneratedDate() {
+        return generatedDate;
+    }
 
-	@Override
-	public String toString() {
-		return "KPIReport [reportId=" + reportId + ", scope=" + scope + ", metrics=" + metrics + ", generatedDate="
-				+ generatedDate + "]";
-	}
+    public void setGeneratedDate(LocalDateTime generatedDate) {
+        this.generatedDate = generatedDate;
+    }
 
-	
-	
-    // getters & setters
+    // ✅ toString (for debugging/logging)
+
+    @Override
+    public String toString() {
+        return "KPIReport [reportId=" + reportId +
+                ", scope=" + scope +
+                ", metrics=" + metrics +
+                ", generatedDate=" + generatedDate + "]";
+    }
 }

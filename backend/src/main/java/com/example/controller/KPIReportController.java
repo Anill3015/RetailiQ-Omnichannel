@@ -39,47 +39,68 @@ public class KPIReportController {
         return ResponseEntity.status(201).body(res);
     }
 
-    @PostMapping("/updateKPIReport")
+    @PutMapping("/updateKPIReport/{id}")
     public ResponseEntity<KPIReportResponseDTO> updateKPIReport(
+            @PathVariable("id") Long id,
             @RequestBody KPIReportDTO dto) {
 
-        KPIReport r = service.update(dto.getKpiReport());
+        KPIReport report = dto.getKpiReport();
+        report.setReportId(id);
+
+        KPIReport updated = service.update(report);
 
         KPIReportResponseDTO res = new KPIReportResponseDTO();
-        res.setKpiReport(r);
-        res.setStatusCode(201);
+        res.setKpiReport(updated);
+        res.setStatusCode(200);
         res.setMessage("KPI Report updated successfully");
 
-        return ResponseEntity.status(201).body(res);
+        return ResponseEntity.ok(res);
     }
 
-    @DeleteMapping("/deleteKPIReport")
-    public String deleteKPIReport(@RequestBody KPIReport report) {
-        service.delete(report.getReportId());
-        return "KPI Report deleted successfully";
+    @DeleteMapping("/deleteKPIReport/{id}")
+    public ResponseEntity<String> deleteKPIReport(@PathVariable("id") Long id) {
+        service.delete(id);
+        return ResponseEntity.ok("KPI Report deleted successfully");
     }
 
     @GetMapping("/findKPIReport/{id}")
-    public KPIReport findKPIReport(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<?> findKPIReport(@PathVariable("id") Long id) {
+
+        KPIReport report = service.getById(id);
+
+        if (report != null) {
+
+            KPIReportResponseDTO res = new KPIReportResponseDTO();
+            res.setKpiReport(report);
+            res.setStatusCode(200);
+            res.setMessage("KPI Report found");
+
+            return ResponseEntity.ok(res);
+
+        } else {
+            return ResponseEntity.status(404)
+                    .body("KPI Report not found with id: " + id);
+        }
     }
 
     @GetMapping("/fetchAllKPIReports")
     public List<KPIReport> fetchAllKPIReports() {
         return service.getAll();
     }
-    
+
     @GetMapping("/fetchAllKPIReportsPaginated")
     public Page<KPIReport> fetchAllKPIReportsPaginated(
             @RequestParam(name = "pgno") int pgno,
             @RequestParam(name = "size") int size,
             @RequestParam(name = "sorting") String sorting,
             @RequestParam(name = "asc") boolean asc) {
+
         Sort sort = asc
                 ? Sort.by(sorting).ascending()
                 : Sort.by(sorting).descending();
-        Pageable pageable = PageRequest.of(pgno, size, sort);
-        return this.service.getKPIReportsWithPagination(pageable);
-    }
 
+        Pageable pageable = PageRequest.of(pgno, size, sort);
+
+        return service.getKPIReportsWithPagination(pageable);
+    }
 }

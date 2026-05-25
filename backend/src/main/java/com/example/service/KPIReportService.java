@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -20,18 +21,17 @@ public class KPIReportService {
     private KPIReportRepository kpiReportRepository;
 
     public KPIReport save(KPIReport report) {
+    	report.setGeneratedDate(LocalDateTime.now());
         return kpiReportRepository.save(report);
     }
 
     public KPIReport update(KPIReport report) {
+    	report.setGeneratedDate(LocalDateTime.now());
         return kpiReportRepository.save(report);
     }
 
     public KPIReport getById(Long id) {
-        return kpiReportRepository.findById(id)
-            .orElseThrow(() ->
-                new KPIReportNotFoundException(
-                    "KPIReport not found with id: " + id));
+        return kpiReportRepository.findById(id).orElse(null);
     }
 
     public List<KPIReport> getAll() {
