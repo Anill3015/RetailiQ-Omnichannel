@@ -122,18 +122,16 @@ import CreateProduct from './Product/components/CreateProduct';
 import FindProduct from './Product/components/FindProduct';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
-<<<<<<< Updated upstream
 import FindAllExceptionEvent from './ExceptionEvent/components/FindAllExceptionEvent';
 import FindExceptionEventById from './ExceptionEvent/components/FindExceptionEventById';
 import FindAllKPIReport from './KPIReport/components/FindAllKPIReport';
 import FindReturnAuthorizationById from './ReturnAuthorization/components/FindReturnAuthorizationById';
 import FindAllReturnAuthorization from './ReturnAuthorization/components/FindAllReturnAuthorization';
-=======
 import DeleteRecommendation from './Recommendation/components/DeleteRecommendation';
 import FindRecommendationById from './Recommendation/components/FindRecommendationById';
 import FindReplenishmentById from './Replenishment/components/FindReplenishmentById';
 import FindForecastById from './Forecast/components/FindForecastById';
->>>>>>> Stashed changes
+import FindOrderById from './Order/components/FindOrderById';
 
 function App() {
   return (
@@ -220,12 +218,13 @@ function App() {
             <Route path="updateNotification" element={<UpdateNotification/>}></Route>
         </Route>
 
-        <Route path="Order" element={<OrderHome/>}>
-            <Route path="createOrder" element={<CreateOrder/>}></Route>
-            <Route path="deleteOrder" element={<DeleteOrder/>}></Route>
-            <Route path="findOrder" element={<FindOrder/>}></Route>
-            <Route path="updateOrder" element={<UpdateOrder/>}></Route>
-        </Route>
+       <Route path="Order" element={<OrderHome/>}>
+    <Route path="createOrder" element={<CreateOrder/>}/>
+    <Route path="findOrder" element={<FindOrder/>}/>
+    <Route path="findOrderById" element={<FindOrderById/>}/>
+    <Route path="updateOrder/:oid" element={<UpdateOrder/>}/>
+    <Route path="deleteOrder/:oid" element={<DeleteOrder/>}/>
+</Route>
 
         <Route path="PriceList" element={<PriceListHome/>}>
             <Route path="createPriceList" element={<CreatePriceList/>}></Route>
