@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InventoryPositionService {
 
@@ -74,5 +76,9 @@ public class InventoryPositionService {
         dto.setQuantityReserved(inventory.getQuantityReserved());
         dto.setSafetyStock(inventory.getSafetyStock());
         return dto;
+    }
+
+    public List<InventoryPosition>  fetchAll(){
+        return this.repository.findAll();
     }
 }
