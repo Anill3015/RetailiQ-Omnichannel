@@ -142,6 +142,8 @@ import FindProduct from './Product/components/FindProduct';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
 
+import Logout from './Logout';
+
 function App() {
   return (
     <Router>
@@ -167,20 +169,20 @@ function App() {
 
         {/* ✅ CustomerProfile */}
         <Route path="CustomerProfile" element={<ProtectedRoute><CustomerProfileHome /></ProtectedRoute>}>
-            <Route path="createCustomerProfile"          element={<CreateCustomerProfile />} />
-            <Route path="deleteCustomerProfile/:cpid"    element={<DeleteCustomerProfile />} />
-            <Route path="findCustomerProfile"            element={<FindCustomerProfile />} />
-            <Route path="updateCustomerProfile/:cpid"    element={<UpdateCustomerProfile />} />
-            <Route path="findCustomerProfileById/:cpid"  element={<FindCustomerProfileById />} />
+            <Route path="createCustomerProfile"         element={<CreateCustomerProfile />} />
+            <Route path="deleteCustomerProfile/:cpid"   element={<DeleteCustomerProfile />} />
+            <Route path="findCustomerProfile"           element={<FindCustomerProfile />} />
+            <Route path="updateCustomerProfile/:cpid"   element={<UpdateCustomerProfile />} />
+            <Route path="findCustomerProfileById/:cpid" element={<FindCustomerProfileById />} />
         </Route>
 
         {/* ✅ ExceptionEvent */}
         <Route path="ExceptionEvent" element={<ProtectedRoute><ExceptionEventHome /></ProtectedRoute>}>
-            <Route path="createExceptionEvent"       element={<CreateExceptionEvent />} />
-            <Route path="deleteExceptionEvent/:id"   element={<DeleteExceptionEvent />} />
-            <Route path="findExceptionEventById"     element={<FindExceptionEventById />} />
-            <Route path="updateExceptionEvent/:id"   element={<UpdateExceptionEvent />} />
-            <Route path="findAllExceptionEvent"      element={<FindAllExceptionEvent />} />
+            <Route path="createExceptionEvent"     element={<CreateExceptionEvent />} />
+            <Route path="deleteExceptionEvent/:id" element={<DeleteExceptionEvent />} />
+            <Route path="findExceptionEventById"   element={<FindExceptionEventById />} />
+            <Route path="updateExceptionEvent/:id" element={<UpdateExceptionEvent />} />
+            <Route path="findAllExceptionEvent"    element={<FindAllExceptionEvent />} />
         </Route>
 
         {/* ✅ FulfillmentInstruction */}
@@ -191,46 +193,6 @@ function App() {
             <Route path="updateFulfillmentInstruction" element={<UpdateFulfillmentInstruction />} />
         </Route>
 
-<<<<<<< HEAD
-          <Route path="Inventory" element={<InventoryHome/>}>
-            <Route path="createInventory" element={<CreateInventory/>}></Route>
-            <Route path="deleteInventory" element={<DeleteInventory/>}></Route>
-            <Route path="findInventory" element={<FindInventory/>}></Route>
-            <Route path="updateInventory/:eid" element={<UpdateInventory/>}></Route>
-        </Route>
-
-        <Route path="InventoryAvailability" element={<InventoryAvailabilityHome/>}>
-            <Route path="createInventoryAvailability" element={<CreateInventoryAvailability/>}></Route>
-        </Route>   
-
-        <Route path="InventoryPosition" element={<InventoryPositionHome/>}>
-            <Route path="createInventoryPosition" element={<CreateInventoryPosition/>}></Route>
-            <Route path="deleteInventoryPosition/:eid" element={<DeleteInventoryPosition/>}></Route>
-            <Route path="findInventoryPosition" element={<FindInventoryPosition/>}></Route>
-            <Route path="findInventoryPositionById" element={<FindInventoryPositionById/>}></Route>
-            <Route path="updateInventoryPosition/:eid" element={<UpdateInventoryPosition/>}></Route>
-        </Route> 
-          <Route path="KPIReport" element={<KPIReportHome/>}>
-            <Route path="createKPIReport" element={<CreateKPIReport/>}></Route>
-            <Route path="deleteKPIReport/:id" element={<DeleteKPIReport/>}></Route>
-            <Route path="findKPIReportById" element={<FindKPIReportById/>}></Route>
-            <Route path="findAllKPIReport" element={<FindAllKPIReport/>}></Route>
-            <Route path="updateKPIReport/:id" element={<UpdateKPIReport/>}></Route>
-        </Route> 
-
-        <Route path="Location" element={<LocationHome/>}>
-    <Route path="createLocation" element={<CreateLocation/>}/>
-    <Route path="findLocation" element={<FindLocation/>}/>
-    <Route path="findLocationById" element={<FindLocationById/>}/>
-    <Route path="updateLocation/:lid" element={<UpdateLocation/>}/>
-    <Route path="deleteLocation/:lid" element={<DeleteLocation/>}/>
-</Route>
-        <Route path="Notification" element={<NotificationHome/>}>
-            <Route path="createNotification" element={<CreateNotification/>}></Route>
-            <Route path="deleteNotification" element={<DeleteNotification/>}></Route>
-            <Route path="findNotification" element={<FindNotification/>}></Route>
-            <Route path="updateNotification" element={<UpdateNotification/>}></Route>
-=======
         {/* ✅ IntegrationEndpoint */}
         <Route path="IntegrationEndpoint" element={<ProtectedRoute><IntegrationEndpointHome /></ProtectedRoute>}>
             <Route path="createIntegrationEndpoint" element={<CreateIntegrationEndpoint />} />
@@ -241,11 +203,10 @@ function App() {
 
         {/* ✅ Inventory */}
         <Route path="Inventory" element={<ProtectedRoute><InventoryHome /></ProtectedRoute>}>
-            <Route path="createInventory" element={<CreateInventory />} />
-            <Route path="deleteInventory" element={<DeleteInventory />} />
-            <Route path="findInventory"   element={<FindInventory />} />
-            <Route path="updateInventory" element={<UpdateInventory />} />
->>>>>>> 2803061 (security updates)
+            <Route path="createInventory"      element={<CreateInventory />} />
+            <Route path="deleteInventory"      element={<DeleteInventory />} />
+            <Route path="findInventory"        element={<FindInventory />} />
+            <Route path="updateInventory/:eid" element={<UpdateInventory />} />
         </Route>
 
         {/* ✅ InventoryAvailability */}
@@ -255,20 +216,20 @@ function App() {
 
         {/* ✅ InventoryPosition */}
         <Route path="InventoryPosition" element={<ProtectedRoute><InventoryPositionHome /></ProtectedRoute>}>
-            <Route path="createInventoryPosition"   element={<CreateInventoryPosition />} />
-            <Route path="deleteInventoryPosition"   element={<DeleteInventoryPosition />} />
-            <Route path="findInventoryPosition"     element={<FindInventoryPosition />} />
-            <Route path="findInventoryPositionById" element={<FindInventoryPositionById />} />
-            <Route path="updateInventoryPosition"   element={<UpdateInventoryPosition />} />
+            <Route path="createInventoryPosition"      element={<CreateInventoryPosition />} />
+            <Route path="deleteInventoryPosition/:eid" element={<DeleteInventoryPosition />} />
+            <Route path="findInventoryPosition"        element={<FindInventoryPosition />} />
+            <Route path="findInventoryPositionById"    element={<FindInventoryPositionById />} />
+            <Route path="updateInventoryPosition/:eid" element={<UpdateInventoryPosition />} />
         </Route>
 
         {/* ✅ KPIReport */}
         <Route path="KPIReport" element={<ProtectedRoute><KPIReportHome /></ProtectedRoute>}>
-            <Route path="createKPIReport"      element={<CreateKPIReport />} />
-            <Route path="deleteKPIReport/:id"  element={<DeleteKPIReport />} />
-            <Route path="findKPIReportById"    element={<FindKPIReportById />} />
-            <Route path="findAllKPIReport"     element={<FindAllKPIReport />} />
-            <Route path="updateKPIReport/:id"  element={<UpdateKPIReport />} />
+            <Route path="createKPIReport"     element={<CreateKPIReport />} />
+            <Route path="deleteKPIReport/:id" element={<DeleteKPIReport />} />
+            <Route path="findKPIReportById"   element={<FindKPIReportById />} />
+            <Route path="findAllKPIReport"    element={<FindAllKPIReport />} />
+            <Route path="updateKPIReport/:id" element={<UpdateKPIReport />} />
         </Route>
 
         {/* ✅ Location */}
@@ -349,11 +310,11 @@ function App() {
 
         {/* ✅ ReturnAuthorization */}
         <Route path="ReturnAuthorization" element={<ProtectedRoute><ReturnAuthorizationHome /></ProtectedRoute>}>
-            <Route path="createReturnAuthorization"      element={<CreateReturnAuthorization />} />
-            <Route path="deleteReturnAuthorization/:id"  element={<DeleteReturnAuthorization />} />
-            <Route path="findReturnAuthorizationById"    element={<FindReturnAuthorizationById />} />
-            <Route path="findAllReturnAuthorization"     element={<FindAllReturnAuthorization />} />
-            <Route path="updateReturnAuthorization/:id"  element={<UpdateReturnAuthorization />} />
+            <Route path="createReturnAuthorization"     element={<CreateReturnAuthorization />} />
+            <Route path="deleteReturnAuthorization/:id" element={<DeleteReturnAuthorization />} />
+            <Route path="findReturnAuthorizationById"   element={<FindReturnAuthorizationById />} />
+            <Route path="findAllReturnAuthorization"    element={<FindAllReturnAuthorization />} />
+            <Route path="updateReturnAuthorization/:id" element={<UpdateReturnAuthorization />} />
         </Route>
 
         {/* ✅ Role */}
@@ -375,6 +336,11 @@ function App() {
 
         {/* ✅ Catch all → redirect to login */}
         <Route path="*" element={<Navigate to="/login" replace />} />
+
+        <Route path="/logout" element={<Logout />} />
+
+        <Route path="/logout" element={<Logout />} />
+<Route path="*" element={<Navigate to="/login" replace />} />
 
       </Routes>
     </Router>

@@ -20,12 +20,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
+
+        // ✅ Add this debug line
+        System.out.println("JwtFilter running for: " + request.getRequestURI());
 
         String authHeader = request.getHeader("Authorization");
 
@@ -35,9 +37,6 @@ public class JwtFilter extends OncePerRequestFilter {
             if (jwtUtil.validateToken(token)) {
                 String username = jwtUtil.extractUsername(token);
                 String role = jwtUtil.extractRole(token);
-
-                // ✅ Convert role to uppercase for Spring Security
-                // e.g. "admin" -> "ROLE_ADMIN"
                 String springRole = "ROLE_" + role.toUpperCase();
 
                 UsernamePasswordAuthenticationToken auth =
@@ -52,4 +51,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
+
+
 }

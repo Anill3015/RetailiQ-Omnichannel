@@ -36,19 +36,24 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(request -> {
+                    var corsConfig = new org.springframework.web.cors.CorsConfiguration();
+                    corsConfig.addAllowedOrigin("http://localhost:3000");
+                    corsConfig.addAllowedMethod("*");
+                    corsConfig.addAllowedHeader("*");
+                    corsConfig.setAllowCredentials(true);
+                    return corsConfig;
+                }))
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-
-                        // ✅ Public endpoints — no token needed
                         .requestMatchers("/appuserapi/**", "/loginapi/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-
-                        // ✅ Everything else needs authentication
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 }
