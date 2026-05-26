@@ -9,16 +9,10 @@ export default function RecommendationHome(){
                         <Link to="createRecommendation">Add Recommendation</Link>
                     </li>
                     <li>
-                        <Link to="deleteRecommendation">Delete Recommendation</Link>
-                    </li>
-                    <li>
                         <Link to="findRecommendation">Find Recommendation</Link>
                     </li>
                     <li>
                         <Link to="findRecommendationById">Find Recommendation by ID</Link>
-                    </li>
-                    <li>
-                        <Link to="updateRecommendation">Update Recommendation</Link>
                     </li>
                 </ul>
             </nav>

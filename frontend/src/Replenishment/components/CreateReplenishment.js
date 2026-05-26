@@ -30,7 +30,11 @@ export default function CreateReplenishment() {
             alert("Replenishment Order Created! " + response.data.message);
         })
         .catch((error) => {
-            alert("Error: " + (error.response?.data?.message || error.message));
+            // ✅ shows exact backend error
+            const msg = error.response?.data?.message
+                     || error.response?.data
+                     || error.message;
+            alert("Error: " + msg);
         });
     };
 
@@ -39,15 +43,19 @@ export default function CreateReplenishment() {
             <h2>Create Replenishment Order</h2>
 
             <label>Product SKU</label>
-            <input type="text" placeholder="e.g. SKU001" onChange={(e) => setSku(e.target.value)} />
+            <input
+                type="text"
+                placeholder="Enter existing product SKU"
+                onChange={(e) => setSku(e.target.value)}
+            />
             <br />
 
             <label>From Location ID</label>
-            <input type="number" onChange={(e) => setFromLocationId(e.target.value)} />
+            <input type="number" placeholder="Enter existing location ID" onChange={(e) => setFromLocationId(e.target.value)} />
             <br />
 
             <label>To Location ID</label>
-            <input type="number" onChange={(e) => setToLocationId(e.target.value)} />
+            <input type="number" placeholder="Enter existing location ID" onChange={(e) => setToLocationId(e.target.value)} />
             <br />
 
             <label>Quantity</label>

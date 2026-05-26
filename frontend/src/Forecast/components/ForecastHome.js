@@ -8,8 +8,6 @@ export default function ForecastHome() {
                     <li><Link to="createForecast">Add Forecast</Link></li>
                     <li><Link to="findForecast">Find All Forecasts</Link></li>
                     <li><Link to="findForecastById">Find Forecast By ID</Link></li>
-                    <li><Link to="updateForecast">Update Forecast</Link></li>
-                    <li><Link to="deleteForecast">Delete Forecast</Link></li>
                 </ul>
             </nav>
             <Outlet />

@@ -2,24 +2,25 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export default function FindReplenishmentById() {
-    const [orderId, setOrderId] = useState("");
+    const [replenishmentId, setReplenishmentId] = useState("");
     const [order, setOrder] = useState(null);
     const [error, setError] = useState("");
 
     const searchHandler = () => {
-        if (!orderId) {
-            alert("Please enter an Order ID");
+        if (!replenishmentId) {
+            alert("Please enter a Replenishment ID");
             return;
         }
 
-        axios.get(`http://localhost:9011/api/replenishment/find/${orderId}`)
+        axios.get(`http://localhost:9011/api/replenishment/find/${replenishmentId}`)
             .then((response) => {
                 setOrder(response.data);
                 setError("");
             })
             .catch((error) => {
                 setOrder(null);
-                setError("Order not found with ID: " + orderId + error.message );
+                setError("Order not found with ID: " + replenishmentId +
+                    " - " + (error.response?.data?.message || error.message));
             });
     };
 
@@ -27,11 +28,11 @@ export default function FindReplenishmentById() {
         <div>
             <h2>Find Replenishment Order By ID</h2>
 
-            <label>Order ID</label>
+            <label>Replenishment ID</label>
             <input
                 type="number"
-                placeholder="Enter Order ID"
-                onChange={(e) => setOrderId(e.target.value)}
+                placeholder="Enter Replenishment ID"
+                onChange={(e) => setReplenishmentId(e.target.value)}
             />
             <button onClick={searchHandler}>SEARCH</button>
 
@@ -40,7 +41,8 @@ export default function FindReplenishmentById() {
             {order && (
                 <table border="1">
                     <tbody>
-                        <tr><th>Order ID</th><td>{order.orderId}</td></tr>
+                        {/* ✅ correct field name */}
+                        <tr><th>Replenishment ID</th><td>{order.replenishmentId}</td></tr>
                         <tr><th>Product SKU</th><td>{order.product?.sku}</td></tr>
                         <tr><th>From Location</th><td>{order.fromLocation?.locationId}</td></tr>
                         <tr><th>To Location</th><td>{order.toLocation?.locationId}</td></tr>

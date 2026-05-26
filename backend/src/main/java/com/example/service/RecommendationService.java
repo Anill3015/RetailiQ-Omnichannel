@@ -64,6 +64,9 @@ public class RecommendationService {
     public List<Recommendation> findRecommendationsByCustomerId(Long customerId) {
         return repository.findByCustomer_CustomerId(customerId);
     }
+    public List<Recommendation> getAllRecommendations() {
+        return repository.findAll();
+    }
 
     public Page<Recommendation> getAllRecommendationsWithPagination(Pageable pageable) {
         return repository.findAll(pageable);

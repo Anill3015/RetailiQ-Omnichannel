@@ -1,42 +1,34 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 export default function FindRecommendation() {
-    const [customerId, setCustomerId] = useState("");
     const [recommendations, setRecommendations] = useState([]);
-    const [searched, setSearched] = useState(false);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
 
-    const searchHandler = () => {
-        if (!customerId) {
-            alert("Please enter a Customer ID");
-            return;
-        }
-
-        axios.get(`http://localhost:9011/api/recommendation/customer/${customerId}`)
+    useEffect(() => {
+        axios.get("http://localhost:9011/api/recommendation/fetchAll")
             .then((response) => {
                 setRecommendations(response.data);
-                setSearched(true);
+                setError("");
+                setLoading(false);
             })
             .catch((error) => {
-                alert("Error: " + (error.response?.data?.message || error.message));
+                setError("Error: " + (error.response?.data?.message || error.message));
+                setLoading(false);
             });
-    };
+    }, []);
 
     return (
         <div>
-            <h2>Find Recommendations by Customer</h2>
+            <h2>All Recommendations</h2>
 
-            <label>Customer ID</label>
-            <input
-                type="number"
-                placeholder="Enter Customer ID"
-                onChange={(e) => setCustomerId(e.target.value)}
-            />
-            <button onClick={searchHandler}>SEARCH</button>
+            {loading && <p>Loading...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
-            {searched && recommendations.length === 0 && (
-                <p style={{ color: "red" }}>No recommendations found.</p>
+            {!loading && recommendations.length === 0 && !error && (
+                <p>No recommendations found.</p>
             )}
 
             {recommendations.length > 0 && (
@@ -58,7 +50,6 @@ export default function FindRecommendation() {
                                 <td>{r.skuList?.join(", ")}</td>
                                 <td>{r.generatedAt}</td>
                                 <td>
-                                    {/* ✅ Absolute paths */}
                                     <Link to={`/Recommendation/updateRecommendation/${r.recId}`}>Edit</Link>
                                     {" | "}
                                     <Link to={`/Recommendation/deleteRecommendation/${r.recId}`}>Delete</Link>

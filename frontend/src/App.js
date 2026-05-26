@@ -126,7 +126,6 @@ import FindUserById from './User/components/FindUserById';
 import ProductHome from './Product/components/ProductHome';
 import CreateProduct from './Product/components/CreateProduct';
 import FindProduct from './Product/components/FindProduct';
-import FindProductById from './Product/components/FindProductById';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
 import FindAllExceptionEvent from './ExceptionEvent/components/FindAllExceptionEvent';
@@ -244,7 +243,6 @@ function App() {
         <Route path="Product" element={<ProductHome/>}>
             <Route path="createProduct"     element={<CreateProduct/>}/>
             <Route path="findProduct"       element={<FindProduct/>}/>
-            <Route path="findProductById"   element={<FindProductById/>}/>
             <Route path="editProduct/:id"   element={<UpdateProduct/>}/>
             <Route path="deleteProduct/:id" element={<DeleteProduct/>}/>
         </Route>
