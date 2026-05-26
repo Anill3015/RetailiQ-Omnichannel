@@ -7,7 +7,7 @@ export default function FindProduct() {
     const [pgno, setPgno] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
-    const size = 10;
+    const size = 2;
     const sorting = "productId";
     const asc = true;
 
