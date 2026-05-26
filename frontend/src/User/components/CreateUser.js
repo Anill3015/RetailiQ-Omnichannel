@@ -62,12 +62,15 @@ export default function CreateUser() {
         <div>
             <h2>Create User</h2>
             <form onSubmit={saveUser}>
-                <label>Name</label>
+                <div className="mb-3">
+                <label className="form-label">Name</label>
                 <input
                     placeholder="enter name"
                     value={name}
                     onChange={nameHandler}
-                /><br />
+                    className="form-control"
+                />
+                </div>
 
                 <label>Email</label>
                 <input

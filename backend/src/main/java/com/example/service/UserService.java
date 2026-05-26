@@ -32,38 +32,47 @@ public class UserService {
         this.auditLogRepository = auditLogRepository;
     }
 
-    // ✅ Used for CREATE only
     @Transactional
     public User save(User user) {
-        if (user.getRole() != null && user.getRole().getName() != null) {
-            Role managedRole = roleRepository.findByName(user.getRole().getName())
-                    .orElseThrow(() ->
-                            new RuntimeException("Role not found: " + user.getRole().getName()));
-            user.setRole(managedRole);
+        boolean isNew = (user.getUserId() == null);
+
+        if (user.getRole() != null) {
+            Role managedRole = null;
+
+            if (user.getRole().getRoleId() != null) {
+                managedRole = roleRepository.findById(user.getRole().getRoleId())
+                        .orElseThrow(() ->
+                                new RuntimeException("Role not found with id: " + user.getRole().getRoleId()));
+            } else if (user.getRole().getName() != null && !user.getRole().getName().isEmpty()) {
+                managedRole = roleRepository.findByName(user.getRole().getName())
+                        .orElseThrow(() ->
+                                new RuntimeException("Role not found: " + user.getRole().getName()));
+            }
+
+            if (managedRole != null) {
+                user.setRole(managedRole);
+            }
         }
+
         User saved = repository.save(user);
-        logAction("USER_CREATED", saved);
+        String action = isNew ? "USER_CREATED" : "USER_UPDATED";
+        logAction(action, saved);
         return saved;
     }
 
-    // ✅ Used for UPDATE only — fetches existing user and updates fields
     @Transactional
     public User update(Long userId, Long roleId, String name, String email, String phone) {
-        // Get existing managed user from DB
         User existingUser = getById(userId);
 
-        // Get managed role from DB by ID
         Role managedRole = roleRepository.findById(roleId)
                 .orElseThrow(() ->
                         new RuntimeException("Role not found with id: " + roleId));
 
-        // Update fields on managed entity
         existingUser.setName(name);
         existingUser.setEmail(email);
         existingUser.setPhone(phone);
         existingUser.setRole(managedRole);
 
-        // No need to call save() — managed entity auto-persists on transaction commit
         logAction("USER_UPDATED", existingUser);
         return existingUser;
     }
@@ -72,6 +81,13 @@ public class UserService {
         return repository.findById(id)
                 .orElseThrow(() ->
                         new UserNotFoundException("User not found with id " + id));
+    }
+
+    // ✅ Added
+    public User findByUsername(String username) {
+        return repository.findByUsername(username)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found with username: " + username));
     }
 
     @Transactional

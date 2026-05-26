@@ -24,7 +24,7 @@ export default function FindAllUser() {
     return (
         <div>
             <h2>All Users</h2>
-            <table border="1">
+            <table className="table table-dark">
                 <thead>
                     <tr>
                         <th>ID</th>
