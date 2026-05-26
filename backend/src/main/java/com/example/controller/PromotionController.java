@@ -3,7 +3,6 @@ package com.example.controller;
 import com.example.entity.Promotion;
 import com.example.service.PromotionService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,11 +11,6 @@ import org.springframework.data.domain.Sort;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import com.example.entity.Promotion;
-import com.example.service.PromotionService;
 
 @RestController
 @RequestMapping("/promotion")
@@ -30,16 +24,34 @@ public class PromotionController {
     }
 
     @PostMapping("/add")
+    @Operation(summary = "Add Promotion")
     public Promotion add(@RequestBody Promotion promotion) {
         return service.save(promotion);
     }
 
+    // ✅ Added
+    @PutMapping("/update")
+    @Operation(summary = "Update Promotion")
+    public Promotion update(@RequestBody Promotion promotion) {
+        return service.save(promotion);
+    }
+
     @GetMapping("/find/{id}")
+    @Operation(summary = "Get Promotion by ID")
     public Promotion get(@PathVariable Long id) {
         return service.getById(id);
     }
 
+    // ✅ Added
+    @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Delete Promotion")
+    public String delete(@PathVariable Long id) {
+        service.delete(id);
+        return "Promotion deleted successfully";
+    }
+
     @GetMapping("/fetchAllPaginated")
+    @Operation(summary = "Fetch Promotions with Pagination")
     public Page<Promotion> getAll(
             @RequestParam int pgno,
             @RequestParam int size,
@@ -49,7 +61,7 @@ public class PromotionController {
         Pageable pageable = PageRequest.of(
                 pgno, size,
                 asc ? Sort.by(sorting).ascending()
-                    : Sort.by(sorting).descending());
+                        : Sort.by(sorting).descending());
 
         return service.getAll(pageable);
     }

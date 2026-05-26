@@ -3,8 +3,6 @@ package com.example.service;
 import com.example.entity.PriceList;
 import com.example.repository.PriceListRepository;
 import com.example.exception.ListEmptyException;
-import com.example.exception.PriceListNotFoundException;
-import com.example.exception.UserListEmptyException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -26,13 +24,19 @@ public class PriceListService {
     public PriceList getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new PriceListNotFoundException("PriceList not found with id " + id));
+                        new RuntimeException("PriceList not found with id: " + id));
+    }
+
+    // ✅ Added
+    public void delete(Long id) {
+        PriceList priceList = getById(id);
+        repository.delete(priceList);
     }
 
     public Page<PriceList> getAll(Pageable pageable) {
         Page<PriceList> page = repository.findAll(pageable);
         if (page.isEmpty()) {
-        	throw new ListEmptyException("Product list is empty");
+            throw new ListEmptyException("PriceList is empty");
         }
         return page;
     }

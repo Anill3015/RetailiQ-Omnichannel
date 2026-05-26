@@ -1,7 +1,11 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
-export default function CreatePromotion() {
+export default function UpdatePromotion() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
     const [name, setName] = useState("");
     const [rules, setRules] = useState("");
     const [validity, setValidity] = useState("");
@@ -14,15 +18,30 @@ export default function CreatePromotion() {
             .catch((err) => alert("Error loading promotion types: " + err.message));
     }, []);
 
-    let save = (event) => {
+    useEffect(() => {
+        axios.get(`http://localhost:9011/promotion/find/${id}`)
+            .then((res) => {
+                setName(res.data.name);
+                setRules(res.data.rules);
+                setValidity(res.data.validity);
+                setPromotionTypeId(res.data.promotionType ? String(res.data.promotionType.promotionTypeId) : "");
+            })
+            .catch((err) => {
+                alert("Error loading promotion: " + err.message);
+                navigate("/Promotion/findPromotion");
+            });
+    }, [id]);
+
+    let update = (event) => {
         event.preventDefault();
 
-        if (!name || !rules || !validity || !promotionTypeId) {
-            alert("Please fill all fields");
+        if (!promotionTypeId) {
+            alert("Please select a promotion type");
             return;
         }
 
         let data = {
+            "promotionId": Number(id),
             "name": name,
             "rules": rules,
             "validity": validity,
@@ -31,13 +50,10 @@ export default function CreatePromotion() {
             }
         }
 
-        axios.post("http://localhost:9011/promotion/add", data)
+        axios.put("http://localhost:9011/promotion/update", data)
             .then((res) => {
-                alert("Promotion created successfully!");
-                setName("");
-                setRules("");
-                setValidity("");
-                setPromotionTypeId("");
+                alert("Promotion updated successfully!");
+                navigate("/Promotion/findPromotion");
             })
             .catch((err) => {
                 if (err.response) {
@@ -50,8 +66,8 @@ export default function CreatePromotion() {
 
     return (
         <div>
-            <h2>Create Promotion</h2>
-            <form onSubmit={save}>
+            <h2>Update Promotion</h2>
+            <form onSubmit={update}>
                 <label>Name</label>
                 <input
                     placeholder="enter promotion name"
@@ -83,7 +99,9 @@ export default function CreatePromotion() {
                     ))}
                 </select><br />
 
-                <button type="submit">Add Promotion</button>
+                <button type="submit">Update Promotion</button>
+                &nbsp;
+                <button type="button" onClick={() => navigate("/Promotion/findPromotion")}>Cancel</button>
             </form>
         </div>
     );

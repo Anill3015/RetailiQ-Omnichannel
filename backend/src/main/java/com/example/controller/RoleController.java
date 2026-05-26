@@ -3,11 +3,7 @@ package com.example.controller;
 import com.example.entity.Role;
 import com.example.service.RoleService;
 
-import com.example.entity.AuditLog;
-import com.example.service.AuditLogService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
@@ -15,8 +11,8 @@ import org.springframework.data.domain.Sort;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/role")
@@ -30,22 +26,33 @@ public class RoleController {
     }
 
     @PostMapping("/add")
+    @Operation(summary = "Add Role")
     public Role add(@RequestBody Role role) {
         return service.save(role);
     }
 
     @GetMapping("/find/{id}")
+    @Operation(summary = "Get Role by ID")
     public Role get(@PathVariable Long id) {
         return service.getById(id);
     }
 
     @DeleteMapping("/delete/{id}")
+    @Operation(summary = "Delete Role")
     public String delete(@PathVariable Long id) {
         service.delete(id);
         return "Role deleted successfully";
     }
 
+    // ✅ New — fetch all as plain list
+    @GetMapping("/fetchAll")
+    @Operation(summary = "Fetch All Roles")
+    public List<Role> fetchAll() {
+        return service.getAllRoles();
+    }
+
     @GetMapping("/fetchAllPaginated")
+    @Operation(summary = "Fetch Roles with Pagination")
     public Page<Role> getAll(
             @RequestParam int pgno,
             @RequestParam int size,
@@ -55,7 +62,7 @@ public class RoleController {
         Pageable pageable = PageRequest.of(
                 pgno, size,
                 asc ? Sort.by(sorting).ascending()
-                    : Sort.by(sorting).descending());
+                        : Sort.by(sorting).descending());
 
         return service.getAll(pageable);
     }

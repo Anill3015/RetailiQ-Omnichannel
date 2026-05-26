@@ -28,7 +28,10 @@ public class PromotionService {
                 .orElseThrow(() ->
                         new PromotionNotFoundException("Promotion not found with id " + id));
     }
-
+    public void delete(Long id) {
+        Promotion promotion = getById(id);
+        repository.delete(promotion);
+    }
     public Page<Promotion> getAll(Pageable pageable) {
         Page<Promotion> page = repository.findAll(pageable);
 

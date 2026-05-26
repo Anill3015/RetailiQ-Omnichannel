@@ -19,6 +19,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import com.example.entity.AuditLog;
 import com.example.service.AuditLogService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/auditlog")
 @Tag(name = "AuditLog Controller")
@@ -28,6 +30,12 @@ public class AuditLogController {
 
     public AuditLogController(AuditLogService service) {
         this.service = service;
+    }
+
+    @GetMapping("/fetchAll")
+    @Operation(summary = "Fetch All Audit Logs")
+    public List<AuditLog> fetchAll() {
+        return service.getAllLogs();
     }
 
     @GetMapping("/fetchAllPaginated")
