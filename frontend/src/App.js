@@ -189,7 +189,7 @@ function App() {
             <Route path="createInventory" element={<CreateInventory/>}></Route>
             <Route path="deleteInventory" element={<DeleteInventory/>}></Route>
             <Route path="findInventory" element={<FindInventory/>}></Route>
-            <Route path="updateInventory" element={<UpdateInventory/>}></Route>
+            <Route path="updateInventory/:eid" element={<UpdateInventory/>}></Route>
         </Route>
 
         <Route path="InventoryAvailability" element={<InventoryAvailabilityHome/>}>
@@ -198,10 +198,10 @@ function App() {
 
         <Route path="InventoryPosition" element={<InventoryPositionHome/>}>
             <Route path="createInventoryPosition" element={<CreateInventoryPosition/>}></Route>
-            <Route path="deleteInventoryPosition" element={<DeleteInventoryPosition/>}></Route>
+            <Route path="deleteInventoryPosition/:eid" element={<DeleteInventoryPosition/>}></Route>
             <Route path="findInventoryPosition" element={<FindInventoryPosition/>}></Route>
             <Route path="findInventoryPositionById" element={<FindInventoryPositionById/>}></Route>
-            <Route path="updateInventoryPosition" element={<UpdateInventoryPosition/>}></Route>
+            <Route path="updateInventoryPosition/:eid" element={<UpdateInventoryPosition/>}></Route>
         </Route> 
           <Route path="KPIReport" element={<KPIReportHome/>}>
             <Route path="createKPIReport" element={<CreateKPIReport/>}></Route>
