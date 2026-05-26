@@ -60,6 +60,9 @@ export default function UpdateInventoryPosition(){
             setQuantityReserved(res.data.quantityReserved)
             setSafteyStock(res.data.safetyStock)
         })
+        .catch((error)=>{
+            alert("Error :" +(error.message))
+        })
     },[eid])
     return(
         <div>

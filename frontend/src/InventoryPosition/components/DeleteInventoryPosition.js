@@ -8,6 +8,9 @@ export default function DeleteInventoryPosition(){
         .then((response)=>{
             alert(response.data)
         })
+        .catch((error)=>{
+            alert("Error :" +(error.message))
+        })
     return(
 
         <div>
