@@ -33,7 +33,8 @@ import IntegrationEndpointHome from './IntegrationEndpoint/components/Integratio
 import CreateIntegrationEndpoint from './IntegrationEndpoint/components/CreateIntegrationEndpoint';
 import UpdateIntegrationEndpoint from './IntegrationEndpoint/components/UpdateIntegrationEndpoint';
 import DeleteIntegrationEndpoint from './IntegrationEndpoint/components/DeleteIntegrationEndpoint';
-import FindIntegrationEndpoint from './IntegrationEndpoint/components/FindIntegrationEndpoint';
+import FindIntegrationEndpointById from './IntegrationEndpoint/components/FindIntegrationEndPointById';
+import FindAllIntegrationEndpoint from './IntegrationEndpoint/components/FindAllIntegrationEndpoint';
 
 import InventoryHome from './Inventory/components/InventoryHome';
 import CreateInventory from './Inventory/components/CreateInventory';
@@ -67,7 +68,8 @@ import UpdateLocation from './Location/components/UpdateLocation';
 
 import NotificationHome from './Notification/components/NotificationHome';
 import CreateNotification from './Notification/components/CreateNotification';
-import FindNotification from './Notification/components/FindNotification';
+import FindNotificationById from './Notification/components/FindNotificationById';
+import FindAllNotification from './Notification/components/FindAllNotification';
 import UpdateNotification from './Notification/components/UpdateNotification';
 import DeleteNotification from './Notification/components/DeleteNotification';
 
@@ -163,9 +165,10 @@ function App() {
 
            <Route path="IntegrationEndpoint" element={<IntegrationEndpointHome/>}>
             <Route path="createIntegrationEndpoint" element={<CreateIntegrationEndpoint/>}></Route>
-            <Route path="deleteIntegrationEndpoint" element={<DeleteIntegrationEndpoint/>}></Route>
-            <Route path="findIntegrationEndpoint" element={<FindIntegrationEndpoint/>}></Route>
-            <Route path="updateIntegrationEndpoint" element={<UpdateIntegrationEndpoint/>}></Route>
+            <Route path="deleteIntegrationEndpoint/:id" element={<DeleteIntegrationEndpoint/>}></Route>
+            <Route path="findIntegrationEndpoint" element={<FindIntegrationEndpointById/>}></Route>
+            <Route path="findAllIntegrationEndpoint" element={<FindAllIntegrationEndpoint/>}></Route>
+            <Route path="updateIntegrationEndpoint/:id" element={<UpdateIntegrationEndpoint/>}></Route>
         </Route>
 
           <Route path="Inventory" element={<InventoryHome/>}>
@@ -203,9 +206,10 @@ function App() {
         </Route> 
         <Route path="Notification" element={<NotificationHome/>}>
             <Route path="createNotification" element={<CreateNotification/>}></Route>
-            <Route path="deleteNotification" element={<DeleteNotification/>}></Route>
-            <Route path="findNotification" element={<FindNotification/>}></Route>
-            <Route path="updateNotification" element={<UpdateNotification/>}></Route>
+            <Route path="deleteNotification/:id" element={<DeleteNotification/>}></Route>
+            <Route path="findNotificationById" element={<FindNotificationById/>}></Route>
+            <Route path="updateNotification/:id" element={<UpdateNotification/>}></Route>
+            <Route path="findAllNotification" element={<FindAllNotification/>}></Route>
         </Route>
 
         <Route path="Order" element={<OrderHome/>}>

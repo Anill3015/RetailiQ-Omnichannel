@@ -9,17 +9,11 @@ export default function NotificationHome(){
                         <Link to="createNotification">Add Notification</Link>
                     </li>
                     <li>
-                        <Link to="deleteNotification">Delete Notification</Link>
+                        <Link to="findNotificationById">Find NotificationById</Link>
                     </li>
                     <li>
-                        <Link to="findNotification">Find Notification</Link>
-                    </li>
-                    <li>
-                        <Link to="updateNotification">Update Notification</Link>
+                        <Link to="findAllNotification">FindAll Notification</Link>
  
-                    </li>
-                    <li>
-                        
                     </li>
                 </ul>
             </nav>

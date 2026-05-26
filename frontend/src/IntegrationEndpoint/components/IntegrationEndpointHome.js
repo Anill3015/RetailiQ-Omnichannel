@@ -9,17 +9,11 @@ export default function IntegrationEndpointHome(){
                         <Link to="createIntegrationEndpoint">Add IntegrationEndpoint</Link>
                     </li>
                     <li>
-                        <Link to="deleteIntegrationEndpoint">Delete IntegrationEndpoint</Link>
+                        <Link to="findIntegrationEndpoint">Find IntegrationEndpointById</Link>
                     </li>
                     <li>
-                        <Link to="findIntegrationEndpoint">Find IntegrationEndpoint</Link>
-                    </li>
-                    <li>
-                        <Link to="updateIntegrationEndpoint">Update IntegrationEndpoint</Link>
+                        <Link to="findAllIntegrationEndpoint">FindAll IntegrationEndpoint</Link>
  
-                    </li>
-                    <li>
-                        
                     </li>
                 </ul>
             </nav>
