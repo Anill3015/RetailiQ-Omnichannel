@@ -15,6 +15,9 @@ export default function FindInventoryPosition(){
         .then((res)=>{
             setInvData(res.data)
         })
+        .catch((error)=>{
+            alert("Error :" +(error.message))
+        })
     },[])
     return(
          <div>

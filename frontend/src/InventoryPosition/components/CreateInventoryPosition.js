@@ -40,10 +40,13 @@ export default function CreateInventoryPosition(){
                 "safetyStock":safteyStock
 
         }
-        console.log(inv);
+        
          axios.post(url,inv)
         .then((response)=>{
             alert("inv created"+response.data)
+        })
+        .catch((error)=>{
+            alert("Error :"+(error.response?.inv?.message || error.message))
         })
     }
     
