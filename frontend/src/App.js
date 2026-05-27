@@ -214,7 +214,6 @@ function App() {
             <Route path="createInventoryAvailability" element={<CreateInventoryAvailability />} />
         </Route>
 
-<<<<<<< HEAD
         <Route path="Product" element={<ProductHome/>}>
             <Route path="createProduct"     element={<CreateProduct/>}/>
             <Route path="findProduct"       element={<FindProduct/>}/>
@@ -222,13 +221,12 @@ function App() {
             <Route path="deleteProduct/:id" element={<DeleteProduct/>}/>
         </Route>
     
-        <Route path="Promotion" element={<PromotionHome/>}>
+        {/* <Route path="Promotion" element={<PromotionHome/>}>
             <Route path="createPromotion"       element={<CreatePromotion/>}/>
             <Route path="findPromotion"         element={<FindPromotion/>}/>
             <Route path="findPromotionById"     element={<FindPromotionById/>}/>
             <Route path="editPromotion/:id"     element={<UpdatePromotion/>}/>
-            <Route path="deletePromotion/:id"   element={<DeletePromotion/>}/>
-=======
+            <Route path="deletePromotion/:id"   element={<DeletePromotion/>}/> */}
         {/* ✅ InventoryPosition */}
         <Route path="InventoryPosition" element={<ProtectedRoute><InventoryPositionHome /></ProtectedRoute>}>
             <Route path="createInventoryPosition"      element={<CreateInventoryPosition />} />
@@ -236,7 +234,6 @@ function App() {
             <Route path="findInventoryPosition"        element={<FindInventoryPosition />} />
             <Route path="findInventoryPositionById"    element={<FindInventoryPositionById />} />
             <Route path="updateInventoryPosition/:eid" element={<UpdateInventoryPosition />} />
->>>>>>> b9ccebd2899051750112d475351a2838913b2327
         </Route>
 
         {/* ✅ KPIReport */}

@@ -28,6 +28,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // ✅ Add this debug line
         System.out.println("JwtFilter running for: " + request.getRequestURI());
+        
 
         String authHeader = request.getHeader("Authorization");
 

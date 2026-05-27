@@ -5,74 +5,83 @@ export default function FindKPIReportById() {
 
     const [id, setId] = useState("");
     const [report, setReport] = useState(null);
+    const [error, setError] = useState("");
 
-    // ✅ handle input
-    const handleChange = (e) => {
-        setId(e.target.value);
-    };
-
-    // ✅ search function
     const handleSearch = () => {
 
-        axios.get(`http://localhost:9011/api/findKPIReport/${id}`)
-            .then((response) => {
+        if (!id) {
+            alert("Please enter an ID");
+            return;
+        }
 
-                let r = response.data.kpiReport;   // ✅ IMPORTANT
+        const token = localStorage.getItem("token");
 
-                setReport(r);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("❌ KPI Report not found");
-                setReport(null);
-            });
+        axios.get(`http://localhost:9011/api/findKPIReport/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then((response) => {
+            const r = response.data.kpiReport;
+            setReport(r);
+            setError("");
+        })
+        .catch((error) => {
+            console.error(error);
+            setReport(null);
+            setError("❌ KPI Report not found");
+        });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Find KPI Report By ID</h2>
 
-            <label>Enter ID:</label>
-            <input value={id} onChange={handleChange} />
+            <div className="mb-3">
+                <label className="form-label">Enter ID</label>
+                <input
+                    className="form-control"
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
+                    placeholder="Enter KPI Report ID"
+                />
+            </div>
 
-            <button onClick={handleSearch}>Search</button>
+            <button className="btn btn-primary" onClick={handleSearch}>
+                Search
+            </button>
 
-            <br /><br />
+            {error && <div className="alert alert-danger mt-3">{error}</div>}
 
-            {/* ✅ DISPLAY RESULT */}
-            {
-                report && (
-                    <table border="1">
-                        <tbody>
+            {report && (
+                <table className="table table-bordered table-striped mt-3">
+                    <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <td>{report.reportId}</td>
+                        </tr>
 
-                            <tr>
-                                <td>ID</td>
-                                <td>{report.reportId}</td>
-                            </tr>
+                        <tr>
+                            <th>Scope</th>
+                            <td>{report.scope}</td>
+                        </tr>
 
-                            <tr>
-                                <td>Scope</td>
-                                <td>{report.scope}</td>
-                            </tr>
+                        <tr>
+                            <th>Metrics</th>
+                            <td>{report.metrics}</td>
+                        </tr>
 
-                            <tr>
-                                <td>Metrics</td>
-                                <td>{report.metrics}</td>
-                            </tr>
-
-                            <tr>
-                                <td>Generated Date</td>
-                                <td>
-                                    {report.generatedDate
-                                        ? new Date(report.generatedDate).toLocaleString()
-                                        : "N/A"}
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                )
-            }
+                        <tr>
+                            <th>Generated Date</th>
+                            <td>
+                                {report.generatedDate
+                                    ? new Date(report.generatedDate).toLocaleString()
+                                    : "N/A"}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 }

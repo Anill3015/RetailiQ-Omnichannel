@@ -12,8 +12,13 @@ export default function UpdateKPIReport() {
 
     // ✅ LOAD EXISTING DATA
     useEffect(() => {
+        const token = localStorage.getItem("token");
 
-        axios.get(`http://localhost:9011/api/findKPIReport/${id}`)
+        axios.get(`http://localhost:9011/api/findKPIReport/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+    })
             .then((response) => {
 
                 let r = response.data.kpiReport;   // ✅ important
@@ -32,6 +37,7 @@ export default function UpdateKPIReport() {
     const handleUpdate = () => {
 
         let url = `http://localhost:9011/api/updateKPIReport/${id}`;
+        const token = localStorage.getItem("token");
 
         let data = {
             kpiReport: {
@@ -41,7 +47,11 @@ export default function UpdateKPIReport() {
             }
         };
 
-        axios.put(url, data)
+        axios.put(url, data,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+    })
             .then(() => {
                 alert("✅ KPI Report updated successfully");
 
