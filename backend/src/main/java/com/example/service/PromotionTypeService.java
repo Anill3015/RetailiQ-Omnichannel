@@ -3,12 +3,12 @@ package com.example.service;
 import com.example.entity.PromotionType;
 import com.example.repository.PromotionTypeRepository;
 import com.example.exception.ListEmptyException;
-import com.example.exception.PromotionNotFoundException;
-import com.example.exception.UserListEmptyException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 @Service
 public class PromotionTypeService {
@@ -26,13 +26,22 @@ public class PromotionTypeService {
     public PromotionType getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new PromotionNotFoundException("PromotionType not found with id " + id));
+                        new RuntimeException("PromotionType not found with id: " + id));
+    }
+
+    // ✅ Added
+    public List<PromotionType> getAllPromotionTypes() {
+        List<PromotionType> types = repository.findAll();
+        if (types.isEmpty()) {
+            throw new ListEmptyException("Promotion type list is empty");
+        }
+        return types;
     }
 
     public Page<PromotionType> getAll(Pageable pageable) {
         Page<PromotionType> page = repository.findAll(pageable);
         if (page.isEmpty()) {
-        	throw new ListEmptyException("Product list is empty");
+            throw new ListEmptyException("Promotion type list is empty");
         }
         return page;
     }

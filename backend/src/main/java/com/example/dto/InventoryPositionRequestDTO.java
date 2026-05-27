@@ -1,6 +1,6 @@
 package com.example.dto;
 
-public class InventoryPositionRequestDTO extends InventoryPositionResponseDTO {
+public class InventoryPositionRequestDTO  {
 
     private  int locationID;
     private int sku;

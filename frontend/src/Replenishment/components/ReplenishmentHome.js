@@ -11,11 +11,8 @@ export default function ReplenishmentHome(){
                     <li>
                         <Link to="findReplenishment">Find Replenishment</Link>
                     </li>
-                    <li>
-                        <Link to="updateReplenishment">Update Replenishment</Link>
-                    </li>
-                    <li>
-                        <Link to="deleteReplenishment">Delete Replenishment</Link>
+                     <li>
+                        <Link to="findReplenishmentById">Find Replenishment by ID</Link>
                     </li>
                 </ul>
             </nav>

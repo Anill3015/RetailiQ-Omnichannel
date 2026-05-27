@@ -6,7 +6,6 @@ export default function FindAllNotification() {
 
     const [notificationList, setNotificationList] = useState([]);
 
-    // ✅ Fetch all notifications
     const fetchData = () => {
         axios.get("http://localhost:9011/api/fetchAllNotifications")
             .then((response) => {
@@ -18,50 +17,61 @@ export default function FindAllNotification() {
             });
     };
 
-    // ✅ Load on page start
     useEffect(() => {
         fetchData();
     }, []);
 
     return (
-        <div>
-            <h2>Notifications List</h2>
+        <div className="container mt-4">
+            <h2 className="mb-3">Notifications List</h2>
 
-            <table border="1" cellPadding="5">
-                <thead>
-                    <tr>
-                        <th>Notification ID</th>
-                        <th>User ID</th>
-                        <th>Message</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Created Date</th>
-                        <th>Read Flag</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+            <div className="table-responsive">
+                <table className="table table-bordered table-striped table-hover align-middle">
+                    <thead className="table-dark">
+                        <tr>
+                            <th>Notification ID</th>
+                            <th>User ID</th>
+                            <th>Message</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                            <th>Read Flag</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    {
-                        notificationList.length > 0 ? (
+                    <tbody>
+                        {notificationList.length > 0 ? (
                             notificationList.map((n) => (
                                 <tr key={n.notificationId}>
                                     <td>{n.notificationId}</td>
                                     <td>{n.userId}</td>
                                     <td>{n.message}</td>
                                     <td>{n.category}</td>
-                                    <td>{n.status}</td>
-                                    <td>{n.createdDate ? n.createdDate.replace("T", " ") : "N/A"}</td>
-                                    {/* ✅ LocalDateTime comes as array [2025,4,3,0,0,0] from Spring */}
-                                    <td>{n.readFlag ? "Yes" : "No"}</td>
-                                    {/* ✅ boolean rendered as Yes/No */}
-
                                     <td>
-                                        <Link to={`/Notification/deleteNotification/${n.notificationId}`}>
+                                        {/* ✅ color badge based on status */}
+                                        <span className={`badge ${n.status === "READ" ? "bg-success" : n.status === "UNREAD" ? "bg-danger" : "bg-secondary"}`}>
+                                            {n.status}
+                                        </span>
+                                    </td>
+                                    <td>{n.createdDate ? n.createdDate.replace("T", " ") : "N/A"}</td>
+                                    <td>
+                                        {/* ✅ color badge for readFlag */}
+                                        <span className={`badge ${n.readFlag ? "bg-success" : "bg-warning text-dark"}`}>
+                                            {n.readFlag ? "Yes" : "No"}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <Link
+                                            to={`/Notification/deleteNotification/${n.notificationId}`}
+                                            className="btn btn-danger btn-sm me-2"
+                                        >
                                             Delete
                                         </Link>
-                                        {" | "}
-                                        <Link to={`/Notification/updateNotification/${n.notificationId}`}>
+                                        <Link
+                                            to={`/Notification/updateNotification/${n.notificationId}`}
+                                            className="btn btn-warning btn-sm"
+                                        >
                                             Edit
                                         </Link>
                                     </td>
@@ -69,12 +79,12 @@ export default function FindAllNotification() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="8">No Notifications Found</td>
+                                <td colSpan="8" className="text-center">No Notifications Found</td>
                             </tr>
-                        )
-                    }
-                </tbody>
-            </table>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

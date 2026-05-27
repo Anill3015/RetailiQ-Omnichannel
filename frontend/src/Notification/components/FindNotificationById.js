@@ -5,86 +5,86 @@ export default function FindNotificationById() {
 
     const [id, setId] = useState("");
     const [data, setData] = useState(null);
+    const [error, setError] = useState("");
 
     const handleSearch = () => {
 
         if (!id) {
-            alert("Please enter ID");
+            alert("Please enter a Notification ID");
             return;
         }
+        const token = localStorage.getItem("token");
 
-        axios.get(`http://localhost:9011/api/findNotification/${id}`)
+        axios.get(`http://localhost:9011/api/findNotification/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
             .then((response) => {
-                setData(response.data);  // ✅ controller returns Notification directly (no wrapper)
+                setData(response.data);
+                setError("");
             })
             .catch((error) => {
-                console.error(error);
-                alert("Notification not found");
                 setData(null);
+                if (error.response) {
+                    setError("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                } else if (error.request) {
+                    setError("No response from server. Make sure the backend is running on port 9011.");
+                } else {
+                    setError("Error: " + error.message);
+                }
             });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Find Notification By ID</h2>
 
-            <div>
-                <label>Enter Notification ID: </label>
+            <div className="mb-3">
+                <label className="form-label">Notification ID</label>
                 <input
                     type="number"
+                    className="form-control"
+                    placeholder="Enter Notification ID"
                     value={id}
                     onChange={(e) => setId(e.target.value)}
                 />
-                <button onClick={handleSearch}>Search</button>
             </div>
 
-            <br />
+            <button className="btn btn-primary" onClick={handleSearch}>Search</button>
 
+            {/* ✅ error alert */}
+            {error && <div className="alert alert-danger mt-3">{error}</div>}
+
+            {/* ✅ result table */}
             {data && (
-                <table border="1" cellPadding="6">
-                    <thead>
-                        <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-
+                <table className="table table-bordered table-striped mt-3">
                     <tbody>
+                        <tr><th>Notification ID</th><td>{data.notificationId}</td></tr>
+                        <tr><th>User ID</th>        <td>{data.userId}</td></tr>
+                        <tr><th>Message</th>        <td>{data.message}</td></tr>
+                        <tr><th>Category</th>       <td>{data.category}</td></tr>
                         <tr>
-                            <td>Notification ID</td>
-                            <td>{data.notificationId}</td>
+                            <th>Status</th>
+                            <td>
+                                {/* ✅ color badge for status */}
+                                <span className={`badge ${data.status === "READ" ? "bg-success" : data.status === "UNREAD" ? "bg-danger" : "bg-secondary"}`}>
+                                    {data.status}
+                                </span>
+                            </td>
                         </tr>
-
                         <tr>
-                            <td>User ID</td>
-                            <td>{data.userId}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Message</td>
-                            <td>{data.message}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Category</td>
-                            <td>{data.category}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Status</td>
-                            <td>{data.status}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Created Date</td>
+                            <th>Created Date</th>
                             <td>{data.createdDate ? data.createdDate.split("T")[0] : "N/A"}</td>
-                            {/* ✅ LocalDateTime → show date part only */}
                         </tr>
-
                         <tr>
-                            <td>Read Flag</td>
-                            <td>{data.readFlag ? "Yes" : "No"}</td>
-                            {/* ✅ boolean → readable text */}
+                            <th>Read Flag</th>
+                            <td>
+                                {/* ✅ color badge for readFlag */}
+                                <span className={`badge ${data.readFlag ? "bg-success" : "bg-warning text-dark"}`}>
+                                    {data.readFlag ? "Yes" : "No"}
+                                </span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

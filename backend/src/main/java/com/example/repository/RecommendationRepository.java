@@ -1,14 +1,9 @@
 package com.example.repository;
 
-import com.example.entity.Recommendation;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.entity.Recommendation;
 
-@Repository
-public interface RecommendationRepository
-        extends JpaRepository<Recommendation, Long> {
-
-    List<Recommendation> findByCustomer_CustomerId(Long customerId);
+public interface RecommendationRepository extends JpaRepository<Recommendation, Long> {
+    List<Recommendation> findByCustomer_CustomerId(Long customerId); // ← this must exist
 }

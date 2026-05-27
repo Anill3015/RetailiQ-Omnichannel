@@ -1,7 +1,53 @@
-export default function FindOrder(){
-    return(
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
+
+export default function FindOrder() {
+    const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:9011/orders/getAll")
+            .then((response) => {
+                setOrders(response.data.content || response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching orders:", error);
+            });
+    }, []);
+
+    return (
         <div>
-            <h1>FindOrder</h1>
+            <h2>All Orders</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer ID</th>
+                        <th>Channel</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Total Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {orders.map((o) => (
+                        <tr key={o.orderID}>
+                            <td>{o.orderID}</td>
+                            <td>{o.customerID}</td>
+                            <td>{o.channel}</td>
+                            <td>{o.orderDate}</td>
+                            <td>{o.status}</td>
+                            <td>{o.totalAmount}</td>
+                            <td>
+                                <Link to={`/Order/updateOrder/${o.orderID}`}>Edit</Link>
+                                {" | "}
+                                <Link to={`/Order/deleteOrder/${o.orderID}`}>Delete</Link>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
-    )
+    );
 }

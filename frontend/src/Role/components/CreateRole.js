@@ -1,7 +1,45 @@
-export default function CreateRole(){
-    return(
+import axios from 'axios';
+import { useState } from 'react';
+
+export default function CreateRole() {
+    const [name, setName] = useState("");
+
+    let saveRole = (event) => {
+        event.preventDefault();
+
+        if (!name) {
+            alert("Please enter a role name");
+            return;
+        }
+
+        let data = { "name": name }
+
+        axios.post("http://localhost:9011/role/add", data)
+            .then((res) => {
+                alert("Role created successfully!");
+                setName("");
+            })
+            .catch((err) => {
+                if (err.response) {
+                    alert("Error: " + err.response.status + " - " + JSON.stringify(err.response.data));
+                } else {
+                    alert("Network error: " + err.message);
+                }
+            });
+    }
+
+    return (
         <div>
-            <h1>CreateRole</h1>
+            <h2>Create Role</h2>
+            <form onSubmit={saveRole}>
+                <label>Role Name</label>
+                <input
+                    placeholder="enter role name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                /><br />
+                <button type="submit">Add Role</button>
+            </form>
         </div>
-    )
+    );
 }

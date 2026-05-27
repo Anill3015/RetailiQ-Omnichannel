@@ -12,18 +12,16 @@ export default function KPIReportHome(){
                         <Link to="deleteKPIReport">Delete KPIReport</Link>
                     </li>
                     <li>
-                        <Link to="findKPIReport">Find KPIReport</Link>
+                        <Link to="findKPIReportById">Find KPIReport By Id</Link>
                     </li>
                     <li>
-                        <Link to="findKPIReport">Find KPIReport</Link>
+                        <Link to="findAllKPIReport">Find All KPIReport</Link>
                     </li>
                     <li>
                         <Link to="updateKPIReport">Update KPIReport</Link>
  
                     </li>
-                    <li>
-                        
-                    </li>
+                   
                 </ul>
             </nav>
             <Outlet></Outlet>

@@ -18,6 +18,7 @@ import com.example.dto.ExceptionEventResponseDTO;
 import com.example.entity.ExceptionEvent;
 import com.example.service.ExceptionEventService;
 
+
 @RestController
 @RequestMapping("/api")
 public class ExceptionEventController {
@@ -39,29 +40,54 @@ public class ExceptionEventController {
         return ResponseEntity.status(201).body(res);
     }
 
-    @PostMapping("/updateExceptionEvent")
-    public ResponseEntity<ExceptionEventResponseDTO> updateExceptionEvent(
-            @RequestBody ExceptionEventDTO dto) {
 
-        ExceptionEvent e = service.update(dto.getExceptionEvent());
+		@PutMapping("/updateExceptionEvent/{id}")
+		public ResponseEntity<ExceptionEventResponseDTO> updateExceptionEvent(
+		    @PathVariable("id") Long id,
+		    @RequestBody ExceptionEventDTO dto){
+
+
+        ExceptionEvent event = dto.getExceptionEvent();
+
+        event.setExceptionId(id);
+
+        ExceptionEvent updated = service.update(event);
 
         ExceptionEventResponseDTO res = new ExceptionEventResponseDTO();
-        res.setExceptionEvent(e);
-        res.setStatusCode(201);
+        res.setExceptionEvent(updated);
+        res.setStatusCode(200);
         res.setMessage("ExceptionEvent updated successfully");
 
-        return ResponseEntity.status(201).body(res);
+        return ResponseEntity.ok(res);
     }
 
-    @DeleteMapping("/deleteExceptionEvent")
-    public String deleteExceptionEvent(@RequestBody ExceptionEvent event) {
-        service.delete(event.getExceptionId());
-        return "ExceptionEvent deleted successfully";
+
+    @DeleteMapping("/deleteExceptionEvent/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        service.delete(id);
+        return "Deleted successfully";
     }
+
 
     @GetMapping("/findExceptionEvent/{id}")
-    public ExceptionEvent findExceptionEvent(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<?> findExceptionEvent(@PathVariable("id") Long id){
+
+        ExceptionEvent event = service.getById(id);
+
+        if (event != null) {
+
+            ExceptionEventResponseDTO res = new ExceptionEventResponseDTO();
+            res.setExceptionEvent(event);
+            res.setStatusCode(200);
+            res.setMessage("ExceptionEvent found");
+
+            return ResponseEntity.ok(res);
+
+        } else {
+
+            return ResponseEntity.status(404)
+                    .body("ExceptionEvent not found with id: " + id);
+        }
     }
 
     @GetMapping("/fetchAllExceptionEvents")

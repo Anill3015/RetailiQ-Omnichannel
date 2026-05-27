@@ -48,6 +48,7 @@ public class IntegrationEndpointService {
     public IntegrationEndpoint update(IntegrationEndpoint e) {
         return repository.save(e);
     }
+    
 
     public IntegrationEndpoint getById(Long id) {
         return repository.findById(id)

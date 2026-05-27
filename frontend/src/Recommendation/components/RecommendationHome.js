@@ -12,7 +12,7 @@ export default function RecommendationHome(){
                         <Link to="findRecommendation">Find Recommendation</Link>
                     </li>
                     <li>
-                        <Link to="updateRecommendation">Update Recommendation</Link>
+                        <Link to="findRecommendationById">Find Recommendation by ID</Link>
                     </li>
                 </ul>
             </nav>

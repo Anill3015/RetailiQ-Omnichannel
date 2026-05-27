@@ -12,14 +12,14 @@ export default function ExceptionEventHome(){
                         <Link to="deleteExceptionEvent">Delete ExceptionEvent</Link>
                     </li>
                     <li>
-                        <Link to="findExceptionEvent">Find ExceptionEvent</Link>
+                        <Link to="findExceptionEventById">Find ExceptionEvent By ID</Link>
                     </li>
                     <li>
                         <Link to="updateExceptionEvent">Update ExceptionEvent</Link>
  
                     </li>
                     <li>
-                        
+                        <Link to="findAllExceptionEvent">FindAll ExceptionEvent</Link>
                     </li>
                 </ul>
             </nav>

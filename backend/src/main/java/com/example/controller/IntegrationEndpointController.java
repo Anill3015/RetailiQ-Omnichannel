@@ -55,4 +55,21 @@ public class IntegrationEndpointController {
             @RequestParam int size) {
         return service.getAllWithPagination(page, size);
     }
+ // ✅ UPDATE Integration Endpoint
+    @PostMapping("/updateIntegrationEndpoint")
+    public IntegrationEndpointResponseDTO updateIntegrationEndpoint(
+            @RequestBody IntegrationEndpointDTO dto) {
+
+        IntegrationEndpoint updated =
+                service.update(dto.getIntegrationEndpoint());
+
+        IntegrationEndpointResponseDTO response =
+                new IntegrationEndpointResponseDTO();
+
+        response.setIntegrationEndpoint(updated);
+        response.setMessage("Integration endpoint updated successfully");
+        response.setStatusCode(200);
+
+        return response;
+    }
 }

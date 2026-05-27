@@ -6,11 +6,10 @@ export default function FindAllIntegrationEndpoint() {
 
     const [endpointList, setEndpointList] = useState([]);
 
-    // ✅ Fetch all integration endpoints
     const fetchData = () => {
         axios.get("http://localhost:9011/api/fetchAllIntegrationEndpoints")
             .then((response) => {
-                setEndpointList(response.data);  // ✅ controller returns List<IntegrationEndpoint> directly
+                setEndpointList(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
@@ -18,30 +17,29 @@ export default function FindAllIntegrationEndpoint() {
             });
     };
 
-    // ✅ Load on page start
     useEffect(() => {
         fetchData();
     }, []);
 
     return (
-        <div>
-            <h2>Integration Endpoints List</h2>
+        <div className="container mt-4">
+            <h2 className="mb-3">Integration Endpoints List</h2>
 
-            <table border="1" cellPadding="5">
-                <thead>
-                    <tr>
-                        <th>Endpoint ID</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Config</th>
-                        <th>Active</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+            <div className="table-responsive">
+                <table className="table table-bordered table-striped table-hover align-middle">
+                    <thead className="table-dark">
+                        <tr>
+                            <th>Endpoint ID</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Config</th>
+                            <th>Active</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    {
-                        endpointList.length > 0 ? (
+                    <tbody>
+                        {endpointList.length > 0 ? (
                             endpointList.map((e) => (
                                 <tr key={e.endpointId}>
                                     <td>{e.endpointId}</td>
@@ -49,14 +47,18 @@ export default function FindAllIntegrationEndpoint() {
                                     <td>{e.type}</td>
                                     <td>{e.config}</td>
                                     <td>{e.active ? "Yes" : "No"}</td>
-                                    {/* ✅ boolean rendered as Yes/No */}
 
                                     <td>
-                                        <Link to={`/IntegrationEndpoint/deleteIntegrationEndpoint/${e.endpointId}`}>
+                                        <Link
+                                            to={`/IntegrationEndpoint/deleteIntegrationEndpoint/${e.endpointId}`}
+                                            className="btn btn-danger btn-sm me-2"
+                                        >
                                             Delete
                                         </Link>
-                                        {" | "}
-                                        <Link to={`/IntegrationEndpoint/updateIntegrationEndpoint/${e.endpointId}`}>
+                                        <Link
+                                            to={`/IntegrationEndpoint/updateIntegrationEndpoint/${e.endpointId}`}
+                                            className="btn btn-warning btn-sm"
+                                        >
                                             Edit
                                         </Link>
                                     </td>
@@ -64,12 +66,12 @@ export default function FindAllIntegrationEndpoint() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="6">No Integration Endpoints Found</td>
+                                <td colSpan="6" className="text-center">No Integration Endpoints Found</td>
                             </tr>
-                        )
-                    }
-                </tbody>
-            </table>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

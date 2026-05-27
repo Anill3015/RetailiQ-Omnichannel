@@ -38,6 +38,15 @@ public class RecommendationService {
         if (id == null || !repository.existsById(id)) {
             throw new RecommendationNotFoundException(id);
         }
+
+        Recommendation existing = repository.findById(id)
+                .orElseThrow(() -> new RecommendationNotFoundException(id));
+
+        recommendation.setGeneratedAt(existing.getGeneratedAt());
+        if (recommendation.getCustomer() == null) {
+            recommendation.setCustomer(existing.getCustomer());
+        }
+
         return repository.save(recommendation);
     }
 
@@ -54,6 +63,9 @@ public class RecommendationService {
 
     public List<Recommendation> findRecommendationsByCustomerId(Long customerId) {
         return repository.findByCustomer_CustomerId(customerId);
+    }
+    public List<Recommendation> getAllRecommendations() {
+        return repository.findAll();
     }
 
     public Page<Recommendation> getAllRecommendationsWithPagination(Pageable pageable) {

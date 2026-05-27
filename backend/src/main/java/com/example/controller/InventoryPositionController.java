@@ -2,9 +2,12 @@ package com.example.controller;
 
 import com.example.dto.InventoryPositionRequestDTO;
 import com.example.dto.InventoryPositionResponseDTO;
+import com.example.entity.InventoryPosition;
 import com.example.service.InventoryPositionService;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/inventory")
@@ -23,7 +26,7 @@ public class InventoryPositionController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("find/{id}")
     public InventoryPositionResponseDTO getById(@PathVariable int id) {
 
         return service.getById(id);
@@ -36,7 +39,12 @@ public class InventoryPositionController {
         return service.getAll(page, size);
     }
 
-    @PutMapping("/{id}")
+    @GetMapping("/fetchAll")
+    public List<InventoryPosition> fetchALL(){
+        return service.fetchAll();
+    }
+
+    @PutMapping("update/{id}")
     public InventoryPositionResponseDTO update(
             @PathVariable int id,
             @RequestBody InventoryPositionRequestDTO dto) {
@@ -44,7 +52,7 @@ public class InventoryPositionController {
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable int id) {
         service.delete(id);
     }

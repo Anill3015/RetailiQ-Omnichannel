@@ -9,17 +9,10 @@ export default function CustomerProfileHome(){
                         <Link to="createCustomerProfile">Add CustomerProfile</Link>
                     </li>
                     <li>
-                        <Link to="deleteCustomerProfile">Delete CustomerProfile</Link>
-                    </li>
-                    <li>
                         <Link to="findCustomerProfile">Find CustomerProfile</Link>
                     </li>
                     <li>
-                        <Link to="updateCustomerProfile">Update CustomerProfile</Link>
- 
-                    </li>
-                    <li>
-                        
+                        <Link to="findCustomerProfileById">Find CustomerProfile by ID</Link>
                     </li>
                 </ul>
             </nav>

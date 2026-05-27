@@ -1,12 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route,Outlet } from 'react-router';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router';
+
+import Login from './Login';
+import ProtectedRoute from './ProtectedRoute';
 
 import ForecastHome from './Forecast/components/ForecastHome';
 import CreateForecast from './Forecast/components/CreateForecast';
 import DeleteForecast from './Forecast/components/DeleteForecast';
 import FindForecast from './Forecast/components/FindForecast';
 import UpdateForecast from './Forecast/components/UpdateForecast';
+import FindForecastById from './Forecast/components/FindForecastById';
 
 import AuditLogHome from './AuditLog/components/AuditLogHome';
 import FindAuditLog from './AuditLog/components/FindAuditLog';
@@ -16,12 +20,14 @@ import CreateCustomerProfile from './CustomerProfile/components/CreateCustomerPr
 import DeleteCustomerProfile from './CustomerProfile/components/DeleteCustomerProfile';
 import UpdateCustomerProfile from './CustomerProfile/components/UpdateCustomerProfile';
 import FindCustomerProfile from './CustomerProfile/components/FindCustomerProfile';
+import FindCustomerProfileById from './CustomerProfile/components/FindCustomerProfileById';
 
 import ExceptionEventHome from './ExceptionEvent/components/ExceptionEventHome';
-import FindExceptionEvent from './ExceptionEvent/components/FindExceptionEvent';
 import CreateExceptionEvent from './ExceptionEvent/components/CreateExceptionEvent';
 import DeleteExceptionEvent from './ExceptionEvent/components/DeleteExceptionEvent';
 import UpdateExceptionEvent from './ExceptionEvent/components/UpdateExceptionEvent';
+import FindAllExceptionEvent from './ExceptionEvent/components/FindAllExceptionEvent';
+import FindExceptionEventById from './ExceptionEvent/components/FindExceptionEventById';
 
 import FulfillmentInstructionHome from './FulfillmentInstruction/components/FulfillmentInstructionHome';
 import CreateFulfillmentInstruction from './FulfillmentInstruction/components/CreateFulfillmentInstruction';
@@ -54,10 +60,10 @@ import DeleteInventoryPosition from './InventoryPosition/components/DeleteInvent
 
 import KPIReportHome from './KPIReport/components/KPIReportHome';
 import CreateKPIReport from './KPIReport/components/CreateKPIReport';
-import FindKPIReport from './KPIReport/components/FindKPIReport';
 import FindKPIReportById from './KPIReport/components/FindKPIReportById';
 import UpdateKPIReport from './KPIReport/components/UpdateKPIReport';
 import DeleteKPIReport from './KPIReport/components/DeleteKPIReport';
+import FindAllKPIReport from './KPIReport/components/FindAllKPIReport';
 
 import LocationHome from './Location/components/LocationHome';
 import CreateLocation from './Location/components/CreateLocation';
@@ -78,48 +84,59 @@ import CreateOrder from './Order/components/CreateOrder';
 import FindOrder from './Order/components/FindOrder';
 import DeleteOrder from './Order/components/DeleteOrder';
 import UpdateOrder from './Order/components/UpdateOrder';
+import FindOrderById from './Order/components/FindOrderById';
 
 import PriceListHome from './PriceList/components/PriceListHome';
 import CreatePriceList from './PriceList/components/CreatePriceList';
 import FindPriceList from './PriceList/components/FindPriceList';
+import FindPriceListById from './PriceList/components/FindPriceListById';
 import UpdatePriceList from './PriceList/components/UpdatePriceList';
 import DeletePriceList from './PriceList/components/DeletePriceList';
 
 import PromotionHome from './Promotion/components/PromotionHome';
 import CreatePromotion from './Promotion/components/CreatePromotion';
 import FindPromotion from './Promotion/components/FindPromotion';
+import UpdatePromotion from './Promotion/components/UpdatePromotion';
+import FindPromotionById from './Promotion/components/FindPromotionById';
+import DeletePromotion from './Promotion/components/DeletePromotion';
 
 import PromotionTypeHome from './PromotionType/components/PromotionTypeHome';
 import CreatePromotionType from './PromotionType/components/CreatePromotionType';
 import FindPromotionType from './PromotionType/components/FindPromotionType';
 
-import RecommendationHome from './Product/components/ProductHome';
+import RecommendationHome from './Recommendation/components/RecommendationHome';
 import CreateRecommendation from './Recommendation/components/CreateRecommendation';
 import FindRecommendation from './Recommendation/components/FindRecommendation';
 import UpdateRecommendation from './Recommendation/components/UpdateRecommendation';
+import DeleteRecommendation from './Recommendation/components/DeleteRecommendation';
+import FindRecommendationById from './Recommendation/components/FindRecommendationById';
 
 import ReplenishmentHome from './Replenishment/components/ReplenishmentHome';
 import CreateReplenishment from './Replenishment/components/CreateReplenishment';
 import FindReplenishment from './Replenishment/components/FindReplenishment';
 import UpdateReplenishment from './Replenishment/components/UpdateReplenishment';
 import DeleteReplenishment from './Replenishment/components/DeleteReplenishment';
+import FindReplenishmentById from './Replenishment/components/FindReplenishmentById';
 
 import ReturnAuthorizationHome from './ReturnAuthorization/components/ReturnAuthorizationHome';
 import CreateReturnAuthorization from './ReturnAuthorization/components/CreateReturnAuthorization';
-import FindReturnAuthorization from './ReturnAuthorization/components/FindReturnAuthorization';
 import UpdateReturnAuthorization from './ReturnAuthorization/components/UpdateReturnAuthorization';
 import DeleteReturnAuthorization from './ReturnAuthorization/components/DeleteReturnAuthorization';
+import FindReturnAuthorizationById from './ReturnAuthorization/components/FindReturnAuthorizationById';
+import FindAllReturnAuthorization from './ReturnAuthorization/components/FindAllReturnAuthorization';
 
 import RoleHome from './Role/components/RoleHome';
 import CreateRole from './Role/components/CreateRole';
-import FindRole from './Role/components/FindRole';
+import FindAllRole from './Role/components/FindAllRole';
+import FindRoleById from './Role/components/FindRoleById';
 import DeleteRole from './Role/components/DeleteRole';
 
 import UserHome from './User/components/UserHome';
 import CreateUser from './User/components/CreateUser';
-import FindUser from './User/components/FindUser';
+import FindAllUser from './User/components/FindAllUser';
 import UpdateUser from './User/components/UpdateUser';
 import DeleteUser from './User/components/DeleteUser';
+import FindUserById from './User/components/FindUserById';
 
 import ProductHome from './Product/components/ProductHome';
 import CreateProduct from './Product/components/CreateProduct';
@@ -127,84 +144,104 @@ import FindProduct from './Product/components/FindProduct';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
 
+import Logout from './Logout';
+
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="Forecast" element={<ForecastHome/>}>
-            <Route path="createForecast" element={<CreateForecast/>}></Route>
-            <Route path="FindForecast" element={<DeleteForecast/>}></Route>
-            <Route path="findForecast" element={<FindForecast/>}></Route>
-            <Route path="updateForecast/:fcid" element={<UpdateForecast/>}></Route>
+
+        {/* ✅ Public Routes */}
+        <Route path="/"      element={<Login />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* ✅ Forecast */}
+        <Route path="Forecast" element={<ProtectedRoute><ForecastHome /></ProtectedRoute>}>
+            <Route path="createForecast"       element={<CreateForecast />} />
+            <Route path="deleteForecast"       element={<DeleteForecast />} />
+            <Route path="FindForecastById"     element={<FindForecastById />} />
+            <Route path="findForecast"         element={<FindForecast />} />
+            <Route path="updateForecast/:fcid" element={<UpdateForecast />} />
         </Route>
 
-        <Route path="AuditLog" element={<AuditLogHome/>}>\
-            <Route path="findAuditLog" element={<FindAuditLog/>}></Route>
+        {/* ✅ AuditLog */}
+        <Route path="AuditLog" element={<ProtectedRoute><AuditLogHome /></ProtectedRoute>}>
+            <Route path="findAuditLog" element={<FindAuditLog />} />
         </Route>
 
-        <Route path="CustomerProfile" element={<CustomerProfileHome/>}>
-            <Route path="createCustomerProfile" element={<CreateCustomerProfile/>}></Route>
-            <Route path="deleteCustomerProfile/:cpid" element={<DeleteCustomerProfile/>}></Route>
-            <Route path="findCustomerProfile/:cpid" element={<FindCustomerProfile/>}></Route>
-            <Route path="updateCustomerProfile/:cpid" element={<UpdateCustomerProfile/>}></Route>
+        {/* ✅ CustomerProfile */}
+        <Route path="CustomerProfile" element={<ProtectedRoute><CustomerProfileHome /></ProtectedRoute>}>
+            <Route path="createCustomerProfile"         element={<CreateCustomerProfile />} />
+            <Route path="deleteCustomerProfile/:cpid"   element={<DeleteCustomerProfile />} />
+            <Route path="findCustomerProfile"           element={<FindCustomerProfile />} />
+            <Route path="updateCustomerProfile/:cpid"   element={<UpdateCustomerProfile />} />
+            <Route path="findCustomerProfileById/:cpid" element={<FindCustomerProfileById />} />
         </Route>
 
-         <Route path="ExceptionEvent" element={<ExceptionEventHome/>}>
-            <Route path="createExceptionEvent" element={<CreateExceptionEvent/>}></Route>
-            <Route path="deleteExceptionEvent" element={<DeleteExceptionEvent/>}></Route>
-            <Route path="findExceptionEvent" element={<FindExceptionEvent/>}></Route>
-            <Route path="updateExceptionEvent" element={<UpdateExceptionEvent/>}></Route>
+        {/* ✅ ExceptionEvent */}
+        <Route path="ExceptionEvent" element={<ProtectedRoute><ExceptionEventHome /></ProtectedRoute>}>
+            <Route path="createExceptionEvent"     element={<CreateExceptionEvent />} />
+            <Route path="deleteExceptionEvent/:id" element={<DeleteExceptionEvent />} />
+            <Route path="findExceptionEventById"   element={<FindExceptionEventById />} />
+            <Route path="updateExceptionEvent/:id" element={<UpdateExceptionEvent />} />
+            <Route path="findAllExceptionEvent"    element={<FindAllExceptionEvent />} />
         </Route>
 
-         <Route path="FulfillmentInstruction" element={<FulfillmentInstructionHome/>}>
-            <Route path="createFulfillmentInstruction" element={<CreateFulfillmentInstruction/>}></Route>
-            <Route path="deleteFulfillmentInstruction" element={<DeleteFulfillmentInstruction/>}></Route>
-            <Route path="findFulfillmentInstruction" element={<FindFulfillmentInstruction/>}></Route>
-            <Route path="updateFulfillmentInstruction" element={<UpdateFulfillmentInstruction/>}></Route>
+        {/* ✅ FulfillmentInstruction */}
+        <Route path="FulfillmentInstruction" element={<ProtectedRoute><FulfillmentInstructionHome /></ProtectedRoute>}>
+            <Route path="createFulfillmentInstruction" element={<CreateFulfillmentInstruction />} />
+            <Route path="deleteFulfillmentInstruction" element={<DeleteFulfillmentInstruction />} />
+            <Route path="findFulfillmentInstruction"   element={<FindFulfillmentInstruction />} />
+            <Route path="updateFulfillmentInstruction" element={<UpdateFulfillmentInstruction />} />
         </Route>
 
-           <Route path="IntegrationEndpoint" element={<IntegrationEndpointHome/>}>
+
+           <Route path="IntegrationEndpoint" element={<ProtectedRoute><IntegrationEndpointHome/></ProtectedRoute>}>
             <Route path="createIntegrationEndpoint" element={<CreateIntegrationEndpoint/>}></Route>
             <Route path="deleteIntegrationEndpoint/:id" element={<DeleteIntegrationEndpoint/>}></Route>
             <Route path="findIntegrationEndpoint" element={<FindIntegrationEndpointById/>}></Route>
             <Route path="findAllIntegrationEndpoint" element={<FindAllIntegrationEndpoint/>}></Route>
             <Route path="updateIntegrationEndpoint/:id" element={<UpdateIntegrationEndpoint/>}></Route>
+            </Route>
+        
+
+        {/* ✅ Inventory */}
+        <Route path="Inventory" element={<ProtectedRoute><InventoryHome /></ProtectedRoute>}>
+            <Route path="createInventory"      element={<CreateInventory />} />
+            <Route path="deleteInventory"      element={<DeleteInventory />} />
+            <Route path="findInventory"        element={<FindInventory />} />
+            <Route path="updateInventory/:eid" element={<UpdateInventory />} />
         </Route>
 
-          <Route path="Inventory" element={<InventoryHome/>}>
-            <Route path="createInventory" element={<CreateInventory/>}></Route>
-            <Route path="deleteInventory" element={<DeleteInventory/>}></Route>
-            <Route path="findInventory" element={<FindInventory/>}></Route>
-            <Route path="updateInventory" element={<UpdateInventory/>}></Route>
-        </Route>
 
         <Route path="InventoryAvailability" element={<InventoryAvailabilityHome/>}>
             <Route path="createInventoryAvailability" element={<CreateInventoryAvailability/>}></Route>
         </Route>   
 
-        <Route path="InventoryPosition" element={<InventoryPositionHome/>}>
+        <Route path="InventoryPosition" element={<ProtectedRoute><InventoryPositionHome/></ProtectedRoute>}>
             <Route path="createInventoryPosition" element={<CreateInventoryPosition/>}></Route>
             <Route path="deleteInventoryPosition" element={<DeleteInventoryPosition/>}></Route>
             <Route path="findInventoryPosition" element={<FindInventoryPosition/>}></Route>
             <Route path="findInventoryPositionById" element={<FindInventoryPositionById/>}></Route>
             <Route path="updateInventoryPosition" element={<UpdateInventoryPosition/>}></Route>
         </Route> 
-          <Route path="KPIReport" element={<KPIReportHome/>}>
+
+          <Route path="KPIReport" element={<ProtectedRoute><KPIReportHome/></ProtectedRoute>}>
             <Route path="createKPIReport" element={<CreateKPIReport/>}></Route>
             <Route path="deleteKPIReport" element={<DeleteKPIReport/>}></Route>
-            <Route path="findKPIReport" element={<FindKPIReport/>}></Route>
-            <Route path="findKPIReport" element={<FindKPIReport/>}></Route>
+            <Route path="findKPIReportById" element={<FindKPIReportById/>}></Route>
+            <Route path="findAllKPIReport" element={<FindAllKPIReport/>}></Route>
             <Route path="updateKPIReport" element={<UpdateKPIReport/>}></Route>
         </Route> 
 
-        <Route path="Location" element={<LocationHome/>}>
+        <Route path="Location" element={<ProtectedRoute><LocationHome/></ProtectedRoute>}>
             <Route path="createLocation" element={<CreateLocation/>}></Route>
             <Route path="deleteLocation" element={<DeleteLocation/>}></Route>
             <Route path="findLocation" element={<FindLocation/>}></Route>
             <Route path="findLocationById" element={<FindLocationById/>}></Route>
             <Route path="updateLocation" element={<UpdateLocation/>}></Route>
         </Route> 
-        <Route path="Notification" element={<NotificationHome/>}>
+        <Route path="Notification" element={<ProtectedRoute><NotificationHome/></ProtectedRoute>}>
             <Route path="createNotification" element={<CreateNotification/>}></Route>
             <Route path="deleteNotification/:id" element={<DeleteNotification/>}></Route>
             <Route path="findNotificationById" element={<FindNotificationById/>}></Route>
@@ -212,71 +249,96 @@ function App() {
             <Route path="findAllNotification" element={<FindAllNotification/>}></Route>
         </Route>
 
-        <Route path="Order" element={<OrderHome/>}>
+        <Route path="Order" element={<ProtectedRoute><OrderHome/></ProtectedRoute>}>
             <Route path="createOrder" element={<CreateOrder/>}></Route>
             <Route path="deleteOrder" element={<DeleteOrder/>}></Route>
             <Route path="findOrder" element={<FindOrder/>}></Route>
             <Route path="updateOrder" element={<UpdateOrder/>}></Route>
         </Route>
 
-        <Route path="PriceList" element={<PriceListHome/>}>
+        <Route path="PriceList" element={<ProtectedRoute><PriceListHome/></ProtectedRoute>}>
             <Route path="createPriceList" element={<CreatePriceList/>}></Route>
             <Route path="deletePriceList" element={<DeletePriceList/>}></Route>
             <Route path="findPriceList" element={<FindPriceList/>}></Route>
             <Route path="updatePriceList" element={<UpdatePriceList/>}></Route>
-        </Route>
+         </Route>
+        
 
-        <Route path="Product" element={<ProductHome/>}>
-            <Route path="createProduct" element={<CreateProduct/>}></Route>
-            <Route path="deleteProduct" element={<DeleteProduct/>}></Route>
-            <Route path="findProduct" element={<FindProduct/>}></Route>
-            <Route path="updateProduct" element={<UpdateProduct/>}></Route>
+
+        <Route path="Product" element={<ProtectedRoute><ProductHome/></ProtectedRoute>}>
+            <Route path="createProduct"     element={<CreateProduct/>}/>
+            <Route path="findProduct"       element={<FindProduct/>}/>
+            <Route path="editProduct/:id"   element={<UpdateProduct/>}/>
+            <Route path="deleteProduct/:id" element={<DeleteProduct/>}/>
         </Route>
     
-       <Route path="Promotion" element={<PromotionHome/>}>
-            <Route path="createPromotion" element={<CreatePromotion/>}></Route>
-            <Route path="findPromotion" element={<FindPromotion/>}></Route>
+        <Route path="Promotion" element={<ProtectedRoute><PromotionHome/></ProtectedRoute>}>
+            <Route path="createPromotion"       element={<CreatePromotion/>}/>
+            <Route path="findPromotion"         element={<FindPromotion/>}/>
+            <Route path="findPromotionById"     element={<FindPromotionById/>}/>
+            <Route path="editPromotion/:id"     element={<UpdatePromotion/>}/>
+            <Route path="deletePromotion/:id"   element={<DeletePromotion/>}/>
         </Route>
 
-        <Route path="PromotionType" element={<PromotionTypeHome/>}>
-            <Route path="createPromotionType" element={<CreatePromotionType/>}></Route>
-            <Route path="findPromotionType" element={<FindPromotionType/>}></Route>
+        {/* ✅ PromotionType */}
+        <Route path="PromotionType" element={<ProtectedRoute><PromotionTypeHome /></ProtectedRoute>}>
+            <Route path="createPromotionType" element={<CreatePromotionType />} />
+            <Route path="findPromotionType"   element={<FindPromotionType />} />
         </Route>
 
-         <Route path="Recommendation" element={<RecommendationHome/>}>
-            <Route path="createRecommendation" element={<CreateRecommendation/>}></Route>
-            <Route path="findRecommendation" element={<FindRecommendation/>}></Route>
-            <Route path="updateRecommendation" element={<UpdateRecommendation/>}></Route>
+        {/* ✅ Recommendation */}
+        <Route path="Recommendation" element={<ProtectedRoute><RecommendationHome /></ProtectedRoute>}>
+            <Route path="createRecommendation"      element={<CreateRecommendation />} />
+            <Route path="deleteRecommendation/:rid" element={<DeleteRecommendation />} />
+            <Route path="findRecommendation"        element={<FindRecommendation />} />
+            <Route path="findRecommendationById"    element={<FindRecommendationById />} />
+            <Route path="updateRecommendation/:rid" element={<UpdateRecommendation />} />
         </Route>
 
-        <Route path="Replenishment" element={<ReplenishmentHome/>}>
-            <Route path="createReplenishment" element={<CreateReplenishment/>}></Route>
-            <Route path="deleteReplenishment" element={<DeleteReplenishment/>}></Route>
-            <Route path="findReplenishment" element={<FindReplenishment/>}></Route>
-            <Route path="updateReplenishment" element={<UpdateReplenishment/>}></Route>
+        {/* ✅ Replenishment */}
+        <Route path="Replenishment" element={<ProtectedRoute><ReplenishmentHome /></ProtectedRoute>}>
+            <Route path="createReplenishment"      element={<CreateReplenishment />} />
+            <Route path="findReplenishment"        element={<FindReplenishment />} />
+            <Route path="findReplenishmentById"    element={<FindReplenishmentById />} />
+            <Route path="updateReplenishment/:rid" element={<UpdateReplenishment />} />
+            <Route path="deleteReplenishment/:rid" element={<DeleteReplenishment />} />
         </Route>
 
-        <Route path="ReturnAuthorization" element={<ReturnAuthorizationHome/>}>
-            <Route path="createReturnAuthorization" element={<CreateReturnAuthorization/>}></Route>
-            <Route path="deleteReturnAuthorization" element={<DeleteReturnAuthorization/>}></Route>
-            <Route path="findReturnAuthorization" element={<FindReturnAuthorization/>}></Route>
-            <Route path="updateReturnAuthorization" element={<UpdateReturnAuthorization/>}></Route>
+        {/* ✅ ReturnAuthorization */}
+        <Route path="ReturnAuthorization" element={<ProtectedRoute><ReturnAuthorizationHome /></ProtectedRoute>}>
+            <Route path="createReturnAuthorization"     element={<CreateReturnAuthorization />} />
+            <Route path="deleteReturnAuthorization/:id" element={<DeleteReturnAuthorization />} />
+            <Route path="findReturnAuthorizationById"   element={<FindReturnAuthorizationById />} />
+            <Route path="findAllReturnAuthorization"    element={<FindAllReturnAuthorization />} />
+            <Route path="updateReturnAuthorization/:id" element={<UpdateReturnAuthorization />} />
         </Route>
 
-         <Route path="Role" element={<RoleHome/>}>
-            <Route path="createRole" element={<CreateRole/>}></Route>
-            <Route path="deleteRole" element={<DeleteRole/>}></Route>
-            <Route path="findRole" element={<FindRole/>}></Route>
+        {/* ✅ Role */}
+        <Route path="Role" element={<ProtectedRoute><RoleHome /></ProtectedRoute>}>
+            <Route path="createRole"     element={<CreateRole />} />
+            <Route path="findAllRole"    element={<FindAllRole />} />
+            <Route path="findRoleById"   element={<FindRoleById />} />
+            <Route path="deleteRole/:id" element={<DeleteRole />} />
         </Route>
 
-        <Route path="User" element={<UserHome/>}>
-            <Route path="createUser" element={<CreateUser/>}></Route>
-            <Route path="deleteUser" element={<DeleteUser/>}></Route>
-            <Route path="findUser" element={<FindUser/>}></Route>
-            <Route path="updateUser" element={<UpdateUser/>}></Route>
+        {/* ✅ User */}
+        <Route path="User" element={<ProtectedRoute><UserHome /></ProtectedRoute>}>
+            <Route path="createUser"     element={<CreateUser />} />
+            <Route path="deleteUser/:id" element={<DeleteUser />} />
+            <Route path="findAllUser"    element={<FindAllUser />} />
+            <Route path="editUser/:id"   element={<UpdateUser />} />
+            <Route path="findUserById"   element={<FindUserById />} />
         </Route>
+
+        {/* ✅ Catch all → redirect to login */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
+
+        <Route path="/logout" element={<Logout />} />
+
+        <Route path="/logout" element={<Logout />} />
+<Route path="*" element={<Navigate to="/login" replace />} />
+
       </Routes>
-
     </Router>
   );
 }

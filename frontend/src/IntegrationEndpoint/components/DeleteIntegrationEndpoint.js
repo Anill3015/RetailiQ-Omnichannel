@@ -14,32 +14,39 @@ export default function DeleteIntegrationEndpoint() {
 
         if (confirmDelete) {
 
-            // ✅ matches @DeleteMapping("/deleteIntegrationEndpoint/{id}")
             axios.delete(`http://localhost:9011/api/deleteIntegrationEndpoint/${id}`)
                 .then(() => {
                     setStatus("Integration Endpoint deleted successfully");
-
-                    // ✅ redirect to list after 1 second
                     setTimeout(() => {
                         navigate("/IntegrationEndpoint/findAllIntegrationEndpoint");
                     }, 1000);
                 })
                 .catch((error) => {
-                    console.error("Delete error:", error);
-                    setStatus("Delete failed: " + error.message);
+                    if (error.response) {
+                        setStatus("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                    } else if (error.request) {
+                        setStatus("No response from server. Make sure the backend is running on port 9011.");
+                    } else {
+                        setStatus("Error: " + error.message);
+                    }
                 });
 
         } else {
-            // ✅ user cancelled → go back to list
             navigate("/IntegrationEndpoint/findAllIntegrationEndpoint");
         }
 
     }, [id, navigate]);
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Delete Integration Endpoint</h2>
-            <p>{status}</p>
+
+            {status && (
+                <div className={`alert ${status.includes("successfully") ? "alert-success" : "alert-danger"} mt-3`}>
+                    {/* ✅ green alert for success, red alert for error */}
+                    {status}
+                </div>
+            )}
         </div>
     );
 }
