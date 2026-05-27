@@ -14,25 +14,30 @@ export default function FindCustomerProfileById() {
             })
             .catch((err) => {
                 setCustomer(null);
-                setError("Customer not found with ID: " + id + err.message);
+                setError("Customer not found with ID: " + id + " - " + (err.response?.data?.message || err.message));
             });
     };
 
     return (
-        <div>
-            <h2>Find Customer By ID</h2>
+        <div className="container mt-4" style={{ maxWidth: "500px" }}>
+            <h2 className="mb-3">Find Customer By ID</h2>
 
-            <input
-                type="number"
-                placeholder="Enter Customer ID"
-                onChange={(e) => setId(e.target.value)}
-            />
-            <button onClick={searchHandler}>SEARCH</button>
+            <div className="input-group mb-3">
+                <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Enter Customer ID"
+                    onChange={(e) => setId(e.target.value)}
+                />
+                <button className="btn btn-primary" onClick={searchHandler}>
+                    SEARCH
+                </button>
+            </div>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <div className="alert alert-danger">{error}</div>}
 
             {customer && (
-                <table border="1">
+                <table className="table table-bordered table-striped mt-2">
                     <tbody>
                         <tr><th>ID</th><td>{customer.customerId}</td></tr>
                         <tr><th>Name</th><td>{customer.name}</td></tr>

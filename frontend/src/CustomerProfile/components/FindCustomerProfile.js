@@ -16,37 +16,47 @@ export default function FindCustomerProfile() {
     }, []);
 
     return (
-        <div>
-            <h2>All Customer Profiles</h2>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Loyalty Tier</th>
-                        <th>Preferences</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {customers.map((c) => (
-                        <tr key={c.customerId}>
-                            <td>{c.customerId}</td>
-                            <td>{c.name}</td>
-                            <td>{c.email}</td>
-                            <td>{c.loyaltyTier}</td>
-                            <td>{c.preferences}</td>
-                            <td>
-                                {/* ✅ Use absolute paths starting with / */}
-                                <Link to={`/CustomerProfile/deleteCustomerProfile/${c.customerId}`}>Delete</Link>
-                                {" | "}
-                                <Link to={`/CustomerProfile/updateCustomerProfile/${c.customerId}`}>Edit</Link>
-                            </td>
+        <div className="container mt-4">
+            <h2 className="mb-3">All Customer Profiles</h2>
+            <div className="table-responsive">
+                <table className="table table-bordered table-striped table-hover align-middle">
+                    <thead className="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Loyalty Tier</th>
+                            <th>Preferences</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {customers.map((c) => (
+                            <tr key={c.customerId}>
+                                <td>{c.customerId}</td>
+                                <td>{c.name}</td>
+                                <td>{c.email}</td>
+                                <td>{c.loyaltyTier}</td>
+                                <td>{c.preferences}</td>
+                                <td>
+                                    <Link
+                                        to={`/CustomerProfile/deleteCustomerProfile/${c.customerId}`}
+                                        className="btn btn-danger btn-sm me-2"
+                                    >
+                                        Delete
+                                    </Link>
+                                    <Link
+                                        to={`/CustomerProfile/updateCustomerProfile/${c.customerId}`}
+                                        className="btn btn-warning btn-sm"
+                                    >
+                                        Edit
+                                    </Link>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

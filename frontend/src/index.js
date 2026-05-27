@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-<<<<<<< HEAD
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
-=======
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -32,8 +30,6 @@ axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
->>>>>>> b9ccebd2899051750112d475351a2838913b2327
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <App />

@@ -17,28 +17,32 @@ export default function FindForecastById() {
                 setForecast(response.data);
                 setError("");
             })
-            .catch(() => {
+            .catch((err) => {
                 setForecast(null);
-                setError("Forecast not found with ID: " + forecastId);
+                setError("Forecast not found with ID: " + forecastId + " - " + (err.response?.data?.message || err.message));
             });
     };
 
     return (
-        <div>
-            <h2>Find Forecast By ID</h2>
+        <div className="container mt-4" style={{ maxWidth: "500px" }}>
+            <h2 className="mb-3">Find Forecast By ID</h2>
 
-            <label>Forecast ID</label>
-            <input
-                type="number"
-                placeholder="Enter Forecast ID"
-                onChange={(e) => setForecastId(e.target.value)}
-            />
-            <button onClick={searchHandler}>SEARCH</button>
+            <div className="input-group mb-3">
+                <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Enter Forecast ID"
+                    onChange={(e) => setForecastId(e.target.value)}
+                />
+                <button className="btn btn-primary" onClick={searchHandler}>
+                    SEARCH
+                </button>
+            </div>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <div className="alert alert-danger">{error}</div>}
 
             {forecast && (
-                <table border="1">
+                <table className="table table-bordered table-striped mt-2">
                     <tbody>
                         <tr><th>Forecast ID</th><td>{forecast.forecastId}</td></tr>
                         <tr><th>Product SKU</th><td>{forecast.product?.sku}</td></tr>

@@ -16,8 +16,6 @@ export default function CreateForecast() {
         }
 
         const url = "http://localhost:9011/api/forecast/add";
-
-        // ✅ Wrap in forecast: {} because controller expects ForecastDTO
         const data = {
             "forecast": {
                 "product": { "sku": sku },
@@ -30,7 +28,6 @@ export default function CreateForecast() {
 
         axios.post(url, data)
             .then((response) => {
-                // ✅ response.data is ForecastResponseDTO
                 alert(response.data.message);
                 setSku("");
                 setLocationId("");
@@ -44,42 +41,56 @@ export default function CreateForecast() {
     };
 
     return (
-        <div>
-            <h2>Create Forecast</h2>
+        <div className="container mt-4" style={{ maxWidth: "500px" }}>
+            <h2 className="mb-3">Create Forecast</h2>
 
-            <label>Product SKU</label>
-            <input
-                type="text"
-                placeholder="e.g. NIKE-TS-RED-M"
-                value={sku}
-                onChange={(e) => setSku(e.target.value)}
-            /><br />
+            <div className="mb-3">
+                <label className="form-label">Product SKU</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="e.g. NIKE-TS-RED-M"
+                    value={sku}
+                    onChange={(e) => setSku(e.target.value)}
+                />
+            </div>
 
-            <label>Location ID</label>
-            <input
-                type="number"
-                placeholder="e.g. 1"
-                value={locationId}
-                onChange={(e) => setLocationId(e.target.value)}
-            /><br />
+            <div className="mb-3">
+                <label className="form-label">Location ID</label>
+                <input
+                    type="number"
+                    className="form-control"
+                    placeholder="e.g. 1"
+                    value={locationId}
+                    onChange={(e) => setLocationId(e.target.value)}
+                />
+            </div>
 
-            <label>Period</label>
-            <input
-                type="text"
-                placeholder="e.g. 2026-05"
-                value={period}
-                onChange={(e) => setPeriod(e.target.value)}
-            /><br />
+            <div className="mb-3">
+                <label className="form-label">Period</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="e.g. 2026-05"
+                    value={period}
+                    onChange={(e) => setPeriod(e.target.value)}
+                />
+            </div>
 
-            <label>Forecast Quantity</label>
-            <input
-                type="number"
-                placeholder="e.g. 150"
-                value={forecastQty}
-                onChange={(e) => setForecastQty(e.target.value)}
-            /><br />
+            <div className="mb-4">
+                <label className="form-label">Forecast Quantity</label>
+                <input
+                    type="number"
+                    className="form-control"
+                    placeholder="e.g. 150"
+                    value={forecastQty}
+                    onChange={(e) => setForecastQty(e.target.value)}
+                />
+            </div>
 
-            <button onClick={saveHandler}>SAVE</button>
+            <button className="btn btn-primary w-100" onClick={saveHandler}>
+                SAVE
+            </button>
         </div>
     );
 }

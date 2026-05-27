@@ -112,7 +112,18 @@ public class UserService {
         }
         return page;
     }
-
+    @Transactional
+    public User register(User user) {
+        // ✅ Resolve role
+        if (user.getRole() != null && user.getRole().getRoleId() != null) {
+            Role managedRole = roleRepository.findById(user.getRole().getRoleId())
+                    .orElseThrow(() ->
+                            new RuntimeException("Role not found"));
+            user.setRole(managedRole);
+        }
+        // ✅ Save without audit log
+        return repository. save(user);
+    }
     private void logAction(String action, User user) {
         AuditLog log = new AuditLog();
         log.setAction(action);

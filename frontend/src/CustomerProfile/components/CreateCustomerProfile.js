@@ -25,22 +25,42 @@ export default function CreateCustomerProfile() {
     };
 
     return (
-        <div>
-            <h2>Create Customer Profile</h2>
+        <div className="container mt-4" style={{ maxWidth: "500px" }}>
+            <h2 className="mb-3">Create Customer Profile</h2>
 
-            <label>Name</label>
-            <input type="text" onChange={(e) => setName(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Name</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter name"
+                    onChange={(e) => setName(e.target.value)}
+                />
+            </div>
 
-            <label>Email</label>
-            <input type="email" onChange={(e) => setEmail(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Email</label>
+                <input
+                    type="email"
+                    className="form-control"
+                    placeholder="Enter email"
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+            </div>
 
-            <label>Preferences</label>
-            <input type="text" onChange={(e) => setPreferences(e.target.value)} />
-            <br />
+            <div className="mb-4">
+                <label className="form-label">Preferences</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter preferences"
+                    onChange={(e) => setPreferences(e.target.value)}
+                />
+            </div>
 
-            <button onClick={saveHandler}>SAVE</button>
+            <button className="btn btn-primary w-100" onClick={saveHandler}>
+                SAVE
+            </button>
         </div>
     );
 }

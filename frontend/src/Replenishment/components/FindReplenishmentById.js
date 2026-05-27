@@ -25,23 +25,26 @@ export default function FindReplenishmentById() {
     };
 
     return (
-        <div>
-            <h2>Find Replenishment Order By ID</h2>
+        <div className="container mt-4" style={{ maxWidth: "500px" }}>
+            <h2 className="mb-3">Find Replenishment Order By ID</h2>
 
-            <label>Replenishment ID</label>
-            <input
-                type="number"
-                placeholder="Enter Replenishment ID"
-                onChange={(e) => setReplenishmentId(e.target.value)}
-            />
-            <button onClick={searchHandler}>SEARCH</button>
+            <div className="input-group mb-3">
+                <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Enter Replenishment ID"
+                    onChange={(e) => setReplenishmentId(e.target.value)}
+                />
+                <button className="btn btn-primary" onClick={searchHandler}>
+                    SEARCH
+                </button>
+            </div>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <div className="alert alert-danger">{error}</div>}
 
             {order && (
-                <table border="1">
+                <table className="table table-bordered table-striped mt-3">
                     <tbody>
-                        {/* ✅ correct field name */}
                         <tr><th>Replenishment ID</th><td>{order.replenishmentId}</td></tr>
                         <tr><th>Product SKU</th><td>{order.product?.sku}</td></tr>
                         <tr><th>From Location</th><td>{order.fromLocation?.locationId}</td></tr>
