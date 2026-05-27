@@ -8,9 +8,7 @@ export default function DeleteCustomerProfile() {
     const deleteHandler = () => {
         const url = `http://localhost:9011/api/customer/delete/${cpid}`;
         const token = localStorage.getItem("token");
-        axios.delete(url, {
-            headers: { "Authorization": `Bearer ${token}` }
-        })
+        axios.delete(url)
             .then((response) => {
                 alert(response.data);
                 navigate("/CustomerProfile/findCustomerProfile");

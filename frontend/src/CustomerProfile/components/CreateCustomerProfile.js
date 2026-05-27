@@ -11,24 +11,34 @@ export default function CreateCustomerProfile() {
     const preferencesHandler = (e) => setPreferences(e.target.value);
 
     const saveHandler = () => {
+        if (!name || !email) {
+            alert("Name and Email are required");
+            return;
+        }
+
         const url = "http://localhost:9011/api/customer/add";
         const data = {
             customerProfile: { name, email, preferences }
         };
 
-        axios.post(url, data)
-            .then((response) => {
-                alert("Customer Profile Saved! " + response.data.message);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
-                } else if (error.request) {
-                    alert("No response from server. Make sure the backend is running on port 9011.");
-                } else {
-                    alert("Error: " + error.message);
-                }
-            });
+        axios.post(url, data, {
+            headers: { "Content-Type": "application/json" }
+        })
+        .then((response) => {
+            alert("Customer Profile Saved! " + response.data.message);
+            setName("");
+            setEmail("");
+            setPreferences("");
+        })
+        .catch((error) => {
+            if (error.response) {
+                alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+            } else if (error.request) {
+                alert("No response from server. Make sure the backend is running on port 9011.");
+            } else {
+                alert("Error: " + error.message);
+            }
+        });
     };
 
     return (
@@ -42,7 +52,7 @@ export default function CreateCustomerProfile() {
 
             <div className="mb-3">
                 <label className="form-label">Email</label>
-                <input className="form-control" value={email} onChange={emailHandler} placeholder="Enter email address" />
+                <input className="form-control" type="email" value={email} onChange={emailHandler} placeholder="Enter email address" />
             </div>
 
             <div className="mb-3">

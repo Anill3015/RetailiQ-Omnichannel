@@ -27,10 +27,10 @@ export default function CreateReplenishment() {
                 quantity: parseInt(quantity)
             }
         };
-
+       const token = localStorage.getItem("token");
         axios.post(url, data, {
             headers: { "Content-Type": "application/json" }
-        })
+        },{headers: { "Authorization": `Bearer ${token}` }})
         .then((response) => {
             alert("Replenishment Order Created! " + response.data.message);
         })

@@ -50,6 +50,7 @@ export default function UpdateReplenishment() {
         }
 
         const url = "http://localhost:9011/api/replenishment/update";
+        const token = localStorage.getItem("token");
         const data = {
             replenishmentOrder: {
                 orderId: parseInt(rid),
@@ -63,7 +64,7 @@ export default function UpdateReplenishment() {
 
         axios.put(url, data, {
             headers: { "Content-Type": "application/json" }
-        })
+        },{headers: { "Authorization": `Bearer ${token}` }})
         .then((response) => {
             alert("Order Updated! " + response.data.message);
             navigate("/Replenishment/findReplenishment");

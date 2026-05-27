@@ -1,36 +1,36 @@
-import axios from 'axios';
-import { useState } from 'react';
+import axios from "axios";
+import { useState } from "react";
 
 export default function FindReplenishmentById() {
-    const [replenishmentId, setReplenishmentId] = useState("");
-    const [order, setOrder] = useState(null);
+
+    const [id, setId] = useState("");
+    const [replenishment, setReplenishment] = useState(null);
     const [error, setError] = useState("");
 
-    const replenishmentIdHandler = (e) => setReplenishmentId(e.target.value);
+    const handleSearch = () => {
 
-    const searchHandler = () => {
-        if (!replenishmentId) {
-            alert("Please enter a Replenishment ID");
+        if (!id) {
+            alert("Please enter an ID");
             return;
         }
+
         const token = localStorage.getItem("token");
-        axios.get(`http://localhost:9011/api/replenishment/find/${replenishmentId}`, {
-            headers: { "Authorization": `Bearer ${token}` }
+
+        axios.get(`http://localhost:9011/api/replenishment/find/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         })
-            .then((response) => {
-                setOrder(response.data);
-                setError("");
-            })
-            .catch((error) => {
-                setOrder(null);
-                if (error.response) {
-                    setError("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
-                } else if (error.request) {
-                    setError("No response from server. Make sure the backend is running on port 9011.");
-                } else {
-                    setError("Error: " + error.message);
-                }
-            });
+        .then((response) => {
+            const data = response.data;   // similar to sample
+            setReplenishment(data);
+            setError("");
+        })
+        .catch((err) => {
+            console.error(err);
+            setReplenishment(null);
+            setError("Record not found ❌");
+        });
     };
 
     return (
@@ -38,29 +38,48 @@ export default function FindReplenishmentById() {
             <h2>Find Replenishment Order By ID</h2>
 
             <div className="mb-3">
-                <label className="form-label">Replenishment ID</label>
+                <label className="form-label">Enter ID</label>
                 <input
-                    type="number"
                     className="form-control"
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
                     placeholder="Enter Replenishment ID"
-                    value={replenishmentId}
-                    onChange={replenishmentIdHandler}
                 />
             </div>
 
-            <button className="btn btn-primary" onClick={searchHandler}>Search</button>
+            <button className="btn btn-primary" onClick={handleSearch}>
+                Search
+            </button>
 
             {error && <div className="alert alert-danger mt-3">{error}</div>}
 
-            {order && (
+            {replenishment && (
                 <table className="table table-bordered table-striped mt-3">
                     <tbody>
-                        <tr><th>Replenishment ID</th><td>{order.replenishmentId}</td></tr>
-                        <tr><th>Product SKU</th><td>{order.product?.sku}</td></tr>
-                        <tr><th>From Location</th><td>{order.fromLocation?.locationId}</td></tr>
-                        <tr><th>To Location</th><td>{order.toLocation?.locationId}</td></tr>
-                        <tr><th>Quantity</th><td>{order.quantity}</td></tr>
-                        <tr><th>Status</th><td>{order.status}</td></tr>
+                        <tr>
+                            <th>Replenishment ID</th>
+                            <td>{replenishment.replenishmentId}</td>
+                        </tr>
+                        <tr>
+                            <th>Product SKU</th>
+                            <td>{replenishment.product?.sku}</td>
+                        </tr>
+                        <tr>
+                            <th>From Location</th>
+                            <td>{replenishment.fromLocation?.locationId}</td>
+                        </tr>
+                        <tr>
+                            <th>To Location</th>
+                            <td>{replenishment.toLocation?.locationId}</td>
+                        </tr>
+                        <tr>
+                            <th>Quantity</th>
+                            <td>{replenishment.quantity}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>{replenishment.status}</td>
+                        </tr>
                     </tbody>
                 </table>
             )}
