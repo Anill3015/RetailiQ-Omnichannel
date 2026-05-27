@@ -64,7 +64,7 @@ export default function UpdateReplenishment() {
 
         axios.put(url, data, {
             headers: { "Content-Type": "application/json" }
-        },{headers: { "Authorization": `Bearer ${token}` }})
+        },{headers: { "Authorization": `earer ${token}` }})
         .then((response) => {
             alert("Order Updated! " + response.data.message);
             navigate("/Replenishment/findReplenishment");
