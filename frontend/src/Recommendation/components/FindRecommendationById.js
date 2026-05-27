@@ -14,8 +14,10 @@ export default function FindRecommendation() {
             alert("Please enter a Customer ID");
             return;
         }
-
-        axios.get(`http://localhost:9011/api/recommendation/customer/${customerId}`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/api/recommendation/customer/${customerId}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((response) => {
                 setRecommendations(response.data);
                 setSearched(true);

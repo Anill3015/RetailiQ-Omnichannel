@@ -12,9 +12,18 @@ export default function UpdateReplenishment() {
     const [quantity, setQuantity] = useState("");
     const [status, setStatus] = useState("");
 
+    const skuHandler = (e) => setSku(e.target.value);
+    const fromLocationIdHandler = (e) => setFromLocationId(e.target.value);
+    const toLocationIdHandler = (e) => setToLocationId(e.target.value);
+    const quantityHandler = (e) => setQuantity(e.target.value);
+    const statusHandler = (e) => setStatus(e.target.value);
+
     useEffect(() => {
         if (!rid) return;
-        axios.get(`http://localhost:9011/api/replenishment/find/${rid}`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/api/replenishment/find/${rid}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((response) => {
                 const o = response.data;
                 setSku(o.product?.sku || "");
@@ -24,7 +33,13 @@ export default function UpdateReplenishment() {
                 setStatus(o.status || "");
             })
             .catch((error) => {
-                alert("Error fetching order: " + (error.response?.data?.message || error.message));
+                if (error.response) {
+                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                } else if (error.request) {
+                    alert("No response from server. Make sure the backend is running on port 9011.");
+                } else {
+                    alert("Error: " + error.message);
+                }
             });
     }, [rid]);
 
@@ -54,40 +69,52 @@ export default function UpdateReplenishment() {
             navigate("/Replenishment/findReplenishment");
         })
         .catch((error) => {
-            alert("Update Failed: " + (error.response?.data?.message || error.message));
+            if (error.response) {
+                alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+            } else if (error.request) {
+                alert("No response from server. Make sure the backend is running on port 9011.");
+            } else {
+                alert("Error: " + error.message);
+            }
         });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Update Replenishment Order</h2>
 
-            <label>Order ID</label>
-            <input type="text" value={rid} readOnly />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Order ID</label>
+                <input className="form-control" type="text" value={rid} readOnly />
+            </div>
 
-            <label>Product SKU</label>
-            <input type="text" value={sku} onChange={(e) => setSku(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Product SKU</label>
+                <input className="form-control" type="text" value={sku} onChange={skuHandler} placeholder="Enter product SKU" />
+            </div>
 
-            <label>From Location ID</label>
-            <input type="number" value={fromLocationId} onChange={(e) => setFromLocationId(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">From Location ID</label>
+                <input className="form-control" type="number" value={fromLocationId} onChange={fromLocationIdHandler} placeholder="Enter from location ID" />
+            </div>
 
-            <label>To Location ID</label>
-            <input type="number" value={toLocationId} onChange={(e) => setToLocationId(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">To Location ID</label>
+                <input className="form-control" type="number" value={toLocationId} onChange={toLocationIdHandler} placeholder="Enter to location ID" />
+            </div>
 
-            <label>Quantity</label>
-            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Quantity</label>
+                <input className="form-control" type="number" value={quantity} onChange={quantityHandler} placeholder="Enter quantity" />
+            </div>
 
-            <label>Status</label>
-            <input type="text" value={status} onChange={(e) => setStatus(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Status</label>
+                <input className="form-control" type="text" value={status} onChange={statusHandler} placeholder="Enter status" />
+            </div>
 
-            <button onClick={updateHandler}>UPDATE</button>
-            <button onClick={() => navigate("/Replenishment/findReplenishment")}>Cancel</button>
+            <button className="btn btn-primary me-2" onClick={updateHandler}>Update</button>
+            <button className="btn btn-secondary" onClick={() => navigate("/Replenishment/findReplenishment")}>Cancel</button>
         </div>
     );
 }

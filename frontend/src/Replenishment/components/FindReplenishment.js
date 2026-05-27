@@ -8,7 +8,10 @@ export default function FindReplenishment() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        axios.get("http://localhost:9011/api/replenishment/fetchAll")
+        const token = localStorage.getItem("token");
+        axios.get("http://localhost:9011/api/replenishment/fetchAll", {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((response) => {
                 setOrders(response.data);
                 setLoading(false);

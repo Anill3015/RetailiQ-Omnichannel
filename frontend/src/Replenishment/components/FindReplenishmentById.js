@@ -13,8 +13,10 @@ export default function FindReplenishmentById() {
             alert("Please enter a Replenishment ID");
             return;
         }
-
-        axios.get(`http://localhost:9011/api/replenishment/find/${replenishmentId}`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/api/replenishment/find/${replenishmentId}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((response) => {
                 setOrder(response.data);
                 setError("");

@@ -9,18 +9,28 @@ export default function UpdateRecommendation() {
     const [customerId, setCustomerId] = useState("");
     const [skuList, setSkuList] = useState("");
 
+    const customerIdHandler = (e) => setCustomerId(e.target.value);
+    const skuListHandler = (e) => setSkuList(e.target.value);
+
     useEffect(() => {
         if (!rid) return;
-
-        axios.get(`http://localhost:9011/api/recommendation/find/${rid}`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/api/recommendation/find/${rid}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((response) => {
                 const r = response.data;
                 setCustomerId(r.customer?.customerId || "");
                 setSkuList(r.skuList?.join(", ") || "");
             })
             .catch((error) => {
-                console.error("Fetch Error:", error);
-                alert("Error fetching recommendation: " + (error.response?.data?.message || error.message));
+                if (error.response) {
+                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                } else if (error.request) {
+                    alert("No response from server. Make sure the backend is running on port 9011.");
+                } else {
+                    alert("Error: " + error.message);
+                }
             });
     }, [rid]);
 
@@ -33,7 +43,7 @@ export default function UpdateRecommendation() {
         const url = "http://localhost:9011/api/recommendation/update";
         const data = {
             recommendation: {
-                recId: parseInt(rid),  // ✅ correct rec ID from URL
+                recId: parseInt(rid),
                 customer: {
                     customerId: parseInt(customerId)
                 },
@@ -49,36 +59,37 @@ export default function UpdateRecommendation() {
             navigate("/Recommendation/findRecommendation");
         })
         .catch((error) => {
-            alert("Update Failed: " + (error.response?.data?.message || error.message));
+            if (error.response) {
+                alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+            } else if (error.request) {
+                alert("No response from server. Make sure the backend is running on port 9011.");
+            } else {
+                alert("Error: " + error.message);
+            }
         });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Update Recommendation</h2>
 
-            <label>Rec ID</label>
-            <input type="text" value={rid} readOnly />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Rec ID</label>
+                <input className="form-control" type="text" value={rid} readOnly />
+            </div>
 
-            <label>Customer ID</label>
-            <input
-                type="number"
-                value={customerId}
-                onChange={(e) => setCustomerId(e.target.value)}
-            />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Customer ID</label>
+                <input className="form-control" type="number" value={customerId} onChange={customerIdHandler} placeholder="Enter Customer ID" />
+            </div>
 
-            <label>SKU List (comma separated)</label>
-            <input
-                type="text"
-                value={skuList}
-                onChange={(e) => setSkuList(e.target.value)}
-            />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">SKU List (comma separated)</label>
+                <input className="form-control" type="text" value={skuList} onChange={skuListHandler} placeholder="SKU001, SKU002" />
+            </div>
 
-            <button onClick={updateHandler}>UPDATE</button>
-            <button onClick={() => navigate("/Recommendation/findRecommendation")}>Cancel</button>
+            <button className="btn btn-primary me-2" onClick={updateHandler}>Update</button>
+            <button className="btn btn-secondary" onClick={() => navigate("/Recommendation/findRecommendation")}>Cancel</button>
         </div>
     );
 }
