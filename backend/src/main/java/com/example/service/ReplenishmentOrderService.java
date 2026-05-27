@@ -112,6 +112,9 @@ return orderRepository.findById(id)
     public List<ReplenishmentOrder> getOrdersByStatus(String status) {
         return orderRepository.findByStatus(status);
     }
+    public List<ReplenishmentOrder> fetchAll() {
+        return orderRepository.findAllWithDetails();
+    }
 
     public Page<ReplenishmentOrder> getAllOrdersWithPagination(Pageable pageable) {
         return orderRepository.findAll(pageable);

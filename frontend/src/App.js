@@ -173,7 +173,7 @@ function App() {
             <Route path="deleteCustomerProfile/:cpid"   element={<DeleteCustomerProfile />} />
             <Route path="findCustomerProfile"           element={<FindCustomerProfile />} />
             <Route path="updateCustomerProfile/:cpid"   element={<UpdateCustomerProfile />} />
-            <Route path="findCustomerProfileById/:cpid" element={<FindCustomerProfileById />} />
+            <Route path="findCustomerProfileById" element={<FindCustomerProfileById />} />
         </Route>
 
         {/* ✅ ExceptionEvent */}
@@ -221,12 +221,7 @@ function App() {
             <Route path="deleteProduct/:id" element={<DeleteProduct/>}/>
         </Route>
     
-        {/* <Route path="Promotion" element={<PromotionHome/>}>
-            <Route path="createPromotion"       element={<CreatePromotion/>}/>
-            <Route path="findPromotion"         element={<FindPromotion/>}/>
-            <Route path="findPromotionById"     element={<FindPromotionById/>}/>
-            <Route path="editPromotion/:id"     element={<UpdatePromotion/>}/>
-            <Route path="deletePromotion/:id"   element={<DeletePromotion/>}/> */}
+        
         {/* ✅ InventoryPosition */}
         <Route path="InventoryPosition" element={<ProtectedRoute><InventoryPositionHome /></ProtectedRoute>}>
             <Route path="createInventoryPosition"      element={<CreateInventoryPosition />} />

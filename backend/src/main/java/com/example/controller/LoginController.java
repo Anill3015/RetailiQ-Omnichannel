@@ -28,15 +28,12 @@ public class LoginController {
         // ✅ Find user by username
         User user = userService.findByUsername(loginRequest.getUsername());
 
-        // ✅ Check password
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
-        // ✅ Get role name from Role entity
         String roleName = user.getRole() != null ? user.getRole().getName() : "USER";
 
-        // ✅ Generate token
         String token = jwtUtil.generateToken(user.getUsername(), roleName);
 
         Map<String, String> response = new HashMap<>();

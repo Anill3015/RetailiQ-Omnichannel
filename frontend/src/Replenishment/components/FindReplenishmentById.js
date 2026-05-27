@@ -6,6 +6,8 @@ export default function FindReplenishmentById() {
     const [order, setOrder] = useState(null);
     const [error, setError] = useState("");
 
+    const replenishmentIdHandler = (e) => setReplenishmentId(e.target.value);
+
     const searchHandler = () => {
         if (!replenishmentId) {
             alert("Please enter a Replenishment ID");
@@ -19,29 +21,38 @@ export default function FindReplenishmentById() {
             })
             .catch((error) => {
                 setOrder(null);
-                setError("Order not found with ID: " + replenishmentId +
-                    " - " + (error.response?.data?.message || error.message));
+                if (error.response) {
+                    setError("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                } else if (error.request) {
+                    setError("No response from server. Make sure the backend is running on port 9011.");
+                } else {
+                    setError("Error: " + error.message);
+                }
             });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Find Replenishment Order By ID</h2>
 
-            <label>Replenishment ID</label>
-            <input
-                type="number"
-                placeholder="Enter Replenishment ID"
-                onChange={(e) => setReplenishmentId(e.target.value)}
-            />
-            <button onClick={searchHandler}>SEARCH</button>
+            <div className="mb-3">
+                <label className="form-label">Replenishment ID</label>
+                <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Enter Replenishment ID"
+                    value={replenishmentId}
+                    onChange={replenishmentIdHandler}
+                />
+            </div>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            <button className="btn btn-primary" onClick={searchHandler}>Search</button>
+
+            {error && <div className="alert alert-danger mt-3">{error}</div>}
 
             {order && (
-                <table border="1">
+                <table className="table table-bordered table-striped mt-3">
                     <tbody>
-                        {/* ✅ correct field name */}
                         <tr><th>Replenishment ID</th><td>{order.replenishmentId}</td></tr>
                         <tr><th>Product SKU</th><td>{order.product?.sku}</td></tr>
                         <tr><th>From Location</th><td>{order.fromLocation?.locationId}</td></tr>

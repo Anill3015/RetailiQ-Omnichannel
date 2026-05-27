@@ -6,41 +6,51 @@ export default function CreateCustomerProfile() {
     const [email, setEmail] = useState("");
     const [preferences, setPreferences] = useState("");
 
+    const nameHandler = (e) => setName(e.target.value);
+    const emailHandler = (e) => setEmail(e.target.value);
+    const preferencesHandler = (e) => setPreferences(e.target.value);
+
     const saveHandler = () => {
         const url = "http://localhost:9011/api/customer/add";
         const data = {
-            customerProfile: {
-                name: name,
-                email: email,
-                preferences: preferences
-            }
+            customerProfile: { name, email, preferences }
         };
+
         axios.post(url, data)
             .then((response) => {
                 alert("Customer Profile Saved! " + response.data.message);
             })
             .catch((error) => {
-                alert("Error: " + error.message);
+                if (error.response) {
+                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                } else if (error.request) {
+                    alert("No response from server. Make sure the backend is running on port 9011.");
+                } else {
+                    alert("Error: " + error.message);
+                }
             });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Create Customer Profile</h2>
 
-            <label>Name</label>
-            <input type="text" onChange={(e) => setName(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Name</label>
+                <input className="form-control" value={name} onChange={nameHandler} placeholder="Enter full name" />
+            </div>
 
-            <label>Email</label>
-            <input type="email" onChange={(e) => setEmail(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Email</label>
+                <input className="form-control" value={email} onChange={emailHandler} placeholder="Enter email address" />
+            </div>
 
-            <label>Preferences</label>
-            <input type="text" onChange={(e) => setPreferences(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Preferences</label>
+                <input className="form-control" value={preferences} onChange={preferencesHandler} placeholder="e.g. dark mode, notifications" />
+            </div>
 
-            <button onClick={saveHandler}>SAVE</button>
+            <button className="btn btn-primary" onClick={saveHandler}>Save</button>
         </div>
     );
 }

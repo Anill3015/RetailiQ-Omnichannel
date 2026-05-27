@@ -20,25 +20,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/replenishment")
-@Tag(
-    name = "Replenishment Orders",
-    description = "Inventory replenishment and stock transfer APIs"
-)
+@Tag(name = "Replenishment Orders", description = "Inventory replenishment and stock transfer APIs")
 public class ReplenishmentOrderController {
 
     @Autowired
     private ReplenishmentOrderService service;
 
-    @Operation(
-        summary = "Create replenishment order",
-        description = "Creates a replenishment order between source and destination locations"
-    )
+    @Operation(summary = "Create replenishment order")
     @PostMapping("/add")
     public ResponseEntity<ReplenishmentOrderResponseDTO> addOrder(
             @RequestBody ReplenishmentOrderDTO orderDTO) {
 
-        ReplenishmentOrder saved =
-                service.addReplenishmentOrder(orderDTO.getReplenishmentOrder());
+        ReplenishmentOrder saved = service.addReplenishmentOrder(orderDTO.getReplenishmentOrder());
 
         ReplenishmentOrderResponseDTO response = new ReplenishmentOrderResponseDTO();
         response.setReplenishmentOrder(saved);
@@ -48,16 +41,12 @@ public class ReplenishmentOrderController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @Operation(
-        summary = "Update replenishment order",
-        description = "Updates quantity or locations for an existing replenishment order"
-    )
+    @Operation(summary = "Update replenishment order")
     @PutMapping("/update")
     public ResponseEntity<ReplenishmentOrderResponseDTO> updateOrder(
             @RequestBody ReplenishmentOrderDTO orderDTO) {
 
-        ReplenishmentOrder updated =
-                service.updateReplenishmentOrder(orderDTO.getReplenishmentOrder());
+        ReplenishmentOrder updated = service.updateReplenishmentOrder(orderDTO.getReplenishmentOrder());
 
         ReplenishmentOrderResponseDTO response = new ReplenishmentOrderResponseDTO();
         response.setReplenishmentOrder(updated);
@@ -67,38 +56,32 @@ public class ReplenishmentOrderController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(
-        summary = "Delete replenishment order",
-        description = "Deletes a replenishment order by ID"
-    )
+    @Operation(summary = "Delete replenishment order")
     @DeleteMapping("/delete/{id}")
     public String deleteOrder(@PathVariable Long id) throws Exception {
         return service.deleteReplenishmentOrder(id);
     }
 
-    @Operation(
-        summary = "Find replenishment order by ID",
-        description = "Fetches a single replenishment order by its identifier"
-    )
+    @Operation(summary = "Find replenishment order by ID")
     @GetMapping("/find/{id}")
     public ReplenishmentOrder findOrder(@PathVariable Long id) throws Exception {
         return service.findReplenishmentOrderById(id);
     }
 
-    @Operation(
-        summary = "Get replenishment orders by status",
-        description = "Fetches replenishment orders filtered by status (CREATED, COMPLETED, etc.)"
-    )
+    @Operation(summary = "Get replenishment orders by status")
     @GetMapping("/status/{status}")
-    public List<ReplenishmentOrder> getByStatus(
-            @PathVariable String status) {
+    public List<ReplenishmentOrder> getByStatus(@PathVariable String status) {
         return service.getOrdersByStatus(status);
     }
 
-    @Operation(
-        summary = "Fetch replenishment orders with pagination",
-        description = "Returns paginated and sorted replenishment orders"
-    )
+    // ✅ THIS WAS MISSING — fixes the frontend fetchAll
+    @Operation(summary = "Fetch all replenishment orders")
+    @GetMapping("/fetchAll")
+    public ResponseEntity<List<ReplenishmentOrder>> fetchAll() {
+        return ResponseEntity.ok(service.fetchAll());
+    }
+
+    @Operation(summary = "Fetch replenishment orders with pagination")
     @GetMapping("/fetchAllPaginated")
     public Page<ReplenishmentOrder> fetchAllPaginated(
             @RequestParam(name = "pgno") int pgno,
@@ -106,10 +89,7 @@ public class ReplenishmentOrderController {
             @RequestParam(name = "sorting") String sorting,
             @RequestParam(name = "asc") boolean asc) {
 
-        Sort sort = asc
-                ? Sort.by(sorting).ascending()
-                : Sort.by(sorting).descending();
-
+        Sort sort = asc ? Sort.by(sorting).ascending() : Sort.by(sorting).descending();
         Pageable pageable = PageRequest.of(pgno, size, sort);
         return service.getAllOrdersWithPagination(pageable);
     }
