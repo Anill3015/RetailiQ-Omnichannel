@@ -7,6 +7,8 @@ export default function FindRecommendation() {
     const [recommendations, setRecommendations] = useState([]);
     const [searched, setSearched] = useState(false);
 
+    const customerIdHandler = (e) => setCustomerId(e.target.value);
+
     const searchHandler = () => {
         if (!customerId) {
             alert("Please enter a Customer ID");
@@ -19,32 +21,39 @@ export default function FindRecommendation() {
                 setSearched(true);
             })
             .catch((error) => {
-                alert("Error: " + (error.response?.data?.message || error.message));
+                if (error.response) {
+                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                } else if (error.request) {
+                    alert("No response from server. Make sure the backend is running on port 9011.");
+                } else {
+                    alert("Error: " + error.message);
+                }
             });
     };
 
     return (
         <div className="container mt-4">
-            <h2 className="mb-3">Find Recommendations by Customer</h2>
+            <h2>Find Recommendations by Customer</h2>
 
-            <div className="input-group mb-3" style={{ maxWidth: "400px" }}>
+            <div className="mb-3">
+                <label className="form-label">Customer ID</label>
                 <input
                     type="number"
                     className="form-control"
                     placeholder="Enter Customer ID"
-                    onChange={(e) => setCustomerId(e.target.value)}
+                    value={customerId}
+                    onChange={customerIdHandler}
                 />
-                <button className="btn btn-primary" onClick={searchHandler}>
-                    SEARCH
-                </button>
             </div>
 
+            <button className="btn btn-primary" onClick={searchHandler}>Search</button>
+
             {searched && recommendations.length === 0 && (
-                <div className="alert alert-warning">No recommendations found.</div>
+                <div className="alert alert-warning mt-3">No recommendations found.</div>
             )}
 
             {recommendations.length > 0 && (
-                <div className="table-responsive">
+                <div className="table-responsive mt-3">
                     <table className="table table-bordered table-striped table-hover align-middle">
                         <thead className="table-dark">
                             <tr>

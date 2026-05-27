@@ -15,14 +15,20 @@ export default function FindRecommendation() {
                 setLoading(false);
             })
             .catch((error) => {
-                setError("Error: " + (error.response?.data?.message || error.message));
+                if (error.response) {
+                    setError("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                } else if (error.request) {
+                    setError("No response from server. Make sure the backend is running on port 9011.");
+                } else {
+                    setError("Error: " + error.message);
+                }
                 setLoading(false);
             });
     }, []);
 
     return (
         <div className="container mt-4">
-            <h2 className="mb-3">All Recommendations</h2>
+            <h2>All Recommendations</h2>
 
             {loading && <p className="text-muted">Loading...</p>}
             {error && <div className="alert alert-danger">{error}</div>}
