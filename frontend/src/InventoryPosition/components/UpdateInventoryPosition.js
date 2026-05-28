@@ -53,7 +53,6 @@ export default function UpdateInventoryPosition(){
         let url="http://localhost:9011/inventory/find/"+eid
         axios.get(url)
         .then((res)=>{
-            console.log(res);
             setLocationId(res.data.locationID)
             setSKU(res.data.sku)
             setQuantityOnHand(res.data.quantityOnHand)
