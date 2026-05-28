@@ -16,7 +16,13 @@ export default function CreateCustomerProfile() {
             customerProfile: { name, email, preferences }
         };
 
-        axios.post(url, data)
+        const token = localStorage.getItem("token");
+
+        axios.post(url, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then((response) => {
                 alert("Customer Profile Saved! " + response.data.message);
             })

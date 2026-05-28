@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode} from 'jwt-decode';
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -24,6 +25,12 @@ export default function Login() {
             localStorage.setItem("role", res.data.role);
             localStorage.setItem("username", res.data.username);
             alert("Login successful! Welcome " + res.data.username);
+            alert(res.data.token)
+            let decoded = jwtDecode(res.data.token);
+            alert("Decoded Token: " + JSON.stringify(decoded));
+            alert(decoded.role)
+
+
             navigate("/User/findUser");
         })
         .catch((err) => {
