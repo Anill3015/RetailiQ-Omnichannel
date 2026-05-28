@@ -1,9 +1,12 @@
 package com.example.controller;
 import com.example.dto.FulfillmentInstructionRequestDTO;
 import com.example.dto.FulfillmentInstructionResponseDTO;
+import com.example.entity.FulfillmentInstruction;
 import com.example.service.FulfillmentInstructionService;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/fulfillments")
@@ -34,14 +37,19 @@ public class FulfillmentInstructionController {
         return service.getAll(page, size);
     }
 
-    @PutMapping("/{id}")
+    @GetMapping("/findAll")
+    public List<FulfillmentInstructionResponseDTO> findAll(){
+        return service.findAll();
+    }
+
+    @PutMapping("/update/{id}")
     public FulfillmentInstructionResponseDTO update(
             @PathVariable int id,
             @RequestBody FulfillmentInstructionRequestDTO dto) {
         return service.update(id, dto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable int id) {
         service.delete(id);
     }

@@ -9,6 +9,7 @@ import com.example.repository.FulfillmentInstructionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,6 +58,13 @@ public class FulfillmentInstructionService {
     public Page<FulfillmentInstructionResponseDTO> getAll(int page, int size) {
         return repository.findAll(PageRequest.of(page, size))
                 .map(this::mapToResponse);
+    }
+    @Transactional(readOnly = true)
+    public List<FulfillmentInstructionResponseDTO> findAll() {
+        return repository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
     public FulfillmentInstructionResponseDTO update(
