@@ -3,6 +3,8 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router';
 
 import Login from './Login';
+import Dashboard from './Dashboard';
+import Logout from './Logout';
 import ProtectedRoute from './ProtectedRoute';
 
 import ForecastHome from './Forecast/components/ForecastHome';
@@ -139,10 +141,9 @@ import FindUserById from './User/components/FindUserById';
 import ProductHome from './Product/components/ProductHome';
 import CreateProduct from './Product/components/CreateProduct';
 import FindProduct from './Product/components/FindProduct';
+import FindProductById from './Product/components/FindProductById';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
-
-import Logout from './Logout';
 
 function App() {
   return (
@@ -152,6 +153,12 @@ function App() {
         {/* ✅ Public Routes */}
         <Route path="/"      element={<Login />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
+
+        {/* ✅ Dashboard */}
+        <Route path="/dashboard" element={
+            <ProtectedRoute><Dashboard /></ProtectedRoute>
+        } />
 
         {/* ✅ Forecast */}
         <Route path="Forecast" element={<ProtectedRoute><ForecastHome /></ProtectedRoute>}>
@@ -271,6 +278,7 @@ function App() {
         <Route path="Product" element={<ProtectedRoute><ProductHome /></ProtectedRoute>}>
             <Route path="createProduct"     element={<CreateProduct />} />
             <Route path="findProduct"       element={<FindProduct />} />
+            <Route path="findProductById"   element={<FindProductById />} />
             <Route path="editProduct/:id"   element={<UpdateProduct />} />
             <Route path="deleteProduct/:id" element={<DeleteProduct />} />
         </Route>
@@ -336,11 +344,6 @@ function App() {
 
         {/* ✅ Catch all → redirect to login */}
         <Route path="*" element={<Navigate to="/login" replace />} />
-
-        <Route path="/logout" element={<Logout />} />
-
-        <Route path="/logout" element={<Logout />} />
-<Route path="*" element={<Navigate to="/login" replace />} />
 
       </Routes>
     </Router>

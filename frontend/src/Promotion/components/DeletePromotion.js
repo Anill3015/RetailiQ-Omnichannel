@@ -22,5 +22,9 @@ export default function DeletePromotion() {
             });
     }, [id]);
 
-    return <div><h2>Deleting Promotion...</h2></div>;
+    return (
+        <div className="container mt-4">
+            <div className="alert alert-warning">Deleting Promotion...</div>
+        </div>
+    );
 }

@@ -5,7 +5,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 export default function UpdatePromotion() {
     const { id } = useParams();
     const navigate = useNavigate();
-
     const [name, setName] = useState("");
     const [rules, setRules] = useState("");
     const [validity, setValidity] = useState("");
@@ -24,7 +23,8 @@ export default function UpdatePromotion() {
                 setName(res.data.name);
                 setRules(res.data.rules);
                 setValidity(res.data.validity);
-                setPromotionTypeId(res.data.promotionType ? String(res.data.promotionType.promotionTypeId) : "");
+                setPromotionTypeId(res.data.promotionType ?
+                    String(res.data.promotionType.promotionTypeId) : "");
             })
             .catch((err) => {
                 alert("Error loading promotion: " + err.message);
@@ -34,24 +34,16 @@ export default function UpdatePromotion() {
 
     let update = (event) => {
         event.preventDefault();
-
-        if (!promotionTypeId) {
-            alert("Please select a promotion type");
-            return;
-        }
+        if (!promotionTypeId) { alert("Please select a promotion type"); return; }
 
         let data = {
             "promotionId": Number(id),
-            "name": name,
-            "rules": rules,
-            "validity": validity,
-            "promotionType": {
-                "promotionTypeId": Number(promotionTypeId)
-            }
+            "name": name, "rules": rules, "validity": validity,
+            "promotionType": { "promotionTypeId": Number(promotionTypeId) }
         }
 
         axios.put("http://localhost:9011/promotion/update", data)
-            .then((res) => {
+            .then(() => {
                 alert("Promotion updated successfully!");
                 navigate("/Promotion/findPromotion");
             })
@@ -65,43 +57,39 @@ export default function UpdatePromotion() {
     }
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Update Promotion</h2>
             <form onSubmit={update}>
-                <label>Name</label>
-                <input
-                    placeholder="enter promotion name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                /><br />
-
-                <label>Rules</label>
-                <input
-                    placeholder="enter rules"
-                    value={rules}
-                    onChange={(e) => setRules(e.target.value)}
-                /><br />
-
-                <label>Validity</label>
-                <input
-                    placeholder="e.g. 2026-01-01 to 2026-12-31"
-                    value={validity}
-                    onChange={(e) => setValidity(e.target.value)}
-                /><br />
-
-                <label>Promotion Type</label>
-                <select value={promotionTypeId} onChange={(e) => setPromotionTypeId(e.target.value)}>
-                    <option value="">Select Promotion Type</option>
-                    {promotionTypes.map((t) => (
-                        <option key={t.promotionTypeId} value={t.promotionTypeId}>
-                            {t.name}
-                        </option>
-                    ))}
-                </select><br />
-
-                <button type="submit">Update Promotion</button>
-                &nbsp;
-                <button type="button" onClick={() => navigate("/Promotion/findPromotion")}>Cancel</button>
+                <div className="mb-3">
+                    <label className="form-label">Name</label>
+                    <input className="form-control" placeholder="enter promotion name"
+                        value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Rules</label>
+                    <input className="form-control" placeholder="enter rules"
+                        value={rules} onChange={(e) => setRules(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Validity</label>
+                    <input className="form-control" placeholder="e.g. 2026-01-01 to 2026-12-31"
+                        value={validity} onChange={(e) => setValidity(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Promotion Type</label>
+                    <select className="form-select" value={promotionTypeId}
+                        onChange={(e) => setPromotionTypeId(e.target.value)}>
+                        <option value="">Select Promotion Type</option>
+                        {promotionTypes.map((t) => (
+                            <option key={t.promotionTypeId} value={t.promotionTypeId}>
+                                {t.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <button type="submit" className="btn btn-primary me-2">Update Promotion</button>
+                <button type="button" className="btn btn-secondary"
+                    onClick={() => navigate("/Promotion/findPromotion")}>Cancel</button>
             </form>
         </div>
     );

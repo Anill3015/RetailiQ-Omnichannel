@@ -11,7 +11,11 @@ export default function UpdateProduct() {
     const [category, setCategory] = useState("");
 
     useEffect(() => {
-        axios.get(`http://localhost:9011/product/find/${id}`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/product/find/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }})
             .then((res) => {
                 setSku(res.data.sku);
                 setName(res.data.name);
@@ -32,8 +36,12 @@ export default function UpdateProduct() {
             "name": name,
             "category": category
         }
-
-        axios.post("http://localhost:9011/product/add", data)
+        const token = localStorage.getItem("token");
+        axios.post("http://localhost:9011/product/add", data,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
             .then((res) => {
                 alert("Product updated successfully!");
                 navigate("/Product/findProduct");
