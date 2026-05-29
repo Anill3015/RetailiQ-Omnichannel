@@ -20,9 +20,11 @@ export default function FindInventoryPosition(){
         })
     },[])
     return(
-         <div>
-            <table border="1">
-                <thead>
+         <div className="container mt-4">
+            <h2 className="mb-3">Inventory Position</h2>
+            <div className="table-responsive">
+            <table className="table table-bordered table-striped table-hover align-middle">
+                <thead className="table-dark">
                     <tr>
                         <td>Inventory ID</td>
                         <td> Location ID</td>
@@ -45,15 +47,16 @@ export default function FindInventoryPosition(){
                                     <td>{e.quantityOnHand}</td>
                                     <td>{e.quantityReserved}</td>
                                     <td>{e.safetyStock}</td>
-                                    <td><Link to={"/InventoryPosition/deleteInventoryPosition/"+e.inventoryID}>Delete</Link>
+                                    <td><Link to={"/InventoryPosition/deleteInventoryPosition/"+e.inventoryID} className="btn btn-danger btn-sm me-2">Delete</Link>
                                     </td>
-                                    <td><Link to={"/InventoryPosition/updateInventoryPosition/"+e.inventoryID}>Edit</Link></td>
+                                    <td><Link to={"/InventoryPosition/updateInventoryPosition/"+e.inventoryID}   className="btn btn-warning btn-sm">Edit</Link></td>
                                 </tr>
                             )
                         })
                     }
                 </tbody>
             </table>
+        </div>
         </div>
     )
 }

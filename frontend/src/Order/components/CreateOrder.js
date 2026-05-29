@@ -31,22 +31,27 @@ export default function CreateOrder() {
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Create Order</h2>
 
-            <label>Customer ID</label>
-            <input type="number" onChange={(e) => setCustomerID(e.target.value)} />
+            <div className="mb-3">
+            <label className="form-label">Customer ID</label>
+            <input className="form-control" type="number" onChange={(e) => setCustomerID(e.target.value)} />
             <br />
+            </div>
 
-            <label>Channel</label>
-            <input type="text" placeholder="e.g. ONLINE, STORE" onChange={(e) => setChannel(e.target.value)} />
+<div className="mb-3">
+            <label className="form-label">Channel</label>
+            <input className="form-control" type="text" placeholder="e.g. ONLINE, STORE" onChange={(e) => setChannel(e.target.value)} />
             <br />
-
-            <label>Total Amount</label>
-            <input type="number" onChange={(e) => setTotalAmount(e.target.value)} />
+            </div>
+<div className="mb-3">
+            <label className="form-label">Total Amount</label>
+            <input className="form-control" type="number" onChange={(e) => setTotalAmount(e.target.value)} />
             <br />
+            </div>
 
-            <button onClick={saveHandler}>SAVE</button>
+            <button className="btn btn-primary" onClick={saveHandler}>SAVE</button>
         </div>
     );
 }

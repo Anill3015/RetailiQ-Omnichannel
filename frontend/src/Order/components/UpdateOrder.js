@@ -52,28 +52,33 @@ export default function UpdateOrder() {
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Update Order</h2>
-
+<div className="mb-3">
             <label>Order ID</label>
             <input type="text" value={oid} readOnly />
             <br />
-
+            </div>
+<div className="mb-3">
             <label>Customer ID</label>
             <input type="number" value={customerID} onChange={(e) => setCustomerID(e.target.value)} />
             <br />
-
+            </div>
+<div className="mb-3">
             <label>Channel</label>
             <input type="text" value={channel} onChange={(e) => setChannel(e.target.value)} />
             <br />
-
+            </div>
+<div className="mb-3">
             <label>Total Amount</label>
             <input type="number" value={totalAmount} onChange={(e) => setTotalAmount(e.target.value)} />
             <br />
-
+            </div>
+<div className="mb-3">
             <label>Status</label>
             <input type="text" value={status} readOnly />
             <br />
+            </div>
 
             <button onClick={updateHandler}>UPDATE</button>
             <button onClick={() => navigate("/Order/findOrder")}>Cancel</button>

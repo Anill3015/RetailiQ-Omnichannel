@@ -3,28 +3,29 @@ export default function InventoryPositionHome(){
 
     return (
         <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="createInventoryPosition">Add InventoryPosition</Link>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div className='container-fluid'>
+                     <Link to="/InventoryPosition" className="navbar-brand">InventoryPosition</Link>
+                <ul className="navbar-nav">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="createInventoryPosition">Add InventoryPosition</Link>
                     </li>
-                    <li>
-                        <Link to="deleteInventoryPosition">Delete InventoryPosition</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="deleteInventoryPosition">Delete InventoryPosition</Link>
                     </li>
-                    <li>
-                        <Link to="findInventoryPosition">Find InventoryPosition</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="findInventoryPosition">Find InventoryPosition</Link>
                     </li>
-                    <li>
-                        <Link to="findInventoryPositionById">Find InventoryPositionById</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="findInventoryPositionById">Find InventoryPositionById</Link>
                     </li>
-                    <li>
-                        <Link to="updateInventoryPosition">Update InventoryPosition</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="updateInventoryPosition">Update InventoryPosition</Link>
  
                     </li>
-                    <li>
-                        
-                    </li>
+                    
                 </ul>
+                </div>
             </nav>
             <Outlet></Outlet>
         </div>

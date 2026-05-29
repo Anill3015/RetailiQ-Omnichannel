@@ -64,28 +64,33 @@ export default function UpdateInventoryPosition(){
         })
     },[eid])
     return(
-        <div>
+        <div className="container mt-4">
             <h1>{eid} to update </h1>
-
+<div className="mb-3">
             <label>Location ID</label>
             <input value={locationId} onChange={locationHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>sku</label>
             <input value={sku} onChange={skuHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>quantityOnHand</label>
             <input value={quantityOnHand} onChange={quantityOnHandHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>quantityReserved</label>
             <input value={quantityReserved} onChange={quantityReservedHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>safetyStock</label>
             <input value={safteyStock} onChange={safteyStockHandler}></input>
             <br></br>
+            </div>
 
             <button onClick={updateButtonhandler}>update</button>
         </div>
