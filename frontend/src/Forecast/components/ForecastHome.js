@@ -1,29 +1,48 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 export default function ForecastHome() {
+
+    const navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.clear();
+        navigate("/login");
+    };
+
     return (
         <div>
             <nav className="navbar bg-dark px-3">
-                <span className="navbar-brand text-white">
-                    Forecast
-                </span>
+
+                <Link className="navbar-brand text-white text-decoration-none" to="/dashboard">
+                    RetailIQ
+                </Link>
 
                 <ul className="nav">
+
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="createForecast">
                             Add
                         </Link>
                     </li>
+
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findForecast">
                             Find All
                         </Link>
                     </li>
+
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findForecastById">
                             Find By ID
                         </Link>
                     </li>
+
+                    <li className="nav-item">
+                        <button className="btn btn-danger btn-sm ms-2" onClick={logout}>
+                            Logout
+                        </button>
+                    </li>
+
                 </ul>
             </nav>
 
