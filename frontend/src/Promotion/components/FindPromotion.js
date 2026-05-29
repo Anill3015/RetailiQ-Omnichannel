@@ -12,7 +12,11 @@ export default function FindPromotion() {
     const asc = true;
 
     useEffect(() => {
-        axios.get(`http://localhost:9011/promotion/fetchAllPaginated?pgno=${pgno}&size=${size}&sorting=${sorting}&asc=${asc}`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/promotion/fetchAllPaginated?pgno=${pgno}&size=${size}&sorting=${sorting}&asc=${asc}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }})
             .then((res) => {
                 setPromotionArr(res.data.content);
                 setTotalPages(res.data.totalPages);

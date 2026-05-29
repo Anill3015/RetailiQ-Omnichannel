@@ -12,7 +12,11 @@ export default function FindPriceList() {
     const asc = true;
 
     useEffect(() => {
-        axios.get(`http://localhost:9011/pricelist/fetchAllPaginated?pgno=${pgno}&size=${size}&sorting=${sorting}&asc=${asc}`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/pricelist/fetchAllPaginated?pgno=${pgno}&size=${size}&sorting=${sorting}&asc=${asc}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+         }})
             .then((res) => {
                 setPriceListArr(res.data.content);
                 setTotalPages(res.data.totalPages);

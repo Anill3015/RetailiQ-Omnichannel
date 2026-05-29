@@ -40,8 +40,11 @@ export default function CreateUser() {
                 "name": role
             }
         }
-
-        axios.post("http://localhost:9011/user/add", data)
+        const token = localStorage.getItem("token");
+        axios.post("http://localhost:9011/user/add",{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }})
             .then((res) => {
                 alert("User created successfully!");
                 setName("");
@@ -87,16 +90,17 @@ export default function CreateUser() {
                 /><br />
 
                 <label>Role</label>
-                <select value={role} onChange={roleHandler}>
+                <select className="form-select" value={role}
+    onChange={(e) => setRole(e.target.value)}>
     <option value="">Select Role</option>
-    <option value="admin">Admin</option>
-    <option value="user">User</option>
-    <option value="store associate">Store Associate</option>
-    <option value="ecommerce manager">Ecommerce Manager</option>
-    <option value="inventory planner">Inventory Planner</option>
-    <option value="fulfillment manager">Fulfillment Manager</option>
-    <option value="customer service agent">Customer Service Agent</option>
-    <option value="marketing manager">Marketing Manager</option>
+    <option value="ADMIN">Admin</option>
+    <option value="USER">User</option>
+    <option value="STORE_ASSOCIATE">Store Associate</option>
+    <option value="ECOMMERCE_MANAGER">Ecommerce Manager</option>
+    <option value="INVENTORY_PLANNER">Inventory Planner</option>
+    <option value="FULFILLMENT_MANAGER">Fulfillment Manager</option>
+    <option value="CUSTOMER_SERVICE_AGENT">Customer Service Agent</option>
+    <option value="MARKETING_MANAGER">Marketing Manager</option>
 </select><br />
 
                 <button type="submit">Add User</button>
