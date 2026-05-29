@@ -1,11 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-<<<<<<< HEAD
 import { useNavigate, Link } from 'react-router-dom';
-=======
-import { useNavigate } from 'react-router-dom';
-import { jwtDecode} from 'jwt-decode';
->>>>>>> origin/Rakesh
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -36,14 +31,12 @@ export default function Login() {
             localStorage.setItem("token",    res.data.token);
             localStorage.setItem("role",     res.data.role);
             localStorage.setItem("username", res.data.username);
-            alert("Login successful! Welcome " + res.data.username);
-            alert(res.data.token)
-            let decoded = jwtDecode(res.data.token);
-            alert("Decoded Token: " + JSON.stringify(decoded));
-            alert(decoded.role)
 
+            setSuccess("Login successful! Welcome " + res.data.username + " 🎉");
 
-            navigate("/User/findUser");
+            setTimeout(() => {
+                navigate("/dashboard");
+            }, 1500);
         })
         .catch(() => {
             setError("Invalid username or password. Please try again.");
