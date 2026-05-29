@@ -7,7 +7,12 @@ export default function DeletePriceList() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.delete(`http://localhost:9011/pricelist/delete/${id}`)
+        const token = localStorage.getItem("token");
+        axios.delete(`http://localhost:9011/pricelist/delete/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
             .then((res) => {
                 alert(res.data);
                 navigate("/PriceList/findPriceList");
@@ -23,8 +28,8 @@ export default function DeletePriceList() {
     }, [id]);
 
     return (
-        <div>
-            <h2>Deleting PriceList...</h2>
+        <div className="container mt-4">
+            <div className="alert alert-warning">Deleting PriceList...</div>
         </div>
     );
 }

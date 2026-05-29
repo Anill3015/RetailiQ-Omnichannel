@@ -7,43 +7,60 @@ export default function CreateKPIReport() {
     const [metrics, setMetrics] = useState("");
 
     const handleCreate = () => {
+        const token = localStorage.getItem("token");
 
-        let url = "http://localhost:9011/api/addKPIReport";
+        const url = "http://localhost:9011/api/addKPIReport";
 
-        let data = {
+        const data = {
             kpiReport: {
-                scope: scope,        // ✅ FIXED
-                metrics: metrics     // ✅ FIXED
-                // generatedDate optional (backend can set)
+                scope: scope,
+                metrics: metrics
             }
         };
 
-        axios.post(url, data)
-            .then(() => {
-                alert("✅ KPI Report created successfully");
-
-                setScope("");
-                setMetrics("");
-            })
-            .catch((err) => {
-                console.error(err);
-                alert("❌ Error creating KPI Report");
-            });
+        axios.post(url, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(() => {
+            alert("✅ KPI Report created successfully");
+            setScope("");
+            setMetrics("");
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("❌ Error creating KPI Report");
+        });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Create KPI Report</h2>
 
-            <label>Scope</label>
-            <input value={scope} onChange={(e) => setScope(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Scope</label>
+                <input
+                    className="form-control"
+                    value={scope}
+                    onChange={(e) => setScope(e.target.value)}
+                    placeholder="Enter scope"
+                />
+            </div>
 
-            <label>Metrics</label>
-            <input value={metrics} onChange={(e) => setMetrics(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Metrics</label>
+                <input
+                    className="form-control"
+                    value={metrics}
+                    onChange={(e) => setMetrics(e.target.value)}
+                    placeholder="Enter metrics"
+                />
+            </div>
 
-            <button onClick={handleCreate}>CREATE</button>
+            <button className="btn btn-success" onClick={handleCreate}>
+                Create
+            </button>
         </div>
     );
 }

@@ -1,51 +1,85 @@
-import axios from 'axios';
-import { useState } from 'react';
+import axios from "axios";
+import { useState } from "react";
 
 export default function FindReplenishmentById() {
-    const [orderId, setOrderId] = useState("");
-    const [order, setOrder] = useState(null);
+
+    const [id, setId] = useState("");
+    const [replenishment, setReplenishment] = useState(null);
     const [error, setError] = useState("");
 
-    const searchHandler = () => {
-        if (!orderId) {
-            alert("Please enter an Order ID");
+    const handleSearch = () => {
+
+        if (!id) {
+            alert("Please enter an ID");
             return;
         }
 
-        axios.get(`http://localhost:9011/api/replenishment/find/${orderId}`)
-            .then((response) => {
-                setOrder(response.data);
-                setError("");
-            })
-            .catch(() => {
-                setOrder(null);
-                setError("Order not found with ID: " + orderId);
-            });
+        const token = localStorage.getItem("token");
+
+        axios.get(`http://localhost:9011/api/replenishment/find/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then((response) => {
+            const data = response.data;   // similar to sample
+            setReplenishment(data);
+            setError("");
+        })
+        .catch((err) => {
+            console.error(err);
+            setReplenishment(null);
+            setError("Record not found ❌");
+        });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Find Replenishment Order By ID</h2>
 
-            <label>Order ID</label>
-            <input
-                type="number"
-                placeholder="Enter Order ID"
-                onChange={(e) => setOrderId(e.target.value)}
-            />
-            <button onClick={searchHandler}>SEARCH</button>
+            <div className="mb-3">
+                <label className="form-label">Enter ID</label>
+                <input
+                    className="form-control"
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
+                    placeholder="Enter Replenishment ID"
+                />
+            </div>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            <button className="btn btn-primary" onClick={handleSearch}>
+                Search
+            </button>
 
-            {order && (
-                <table border="1">
+            {error && <div className="alert alert-danger mt-3">{error}</div>}
+
+            {replenishment && (
+                <table className="table table-bordered table-striped mt-3">
                     <tbody>
-                        <tr><th>Order ID</th><td>{order.orderId}</td></tr>
-                        <tr><th>Product SKU</th><td>{order.product?.sku}</td></tr>
-                        <tr><th>From Location</th><td>{order.fromLocation?.locationId}</td></tr>
-                        <tr><th>To Location</th><td>{order.toLocation?.locationId}</td></tr>
-                        <tr><th>Quantity</th><td>{order.quantity}</td></tr>
-                        <tr><th>Status</th><td>{order.status}</td></tr>
+                        <tr>
+                            <th>Replenishment ID</th>
+                            <td>{replenishment.replenishmentId}</td>
+                        </tr>
+                        <tr>
+                            <th>Product SKU</th>
+                            <td>{replenishment.product?.sku}</td>
+                        </tr>
+                        <tr>
+                            <th>From Location</th>
+                            <td>{replenishment.fromLocation?.locationId}</td>
+                        </tr>
+                        <tr>
+                            <th>To Location</th>
+                            <td>{replenishment.toLocation?.locationId}</td>
+                        </tr>
+                        <tr>
+                            <th>Quantity</th>
+                            <td>{replenishment.quantity}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>{replenishment.status}</td>
+                        </tr>
                     </tbody>
                 </table>
             )}

@@ -1,28 +1,35 @@
-import {Link, Outlet} from 'react-router'
-export default function ReplenishmentHome(){
+import { Link, Outlet } from 'react-router-dom';
 
+export default function ReplenishmentHome() {
     return (
         <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="createReplenishment">Add Replenishment</Link>
+            <nav className="navbar bg-dark px-3">
+                <span className="navbar-brand text-white">
+                    Replenishment
+                </span>
+
+                <ul className="nav">
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="createReplenishment">
+                            Add
+                        </Link>
                     </li>
-                    <li>
-                        <Link to="findReplenishment">Find Replenishment</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findReplenishment">
+                            Find
+                        </Link>
                     </li>
-                     <li>
-                        <Link to="findReplenishmentById">Find Replenishment by ID</Link>
-                    </li>
-                    <li>
-                        <Link to="updateReplenishment">Update Replenishment</Link>
-                    </li>
-                    <li>
-                        <Link to="deleteReplenishment">Delete Replenishment</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findReplenishmentById">
+                            Find By ID
+                        </Link>
                     </li>
                 </ul>
             </nav>
-            <Outlet></Outlet>
+
+            <div className="container mt-4">
+                <Outlet />
+            </div>
         </div>
-    )
+    );
 }

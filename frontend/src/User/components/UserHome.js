@@ -1,16 +1,34 @@
 import { Link, Outlet } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserHome() {
+    const navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.clear();
+        navigate("/login");
+    }
+
     return (
         <div>
-            <nav>
-                <ul>
-                    <li><Link to="createUser">Add User</Link></li>
-                    <li><Link to="findAllUser">All Users</Link></li>
-                    <li><Link to="findUserById">Find User By ID</Link></li>
+            <nav className="navbar bg-dark px-3">
+                <span className="navbar-brand text-white">Users</span>
+                <ul className="nav">
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="createUser">Add</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findAllUser">Find All</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findUserById">Find By ID</Link>
+                    </li>
                 </ul>
+                <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
             </nav>
-            <Outlet />
+            <div className="container mt-4">
+                <Outlet />
+            </div>
         </div>
     );
 }

@@ -1,57 +1,67 @@
 package com.example.advice;
 
+import com.example.exception.UserNotFoundException;
+import com.example.exception.ListEmptyException;
+import com.example.exception.CustomerProfileNotFoundException;
+
+import org.springframework.http.HttpStatus;
+import com.example.exception.UserNotFoundException;
+import com.example.exception.ListEmptyException;
+import com.example.exception.CustomerProfileNotFoundException;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.example.dto.ErrorResponse;
-import com.example.exception.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class MyExceptionHandler {
 
-    private ResponseEntity<ErrorResponse> buildResponse(
-            int status, String message) {
-
-        ErrorResponse response = new ErrorResponse();
-        response.setHttpStatusCode(status);
-        response.setErrormessage(message);
-        return ResponseEntity.status(status).body(response);
+    // ✅ USER NOT FOUND (404)
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleUserNotFoundException(UserNotFoundException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        error.put("status", "404");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(ExceptionEventNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleExceptionEventNotFound(
-            Exception e) {
-        return buildResponse(404, e.getMessage());
+    // ✅ LIST EMPTY (404)
+    @ExceptionHandler(ListEmptyException.class)
+    public ResponseEntity<Map<String, String>> handleListEmptyException(ListEmptyException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        error.put("status", "404");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(ExceptionEventListEmptyException.class)
-    public ResponseEntity<ErrorResponse> handleExceptionEventListEmpty(
-            Exception e) {
-        return buildResponse(404, e.getMessage());
+    // ✅ ✅ CUSTOMER NOT FOUND (FIX ADDED)
+    @ExceptionHandler(CustomerProfileNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleCustomerNotFound(CustomerProfileNotFoundException ex) {
+        Map<String, String>error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        error.put("status", "404");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(ReturnAuthorizationNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleReturnAuthNotFound(
-            Exception e) {
-        return buildResponse(404, e.getMessage());
+    // ✅ RUNTIME EXCEPTION (400)
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        error.put("status", "400");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @ExceptionHandler(ReturnAuthorizationListEmptyException.class)
-    public ResponseEntity<ErrorResponse> handleReturnAuthListEmpty(
-            Exception e) {
-        return buildResponse(404, e.getMessage());
-    }
-
-    @ExceptionHandler(KPIReportNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleKPIReportNotFound(
-            Exception e) {
-        return buildResponse(404, e.getMessage());
-    }
-
-    @ExceptionHandler(KPIReportListEmptyException.class)
-    public ResponseEntity<ErrorResponse> handleKPIReportListEmpty(
-            Exception e) {
-        return buildResponse(404, e.getMessage());
+    // ✅ GENERAL EXCEPTION (500 - better practice)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleException(Exception ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Internal Server Error ❌");
+        error.put("status", "500");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 }

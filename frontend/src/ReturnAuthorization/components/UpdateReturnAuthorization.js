@@ -14,8 +14,13 @@ export default function UpdateReturnAuthorization() {
 
     // ✅ LOAD EXISTING DATA
     useEffect(() => {
+        const token = localStorage.getItem("token");
 
-        axios.get(`http://localhost:9011/api/findReturnAuthorization/${id}`)
+        axios.get(`http://localhost:9011/api/findReturnAuthorization/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+    })
             .then((response) => {
 
                 let r = response.data.returnAuthorization;   // ✅ important
@@ -64,8 +69,13 @@ export default function UpdateReturnAuthorization() {
                 }
             }
         };
+        const token = localStorage.getItem("token");
 
-        axios.put(url, data)
+        axios.put(url, data,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+    })
             .then(() => {
                 alert("✅ Return Authorization updated successfully");
 

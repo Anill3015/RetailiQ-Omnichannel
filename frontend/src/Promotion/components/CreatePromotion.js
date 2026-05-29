@@ -16,28 +16,19 @@ export default function CreatePromotion() {
 
     let save = (event) => {
         event.preventDefault();
-
         if (!name || !rules || !validity || !promotionTypeId) {
-            alert("Please fill all fields");
-            return;
+            alert("Please fill all fields"); return;
         }
 
         let data = {
-            "name": name,
-            "rules": rules,
-            "validity": validity,
-            "promotionType": {
-                "promotionTypeId": Number(promotionTypeId)
-            }
+            "name": name, "rules": rules, "validity": validity,
+            "promotionType": { "promotionTypeId": Number(promotionTypeId) }
         }
 
         axios.post("http://localhost:9011/promotion/add", data)
-            .then((res) => {
+            .then(() => {
                 alert("Promotion created successfully!");
-                setName("");
-                setRules("");
-                setValidity("");
-                setPromotionTypeId("");
+                setName(""); setRules(""); setValidity(""); setPromotionTypeId("");
             })
             .catch((err) => {
                 if (err.response) {
@@ -49,41 +40,37 @@ export default function CreatePromotion() {
     }
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Create Promotion</h2>
             <form onSubmit={save}>
-                <label>Name</label>
-                <input
-                    placeholder="enter promotion name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                /><br />
-
-                <label>Rules</label>
-                <input
-                    placeholder="enter rules"
-                    value={rules}
-                    onChange={(e) => setRules(e.target.value)}
-                /><br />
-
-                <label>Validity</label>
-                <input
-                    placeholder="e.g. 2026-01-01 to 2026-12-31"
-                    value={validity}
-                    onChange={(e) => setValidity(e.target.value)}
-                /><br />
-
-                <label>Promotion Type</label>
-                <select value={promotionTypeId} onChange={(e) => setPromotionTypeId(e.target.value)}>
-                    <option value="">Select Promotion Type</option>
-                    {promotionTypes.map((t) => (
-                        <option key={t.promotionTypeId} value={t.promotionTypeId}>
-                            {t.name}
-                        </option>
-                    ))}
-                </select><br />
-
-                <button type="submit">Add Promotion</button>
+                <div className="mb-3">
+                    <label className="form-label">Name</label>
+                    <input className="form-control" placeholder="enter promotion name"
+                        value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Rules</label>
+                    <input className="form-control" placeholder="enter rules"
+                        value={rules} onChange={(e) => setRules(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Validity</label>
+                    <input className="form-control" placeholder="e.g. 2026-01-01 to 2026-12-31"
+                        value={validity} onChange={(e) => setValidity(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Promotion Type</label>
+                    <select className="form-select" value={promotionTypeId}
+                        onChange={(e) => setPromotionTypeId(e.target.value)}>
+                        <option value="">Select Promotion Type</option>
+                        {promotionTypes.map((t) => (
+                            <option key={t.promotionTypeId} value={t.promotionTypeId}>
+                                {t.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <button type="submit" className="btn btn-primary">Add Promotion</button>
             </form>
         </div>
     );

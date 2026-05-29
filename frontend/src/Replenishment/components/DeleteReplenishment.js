@@ -6,7 +6,10 @@ export default function DeleteReplenishment() {
     const navigate = useNavigate();
 
     const deleteHandler = () => {
-        axios.delete(`http://localhost:9011/api/replenishment/delete/${rid}`)
+        const token = localStorage.getItem("token");
+        axios.delete(`http://localhost:9011/api/replenishment/delete/${rid}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((response) => {
                 alert(response.data);
                 navigate("/Replenishment/findReplenishment");

@@ -22,60 +22,87 @@ export default function CreateReturnAuthorization() {
             return;
         }
 
-        let url = "http://localhost:9011/api/addReturnAuthorization";
+        const url = "http://localhost:9011/api/addReturnAuthorization";
+        const token = localStorage.getItem("token");
 
-        let data = {
+        const data = {
             returnAuthorization: {
-                reason: reason,
-                sku: sku,
-                status: status,
+                reason,
+                sku,
+                status,
                 order: {
-                    orderID: numericOrderId   // ✅ FIXED (IMPORTANT)
+                    orderID: numericOrderId
                 }
             }
         };
 
-        console.log("Sending data:", data); // ✅ Debug
+        console.log("Sending data:", data);
 
-        axios.post(url, data)
-            .then(() => {
-                alert("✅ Return Authorization created successfully");
-
-                setReason("");
-                setSku("");
-                setStatus("");
-                setOrderId("");
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-                alert("❌ Error creating Return Authorization");
-            });
+        axios.post(url, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(() => {
+            alert("✅ Return Authorization created successfully");
+            setReason("");
+            setSku("");
+            setStatus("");
+            setOrderId("");
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            alert("❌ Error creating Return Authorization");
+        });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Create Return Authorization</h2>
 
-            <label>Reason</label>
-            <input value={reason} onChange={(e) => setReason(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Reason</label>
+                <input
+                    className="form-control"
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder="Enter reason"
+                />
+            </div>
 
-            <label>SKU</label>
-            <input value={sku} onChange={(e) => setSku(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">SKU</label>
+                <input
+                    className="form-control"
+                    value={sku}
+                    onChange={(e) => setSku(e.target.value)}
+                    placeholder="Enter SKU"
+                />
+            </div>
 
-            <label>Status</label>
-            <input value={status} onChange={(e) => setStatus(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Status</label>
+                <input
+                    className="form-control"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    placeholder="Enter status"
+                />
+            </div>
 
-            <label>Order ID</label>
-            <input
-                value={orderId}
-                onChange={(e) => setOrderId(e.target.value)}
-            />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Order ID</label>
+                <input
+                    className="form-control"
+                    value={orderId}
+                    onChange={(e) => setOrderId(e.target.value)}
+                    placeholder="Enter numeric order ID"
+                />
+            </div>
 
-            <button onClick={handleCreate}>CREATE</button>
+            <button className="btn btn-warning" onClick={handleCreate}>
+                Create
+            </button>
         </div>
     );
 }

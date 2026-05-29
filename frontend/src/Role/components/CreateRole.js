@@ -4,18 +4,16 @@ import { useState } from 'react';
 export default function CreateRole() {
     const [name, setName] = useState("");
 
-    let saveRole = (event) => {
+    let save = (event) => {
         event.preventDefault();
-
-        if (!name) {
-            alert("Please enter a role name");
-            return;
-        }
-
-        let data = { "name": name }
-
-        axios.post("http://localhost:9011/role/add", data)
-            .then((res) => {
+        if (!name) { alert("Please enter a role name"); return; }
+        const token = localStorage.getItem("token");
+        axios.post("http://localhost:9011/role/add", { "name": name },{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+            .then(() => {
                 alert("Role created successfully!");
                 setName("");
             })
@@ -29,16 +27,19 @@ export default function CreateRole() {
     }
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Create Role</h2>
-            <form onSubmit={saveRole}>
-                <label>Role Name</label>
-                <input
-                    placeholder="enter role name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                /><br />
-                <button type="submit">Add Role</button>
+            <form onSubmit={save}>
+                <div className="mb-3">
+                    <label className="form-label">Role Name</label>
+                    <input
+                        className="form-control"
+                        placeholder="enter role name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </div>
+                <button type="submit" className="btn btn-primary">Add Role</button>
             </form>
         </div>
     );

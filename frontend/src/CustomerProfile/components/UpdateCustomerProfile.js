@@ -10,8 +10,15 @@ export default function UpdateCustomerProfile() {
     const [email, setEmail] = useState("");
     const [preferences, setPreferences] = useState("");
 
+    const nameHandler = (e) => setName(e.target.value);
+    const emailHandler = (e) => setEmail(e.target.value);
+    const preferencesHandler = (e) => setPreferences(e.target.value);
+
     useEffect(() => {
-        axios.get(`http://localhost:9011/api/customer/find/${cpid}`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/api/customer/find/${cpid}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((response) => {
                 const c = response.data;
                 setName(c.name || "");
@@ -19,8 +26,13 @@ export default function UpdateCustomerProfile() {
                 setPreferences(c.preferences || "");
             })
             .catch((error) => {
-                console.error("Fetch Error:", error);
-                alert("Error fetching customer data");
+                if (error.response) {
+                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                } else if (error.request) {
+                    alert("No response from server. Make sure the backend is running on port 9011.");
+                } else {
+                    alert("Error: " + error.message);
+                }
             });
     }, [cpid]);
 
@@ -41,42 +53,49 @@ export default function UpdateCustomerProfile() {
         };
 
         axios.put(url, data, {
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: { "Content-Type": "application/json" }
         })
         .then((response) => {
             alert("Customer Updated! " + response.data.message);
             navigate("/CustomerProfile/findCustomerProfile");
         })
         .catch((error) => {
-            console.error("Update Error:", error.response?.data || error.message);
-            alert("Update Failed: " + (error.response?.data?.message || error.message));
+            if (error.response) {
+                alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+            } else if (error.request) {
+                alert("No response from server. Make sure the backend is running on port 9011.");
+            } else {
+                alert("Error: " + error.message);
+            }
         });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Update Customer Profile</h2>
 
-            <label>ID</label>
-            <input type="text" value={cpid} readOnly />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Customer ID</label>
+                <input className="form-control" type="text" value={cpid} readOnly />
+            </div>
 
-            <label>Name</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Name</label>
+                <input className="form-control" type="text" value={name} onChange={nameHandler} placeholder="Enter name" />
+            </div>
 
-            <label>Email</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Email</label>
+                <input className="form-control" type="email" value={email} onChange={emailHandler} placeholder="Enter email" />
+            </div>
 
-            <label>Preferences</label>
-            <input type="text" value={preferences} onChange={(e) => setPreferences(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Preferences</label>
+                <input className="form-control" type="text" value={preferences} onChange={preferencesHandler} placeholder="Enter preferences" />
+            </div>
 
-            <button onClick={updateHandler}>UPDATE</button>
-            <button onClick={() => navigate("/CustomerProfile/findCustomerProfile")}>Cancel</button>
+            <button className="btn btn-primary me-2" onClick={updateHandler}>Update</button>
+            <button className="btn btn-secondary" onClick={() => navigate("/CustomerProfile/findCustomerProfile")}>Cancel</button>
         </div>
     );
 }
