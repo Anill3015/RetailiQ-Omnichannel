@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap-icons/font/bootstrap-icons.css'; // ✅ Add this
 
 // ✅ Auto add JWT token to every axios request
 axios.interceptors.request.use((config) => {
@@ -17,19 +17,18 @@ axios.interceptors.request.use((config) => {
     return config;
 });
 
-// Redirect to login on 401/403
+// ✅ Only redirect on 401 (token expired) not 403
 axios.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response &&
-            (error.response.status === 401 ||
-             error.response.status === 403)) {
+        if (error.response && error.response.status === 401) {
             localStorage.clear();
             window.location.href = "/login";
         }
         return Promise.reject(error);
     }
 );
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <App />
