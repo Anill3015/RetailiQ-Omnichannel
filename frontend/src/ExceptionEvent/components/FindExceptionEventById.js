@@ -5,12 +5,16 @@ export default function FindExceptionEventById() {
 
     const [id, setId] = useState("");
     const [event, setEvent] = useState(null);
-    const [error, setError] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
 
     const handleSearch = () => {
 
+        setErrorMsg("");
+        setEvent(null);
+
+        // ✅ Validation
         if (!id) {
-            alert("Please enter an ID");
+            setErrorMsg("⚠️ Please enter Exception Event ID");
             return;
         }
 
@@ -24,12 +28,23 @@ export default function FindExceptionEventById() {
         .then((response) => {
             const e = response.data.exceptionEvent;
             setEvent(e);
-            setError("");
         })
         .catch((err) => {
             console.error(err);
             setEvent(null);
-            setError("Record not found ❌");
+
+            // ✅ Proper backend error handling
+            if (err.response && err.response.data) {
+                if (err.response.data.message) {
+                    setErrorMsg(err.response.data.message);
+                } else if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else {
+                    setErrorMsg("Record not found");
+                }
+            } else {
+                setErrorMsg("Record not found");
+            }
         });
     };
 
@@ -37,22 +52,36 @@ export default function FindExceptionEventById() {
         <div className="container mt-4">
             <h2>Find Exception Event By ID</h2>
 
+            {/* ✅ Error Message */}
+            {errorMsg && (
+                <div className="alert alert-danger">{errorMsg}</div>
+            )}
+
             <div className="mb-3">
-                <label className="form-label">Enter ID</label>
+                <label className="form-label">
+                    Enter ID <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     className="form-control"
                     value={id}
-                    onChange={(e) => setId(e.target.value)}
+                    onChange={(e) => {
+                        setId(e.target.value);
+                        setErrorMsg("");
+                    }}
                     placeholder="Enter Exception ID"
                 />
+                {!id && errorMsg && (
+                    <small className="text-danger">
+                        Exception Event ID is required
+                    </small>
+                )}
             </div>
 
             <button className="btn btn-primary" onClick={handleSearch}>
                 Search
             </button>
 
-            {error && <div className="alert alert-danger mt-3">{error}</div>}
-
+            {/* ✅ Result Table */}
             {event && (
                 <table className="table table-bordered table-striped mt-3">
                     <tbody>
@@ -60,22 +89,27 @@ export default function FindExceptionEventById() {
                             <th>ID</th>
                             <td>{event.exceptionId}</td>
                         </tr>
+
                         <tr>
                             <th>Type</th>
                             <td>{event.type}</td>
                         </tr>
+
                         <tr>
                             <th>Reference ID</th>
                             <td>{event.referenceId}</td>
                         </tr>
+
                         <tr>
                             <th>Severity</th>
                             <td>{event.severity}</td>
                         </tr>
+
                         <tr>
                             <th>Status</th>
                             <td>{event.status}</td>
                         </tr>
+
                         <tr>
                             <th>Detected Date</th>
                             <td>{event.detectedDate}</td>

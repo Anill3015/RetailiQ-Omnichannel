@@ -34,7 +34,7 @@ export default function Register() {
             "password": password,
             "phone": phone,
             "username": username,
-            "role": { "name": role }
+            "role": { "roleId": role } 
         })
         .then(() => {
             setSuccess("Account created successfully! Redirecting to login...");
