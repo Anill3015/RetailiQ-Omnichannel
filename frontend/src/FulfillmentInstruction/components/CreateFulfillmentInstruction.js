@@ -49,32 +49,41 @@ export default function CreateFulfillmentInstruction(){
         })
     }
     return(
-        <div>
+        <div className="container mt-4">
             <h1>CreateFulfillmentInstruction</h1>
-
-             <label>order ID</label>
-                <input onChange={orderHandler}></input>
+<div className="mb-3">
+             <label className="form-label">order ID</label>
+                <input   className="form-control" onChange={orderHandler}></input>
                 <br></br>
+                </div>
 
                
-
-                <label>source Location ID</label>
-                <input onChange={sourceLocationIDHandler}></input>
+<div className="mb-3">
+                <label className="form-label">source Location ID</label>
+                <input   className="form-control" onChange={sourceLocationIDHandler}></input>
                 <br></br>
-                <label>destination</label>
-                <input onChange={destinationHandler}></input>
+                </div>
+
+                <div className="mb-3">
+                <label className="form-label">destination</label>
+                <input  className="form-control"  onChange={destinationHandler}></input>
                 <br></br>
-               
-                 <label>SKU</label>
-                <input onChange={skuHandler}></input>
+                </div>
+               <div className="mb-3">
+                 <label className="form-label">SKU</label>
+                <input  className="form-control"  onChange={skuHandler}></input>
                 <br></br>
-                 <label>quantity</label>
-                <input onChange={quantityHandler}></input>
+                </div>
+
+                <div className="mb-3">
+                 <label className="form-label">quantity</label>
+                <input  className="form-control"  onChange={quantityHandler}></input>
                 <br></br>
+                </div>
 
 
 
-                <button onClick={saveHandler}>save</button>
+                <button className="btn btn-primary" onClick={saveHandler}>save</button>
         </div>
     )
 }

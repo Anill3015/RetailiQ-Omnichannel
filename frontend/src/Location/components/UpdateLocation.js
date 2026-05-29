@@ -53,24 +53,28 @@ export default function UpdateLocation() {
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Update Location</h2>
-
+<div className="mb-3">
             <label>Location ID</label>
             <input type="text" value={lid} readOnly />
             <br />
-
+            </div>
+<div className="mb-3">
             <label>Name</label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
             <br />
-
+            </div>
+<div className="mb-3">
             <label>Type</label>
             <input type="text" value={type} onChange={(e) => setType(e.target.value)} />
             <br />
-
+            </div>
+<div className="mb-3">
             <label>Region</label>
             <input type="text" value={region} onChange={(e) => setRegion(e.target.value)} />
             <br />
+            </div>
 
             <button onClick={updateHandler}>UPDATE</button>
             <button onClick={() => navigate("/Location/findLocation")}>Cancel</button>

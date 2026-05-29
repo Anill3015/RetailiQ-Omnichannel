@@ -64,27 +64,33 @@ export default function UpdateFulfillmentInstruction(){
     },[eid])
 
     return(
-        <div>
+        <div className="container mt-4">
             <h1>UpdateFulfillmentInstruction</h1>
+            <div className="mb-3">
              <label>order ID</label>
             <input value={orderID} onChange={orderHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>source location ID</label>
             <input value={sourceLocationID} onChange={sourceLocationIDHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>destination</label>
             <input value={destination} onChange={destinationHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>sku</label>
             <input value={sku} onChange={skuHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>quantity</label>
             <input value={quantity} onChange={quantityHandler}></input>
             <br></br>
+            </div>
 
             <button onClick={updateButtonhandler}>update</button>
         </div>

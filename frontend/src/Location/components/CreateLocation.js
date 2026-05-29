@@ -33,22 +33,25 @@ export default function CreateLocation() {
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Create Location</h2>
-
-            <label>Name</label>
-            <input type="text" placeholder="e.g. Store A" onChange={(e) => setName(e.target.value)} />
+            <div className="mb-3">
+            <label className="form-label">Name</label>
+            <input  className="form-control" type="text" placeholder="e.g. Store A" onChange={(e) => setName(e.target.value)} />
             <br />
-
-            <label>Type</label>
-            <input type="text" placeholder="e.g. Store / DC" onChange={(e) => setType(e.target.value)} />
+            </div>
+<div className="mb-3">
+            <label className="form-label">Type</label>
+            <input   className="form-control" type="text" placeholder="e.g. Store / DC" onChange={(e) => setType(e.target.value)} />
             <br />
-
-            <label>Region</label>
-            <input type="text" placeholder="e.g. North" onChange={(e) => setRegion(e.target.value)} />
+            </div>
+<div className="mb-3">
+            <label className="form-label">Region</label>
+            <input  className="form-control"  type="text" placeholder="e.g. North" onChange={(e) => setRegion(e.target.value)} />
             <br />
+            </div>
 
-            <button onClick={saveHandler}>SAVE</button>
+            <button className="btn btn-primary" onClick={saveHandler}>SAVE</button>
         </div>
     );
 }

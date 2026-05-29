@@ -16,10 +16,11 @@ export default function FindLocation() {
     }, []);
 
     return (
-        <div>
-            <h2>All Locations</h2>
-            <table border="1">
-                <thead>
+        <div className="container mt-4">
+            <h2 className="mb-3">All Locations</h2>
+            <div className="table-responsive">
+            <table className="table table-bordered table-striped table-hover align-middle">
+                <thead className="table-dark">
                     <tr>
                         <th>Location ID</th>
                         <th>Name</th>
@@ -36,14 +37,15 @@ export default function FindLocation() {
                             <td>{l.type}</td>
                             <td>{l.region}</td>
                             <td>
-                                <Link to={`/Location/updateLocation/${l.locationId}`}>Edit</Link>
+                                <Link to={`/Location/updateLocation/${l.locationId}`} className="btn btn-danger btn-sm me-2">Edit</Link>
                                 {" | "}
-                                <Link to={`/Location/deleteLocation/${l.locationId}`}>Delete</Link>
+                                <Link to={`/Location/deleteLocation/${l.locationId}`}  className="btn btn-warning btn-sm">Delete</Link>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+        </div>
         </div>
     );
 }

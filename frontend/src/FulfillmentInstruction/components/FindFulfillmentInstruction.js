@@ -18,10 +18,11 @@ export default function FindFulfillmentInstruction() {
     }, []);
 
     return (
-        <div>
-            <h1>FindFulfillmentInstruction</h1>
-            <table border="1">
-                <thead>
+        <div className="container mt-4">
+            <h1 className="mb-3">FindFulfillmentInstruction</h1>
+            <div className="table-responsive">
+            <table className="table table-bordered table-striped table-hover align-middle">
+                <thead className="table-dark">
                     <tr>
                         <th>Instruction ID</th>
                         <th>Order ID</th>
@@ -48,8 +49,8 @@ export default function FindFulfillmentInstruction() {
                                         <td>{e.destination}</td>
                                         <td>{e.status}</td>
                                         <td colSpan="2">No items</td>
-                                        <td><Link to={"/FulfillmentInstruction/deleteFulfillmentInstruction/" + e.instructionID}>Delete</Link></td>
-                                        <td><Link to={"/FulfillmentInstruction/updateFulfillmentInstruction/" + e.instructionID}>Edit</Link></td>
+                                        <td><Link to={"/FulfillmentInstruction/deleteFulfillmentInstruction/" + e.instructionID} className="btn btn-danger btn-sm me-2">Delete</Link></td>
+                                        <td><Link to={"/FulfillmentInstruction/updateFulfillmentInstruction/" + e.instructionID}   className="btn btn-warning btn-sm">Edit</Link></td>
                                     </tr>
                                 )];
                             }
@@ -73,6 +74,7 @@ export default function FindFulfillmentInstruction() {
                     }
                 </tbody>
             </table>
+        </div>
         </div>
     );
 }
