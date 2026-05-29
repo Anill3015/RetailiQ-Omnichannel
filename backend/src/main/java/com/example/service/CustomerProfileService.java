@@ -62,8 +62,10 @@ public class CustomerProfileService {
     }
 
     public CustomerProfile findCustomerProfileById(Long customerId) {
-        return repository.findById(customerId)
-                .orElseThrow(() -> new CustomerProfileNotFoundException(customerId));
+    	return repository.findById(customerId)
+    	        .orElseThrow(() -> new CustomerProfileNotFoundException(customerId));
+    	
+            
     }
 
     public List<CustomerProfile> getAllCustomerProfiles() {

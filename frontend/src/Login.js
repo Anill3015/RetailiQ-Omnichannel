@@ -195,6 +195,16 @@ export default function Login() {
                             </button>
                         </div>
 
+                        {/* ✅ Register link */}
+                        <p className="text-center text-muted small mb-0 mt-2">
+                            Don't have an account?{" "}
+                            <Link to="/register"
+                                className="fw-medium text-decoration-none"
+                                style={{ color: '#1e3a5f' }}>
+                                Register
+                            </Link>
+                        </p>
+
                     </form>
                 </div>
 

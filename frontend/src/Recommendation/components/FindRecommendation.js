@@ -8,7 +8,10 @@ export default function FindRecommendation() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get("http://localhost:9011/api/recommendation/fetchAll")
+        const token = localStorage.getItem("token");
+        axios.get("http://localhost:9011/api/recommendation/fetchAll", {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((response) => {
                 setRecommendations(response.data);
                 setError("");

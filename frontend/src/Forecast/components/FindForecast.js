@@ -6,7 +6,10 @@ export default function FindForecast() {
     const [forecasts, setForecasts] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:9011/api/forecast/fetchAll")
+        const token = localStorage.getItem("token");
+        axios.get("http://localhost:9011/api/forecast/fetchAll", {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((response) => {
                 setForecasts(response.data);
             })

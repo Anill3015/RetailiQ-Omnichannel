@@ -8,6 +8,7 @@ import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap-icons/font/bootstrap-icons.css'; // ✅ Add this
 
 // ✅ Auto add JWT token to every axios request
 axios.interceptors.request.use((config) => {

@@ -6,7 +6,8 @@ export default function FindCustomerProfile() {
     const [customers, setCustomers] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:9011/api/customer/fetchAll")
+        const token = localStorage.getItem("token");
+        axios.get("http://localhost:9011/api/customer/fetchAll",{headers: { "Authorization": `Bearer ${token}` }})
             .then((response) => {
                 setCustomers(response.data);
             })

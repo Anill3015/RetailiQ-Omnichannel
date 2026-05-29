@@ -13,8 +13,10 @@ export default function FindForecastById() {
             alert("Please enter a Forecast ID");
             return;
         }
-
-        axios.get(`http://localhost:9011/api/forecast/find/${forecastId}`)
+       const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/api/forecast/find/${forecastId}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
             .then((response) => {
                 setForecast(response.data);
                 setError("");

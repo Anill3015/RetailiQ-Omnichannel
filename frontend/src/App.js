@@ -144,12 +144,16 @@ import FindProduct from './Product/components/FindProduct';
 import FindProductById from './Product/components/FindProductById';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
+import Register from './Register';
 
 function App() {
   return (
     <Router>
       <Routes>
+        
 
+
+        <Route path="/register" element={<Register />} />
         {/* ✅ Public Routes */}
         <Route path="/"      element={<Login />} />
         <Route path="/login" element={<Login />} />
