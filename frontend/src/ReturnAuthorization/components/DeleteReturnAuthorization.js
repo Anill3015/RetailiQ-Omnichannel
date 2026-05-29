@@ -12,10 +12,15 @@ export default function DeleteReturnAuthorization() {
     useEffect(() => {
 
         const confirmDelete = window.confirm("Are you sure you want to delete this Return Authorization?");
+        const token = localStorage.getItem("token");
 
         if (confirmDelete) {
 
-            axios.delete(`http://localhost:9011/api/deleteReturnAuthorization/${id}`)
+            axios.delete(`http://localhost:9011/api/deleteReturnAuthorization/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
                 .then(() => {
                     setStatus("✅ Return Authorization deleted successfully");
 

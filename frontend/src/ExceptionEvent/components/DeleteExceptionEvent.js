@@ -12,10 +12,14 @@ export default function DeleteExceptionEvent() {
     useEffect(() => {
 
         let confirmDelete = window.confirm("Are you sure you want to delete this record?");
-
+        const token = localStorage.getItem("token");
         if (confirmDelete) {
 
-            axios.delete(`http://localhost:9011/api/deleteExceptionEvent/${id}`)
+            axios.delete(`http://localhost:9011/api/deleteExceptionEvent/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
                 .then(() => {
                     setStatus("✅ Deleted successfully");
 

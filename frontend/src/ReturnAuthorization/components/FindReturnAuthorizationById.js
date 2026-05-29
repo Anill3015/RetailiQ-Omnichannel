@@ -5,6 +5,7 @@ export default function FindReturnAuthorizationById() {
 
     const [id, setId] = useState("");
     const [data, setData] = useState(null);
+    const [error, setError] = useState("");
 
     const handleSearch = () => {
 
@@ -13,74 +14,75 @@ export default function FindReturnAuthorizationById() {
             return;
         }
 
-        axios.get(`http://localhost:9011/api/findReturnAuthorization/${id}`)
-            .then((response) => {
+        const token = localStorage.getItem("token");
 
-                const rma = response.data.returnAuthorization;
-                setData(rma);
-
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("Record not found");
-                setData(null);
-            });
+        axios.get(`http://localhost:9011/api/findReturnAuthorization/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then((response) => {
+            const rma = response.data.returnAuthorization;
+            setData(rma);
+            setError("");
+        })
+        .catch((error) => {
+            console.error(error);
+            setData(null);
+            setError("Record not found ❌");
+        });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Find Return Authorization By ID</h2>
 
-            <div>
-                <label>Enter RMA ID: </label>
+            <div className="mb-3">
+                <label className="form-label">Enter RMA ID</label>
                 <input
                     type="number"
+                    className="form-control"
                     value={id}
                     onChange={(e) => setId(e.target.value)}
+                    placeholder="Enter RMA ID"
                 />
-                <button onClick={handleSearch}>Search</button>
             </div>
 
-            <br />
+            <button className="btn btn-primary" onClick={handleSearch}>
+                Search
+            </button>
+
+            {error && <div className="alert alert-danger mt-3">{error}</div>}
 
             {data && (
-                <table border="1" cellPadding="6">
-                    <thead>
-                        <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-
+                <table className="table table-bordered table-striped mt-3">
                     <tbody>
-
                         <tr>
-                            <td>RMA ID</td>
+                            <th>RMA ID</th>
                             <td>{data.rmaId}</td>
                         </tr>
 
                         <tr>
-                            <td>Order ID</td>
+                            <th>Order ID</th>
                             <td>
                                 {data.order ? data.order.orderID : "N/A"}
                             </td>
                         </tr>
 
                         <tr>
-                            <td>SKU</td>
+                            <th>SKU</th>
                             <td>{data.sku}</td>
                         </tr>
 
                         <tr>
-                            <td>Reason</td>
+                            <th>Reason</th>
                             <td>{data.reason}</td>
                         </tr>
 
                         <tr>
-                            <td>Status</td>
+                            <th>Status</th>
                             <td>{data.status}</td>
                         </tr>
-
                     </tbody>
                 </table>
             )}

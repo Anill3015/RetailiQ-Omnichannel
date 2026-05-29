@@ -21,24 +21,25 @@ export default function CreateCustomerProfile() {
             customerProfile: { name, email, preferences }
         };
 
+        const token = localStorage.getItem("token");
+
         axios.post(url, data, {
-            headers: { "Content-Type": "application/json" }
-        })
-        .then((response) => {
-            alert("Customer Profile Saved! " + response.data.message);
-            setName("");
-            setEmail("");
-            setPreferences("");
-        })
-        .catch((error) => {
-            if (error.response) {
-                alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
-            } else if (error.request) {
-                alert("No response from server. Make sure the backend is running on port 9011.");
-            } else {
-                alert("Error: " + error.message);
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
-        });
+        })
+            .then((response) => {
+                alert("Customer Profile Saved! " + response.data.message);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                } else if (error.request) {
+                    alert("No response from server. Make sure the backend is running on port 9011.");
+                } else {
+                    alert("Error: " + error.message);
+                }
+            });
     };
 
     return (

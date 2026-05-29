@@ -14,8 +14,13 @@ export default function UpdateExceptionEvent() {
 
     // ✅ LOAD EXISTING DATA
     useEffect(() => {
+        const token = localStorage.getItem("token");
 
-    axios.get(`http://localhost:9011/api/findExceptionEvent/${id}`)
+    axios.get(`http://localhost:9011/api/findExceptionEvent/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+    })
         .then((response) => {
 
             // ✅ FIX HERE
@@ -37,7 +42,7 @@ export default function UpdateExceptionEvent() {
     const updateHandler = () => {
 
         let url = `http://localhost:9011/api/updateExceptionEvent/${id}`;
-
+        const token = localStorage.getItem("token");
         let data = {
             exceptionEvent: {
                 type: type,
@@ -47,7 +52,11 @@ export default function UpdateExceptionEvent() {
             }
         };
 
-        axios.put(url, data)
+        axios.put(url, data,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+    })
             .then(() => {
                 alert("Updated successfully ✅");
                 navigate("/ExceptionEvent/findAllExceptionEvent");
