@@ -9,7 +9,7 @@ export default function CreateProduct() {
     let save = (event) => {
         event.preventDefault();
         if (!sku || !name || !category) { alert("Please fill all fields"); return; }
-        let token = localStorage.getItem();
+        let token = localStorage.getItem("token");
         axios.post("http://localhost:9011/product/add", 
             { "sku": sku, "name": name, "category": category },{
             headers:{
