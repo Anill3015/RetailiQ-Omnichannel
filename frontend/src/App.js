@@ -167,7 +167,7 @@ function App() {
         {/* ✅ Forecast */}
         <Route path="Forecast" element={<ProtectedRoute><ForecastHome /></ProtectedRoute>}>
             <Route path="createForecast"       element={<CreateForecast />} />
-            <Route path="deleteForecast"       element={<DeleteForecast />} />
+            <Route path="deleteForecast/:fcid"       element={<DeleteForecast />} />
             <Route path="FindForecastById"     element={<FindForecastById />} />
             <Route path="findForecast"         element={<FindForecast />} />
             <Route path="updateForecast/:fcid" element={<UpdateForecast />} />

@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 export default function FindForecast() {
     const [forecasts, setForecasts] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchForecasts();
@@ -34,32 +35,6 @@ export default function FindForecast() {
                 setError("Error: " + error.message);
             }
             setLoading(false);
-        });
-    };
-
-    const deleteHandler = (fcid) => {
-        if (!window.confirm(`Are you sure you want to delete Forecast ID: ${fcid}?`)) return;
-
-        const token = localStorage.getItem("token");
-        axios.delete(`http://localhost:9011/api/forecast/delete/${fcid}`, {
-            headers: { "Authorization": `Bearer ${token}` }
-        })
-        .then(() => {
-            alert("Forecast deleted successfully!");
-            fetchForecasts();
-        })
-        .catch((error) => {
-            if (error.response) {
-                if (error.response.status === 403 || error.response.status === 404) {
-                    alert("Record not found with ID: " + fcid);
-                } else {
-                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
-                }
-            } else if (error.request) {
-                alert("No response from server. Make sure the backend is running on port 9011.");
-            } else {
-                alert("Error: " + error.message);
-            }
         });
     };
 
@@ -106,7 +81,7 @@ export default function FindForecast() {
                                         </Link>
                                         <button
                                             className="btn btn-danger btn-sm"
-                                            onClick={() => deleteHandler(f.forecastId)}
+                                            onClick={() => navigate(`/Forecast/deleteForecast/${f.forecastId}`)}
                                         >
                                             Delete
                                         </button>
