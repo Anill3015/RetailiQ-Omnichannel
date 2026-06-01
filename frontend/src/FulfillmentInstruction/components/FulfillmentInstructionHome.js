@@ -1,5 +1,11 @@
-import {Link, Outlet} from 'react-router'
+import {Link, Outlet, useNavigate} from 'react-router'
+
 export default function FulfillmentInstructionHome(){
+    let navigate = useNavigate();
+    const logout = () => {
+        localStorage.clear();
+        navigate("/login");
+    }
 
     return (
         <div>
@@ -20,6 +26,7 @@ export default function FulfillmentInstructionHome(){
                         <Link className="nav-link" to="updateFulfillmentInstruction">Update FulfillmentInstruction</Link>
  
                     </li>
+                    <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
                    
                 </ul>
                 </div>
