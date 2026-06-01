@@ -1,6 +1,11 @@
-import { Link, Outlet } from 'react-router';
+import { Link, Outlet , useNavigate} from 'react-router';
 
 export default function OrderHome() {
+    let navigate = useNavigate();
+    const logout = () => {
+        localStorage.clear();
+        navigate("/login");
+    }
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -13,6 +18,7 @@ export default function OrderHome() {
                     <li className="nav-item"><Link className="nav-link" to="findOrderById">Find Order By ID</Link></li>
                     <li className="nav-item"><Link className="nav-link" to="updateOrder">Update Order</Link></li>
                     <li className="nav-item"><Link className="nav-link" to="deleteOrder">Delete Order</Link></li>
+                     <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
                 </ul>
                 </div>
             </nav>

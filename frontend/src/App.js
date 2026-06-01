@@ -297,7 +297,6 @@ function App() {
         <Route path="Product" element={<ProtectedRoute><ProductHome /></ProtectedRoute>}>
             <Route path="createProduct"     element={<CreateProduct />} />
             <Route path="findProduct"       element={<FindProduct />} />
-            <Route path="findProductById"   element={<FindProductById />} />
             <Route path="editProduct/:id"   element={<UpdateProduct />} />
             <Route path="deleteProduct/:id" element={<DeleteProduct />} />
         </Route>
