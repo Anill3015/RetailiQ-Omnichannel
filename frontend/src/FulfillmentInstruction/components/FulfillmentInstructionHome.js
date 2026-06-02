@@ -1,5 +1,8 @@
 import {Link, Outlet, useNavigate} from 'react-router'
 
+import { FaHome } from "react-icons/fa";
+
+
 export default function FulfillmentInstructionHome(){
     let navigate = useNavigate();
     const logout = () => {
@@ -9,8 +12,14 @@ export default function FulfillmentInstructionHome(){
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav style={{ display: "flex", gap: "20px", padding: "10px" }} className="navbar navbar-expand-lg navbar-dark bg-dark">
+
                 <div className='container-fluid'>
+                    
+<Link to="/home" style={{ fontSize: "22px" }}>
+        <FaHome />
+      </Link>
+
                     <Link to="/FulfillmentInstruction" className="navbar-brand">Fulfillment Instructions</Link>
                 <ul className="navbar-nav">
                     <li className="nav-item">
