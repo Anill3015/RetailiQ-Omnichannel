@@ -27,6 +27,12 @@ public class LoginController {
     public Map<String, String> login(@RequestBody User loginRequest) {
         // ✅ Find user by username
         User user = userService.findByUsername(loginRequest.getUsername());
+        
+
+		if (!"APPROVED".equalsIgnoreCase(user.getStatus())) {
+		    throw new RuntimeException("Your account is not approved yet");
+		}
+
 
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid password");

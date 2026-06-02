@@ -84,11 +84,13 @@ public class UserService {
     }
 
     // ✅ Added
-    public User findByUsername(String username) {
-        return repository.findByUsername(username)
-                .orElseThrow(() ->
-                        new RuntimeException("User not found with username: " + username));
-    }
+
+	public User findByUsername(String username) {
+	    return repository.findByUsername(username)
+	            .orElseThrow(() ->
+	                    new RuntimeException("User not found"));
+	}
+
 
     @Transactional
     public void delete(Long id) {
@@ -114,16 +116,54 @@ public class UserService {
     }
     @Transactional
     public User register(User user) {
+
+        // ✅ Check duplicate username
+        if (repository.findByUsername(user.getUsername()).isPresent()) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        // ✅ Check duplicate email
+        if (repository.findByEmail(user.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
+        }
+
         // ✅ Resolve role
         if (user.getRole() != null && user.getRole().getRoleId() != null) {
-            Role managedRole = roleRepository.findById(user.getRole().getRoleId())
-                    .orElseThrow(() ->
-                            new RuntimeException("Role not found"));
-            user.setRole(managedRole);
+            Role role = roleRepository.findById(user.getRole().getRoleId())
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+
+            // ❌ Block admin self-register
+            if ("ADMIN".equalsIgnoreCase(role.getName())) {
+                throw new RuntimeException("You cannot register as ADMIN");
+            }
+
+            user.setRole(role);
         }
-        // ✅ Save without audit log
-        return repository. save(user);
+
+        // ✅ Set status
+        user.setStatus("PENDING");
+
+        return repository.save(user);
     }
+    
+
+    public List<User> getPendingUsers() {
+        return repository.findByStatus("PENDING");
+    }
+
+    @Transactional
+    public void approveUser(Long id) {
+        User user = getById(id);
+        user.setStatus("APPROVED");
+    }
+
+    @Transactional
+    public void rejectUser(Long id) {
+        User user = getById(id);
+        user.setStatus("REJECTED");
+    }
+
+    
     private void logAction(String action, User user) {
         AuditLog log = new AuditLog();
         log.setAction(action);

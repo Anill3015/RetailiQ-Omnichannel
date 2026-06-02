@@ -41,13 +41,29 @@ export default function Register() {
             setTimeout(() => navigate("/login"), 2000);
         })
         .catch((err) => {
-            if (err.response && err.response.status === 400) {
-                setError("Username already exists. Please use a different username.");
+            console.error(err);
+
+            if (err.response && err.response.data) {
+                if (typeof err.response.data === "string") {
+                    setError(err.response.data);
+                } 
+                else if (err.response.data.message) {
+                    setError(err.response.data.message);
+                } 
+                else if (err.response.data.error) {
+                    setError(err.response.data.error);
+                } 
+                else {
+                    setError("Registration failed");
+                }
             } else {
-                setError("Registration failed. Please try again.");
+                setError("Registration failed");
             }
+
             setLoading(false);
         });
+
+
     }
 
     return (
@@ -260,13 +276,13 @@ export default function Register() {
                                         background: '#f8fafc', color: '#1e293b' }}
                                     onChange={(e) => { setRole(e.target.value); setError(""); }}>
                                     <option value="">Select role</option>
-                                    <option value="ADMIN">Admin</option>
-                                    <option value="STORE_ASSOCIATE">Store Associate</option>
-                                    <option value="ECOMMERCE_MANAGER">Ecommerce Manager</option>
-                                    <option value="INVENTORY_PLANNER">Inventory Planner</option>
-                                    <option value="FULFILLMENT_MANAGER">Fulfillment Manager</option>
-                                    <option value="CUSTOMER_SERVICE_AGENT">Customer Service Agent</option>
-                                    <option value="MARKETING_MANAGER">Marketing Manager</option>
+                                    <option value="2">Store Associate</option>
+                                    <option value="3">Ecommerce Manager</option>
+                                    <option value="4">Inventory Planner</option>
+                                    <option value="5">Fulfillment Manager</option>
+                                    <option value="6">Customer Service Agent</option>
+                                    <option value="7">Marketing Manager</option>
+
                                 </select>
                             </div>
                         </div>
