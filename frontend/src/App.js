@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router';
 
@@ -205,9 +204,9 @@ function App() {
         {/* ✅ FulfillmentInstruction */}
         <Route path="FulfillmentInstruction" element={<ProtectedRoute><FulfillmentInstructionHome /></ProtectedRoute>}>
             <Route path="createFulfillmentInstruction" element={<CreateFulfillmentInstruction />} />
-            <Route path="deleteFulfillmentInstruction" element={<DeleteFulfillmentInstruction />} />
+            <Route path="deleteFulfillmentInstruction/:id" element={<DeleteFulfillmentInstruction />} />
             <Route path="findFulfillmentInstruction"   element={<FindFulfillmentInstruction />} />
-            <Route path="updateFulfillmentInstruction" element={<UpdateFulfillmentInstruction />} />
+            <Route path="updateFulfillmentInstruction/:id" element={<UpdateFulfillmentInstruction />} />
         </Route>
 
         {/* ✅ IntegrationEndpoint */}

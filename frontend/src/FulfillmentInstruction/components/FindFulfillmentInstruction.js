@@ -6,8 +6,13 @@ export default function FindFulfillmentInstruction() {
     let [fulArr, setFulArr] = useState([]);
 
     useEffect(() => {
+                const token = localStorage.getItem("token");
         let url = "http://localhost:9011/fulfillments/findAll";
-        axios.get(url)
+        axios.get(url, {
+            headers:{
+                Authorization: "Bearer" + token
+            }
+        })
             .then((res) => {
                 console.log(res.data);
                 setFulArr(res.data);
@@ -39,7 +44,6 @@ export default function FindFulfillmentInstruction() {
                     {
                         fulArr.flatMap((e) => {
 
-                            // Instructions with no items — show one row with "No items"
                             if (!e.items || e.items.length === 0) {
                                 return [(
                                     <tr key={e.instructionID}>
@@ -58,7 +62,6 @@ export default function FindFulfillmentInstruction() {
                             // Instructions with items — one row per item
                             return e.items.map((item, index) => (
                                 <tr key={e.instructionID + "-" + index}>
-                                    {/* Show instruction-level data only on the first item row */}
                                     <td>{index === 0 ? e.instructionID : ""}</td>
                                     <td>{index === 0 ? e.orderID : ""}</td>
                                     <td>{index === 0 ? e.sourceLocationID : ""}</td>
@@ -66,8 +69,8 @@ export default function FindFulfillmentInstruction() {
                                     <td>{index === 0 ? e.status : ""}</td>
                                     <td>{item.sku}</td>
                                     <td>{item.quantity}</td>
-                                    <td>{index === 0 ? <Link to={"/fulfillment/delete/" + e.instructionID}>Delete</Link> : ""}</td>
-                                    <td>{index === 0 ? <Link to={"/fulfillment/update/" + e.instructionID}>Edit</Link> : ""}</td>
+                                    <td>{index === 0 ? <Link to={"/FulfillmentInstruction/deleteFulfillmentInstruction/" + e.instructionID}>Delete</Link> : ""}</td>
+                                    <td>{index === 0 ? <Link to={"/fulfillment/updateFulfillmentInstruction/" + e.instructionID}>Edit</Link> : ""}</td>
                                 </tr>
                             ));
                         })
