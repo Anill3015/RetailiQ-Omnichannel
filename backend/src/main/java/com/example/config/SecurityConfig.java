@@ -270,6 +270,10 @@ public class SecurityConfig {
                                 "INVENTORY_PLANNER", "FULFILLMENT_MANAGER",
                                 "CUSTOMER_SERVICE_AGENT", "MARKETING_MANAGER"
                         )
+                        .requestMatchers("/user/pending/**").hasRole("ADMIN")
+                        .requestMatchers("/user/approve/**").hasRole("ADMIN")
+                        .requestMatchers("/user/reject/**").hasRole("ADMIN")
+                        
 
                         // ── Any other request must be authenticated ───────────────────
                         .anyRequest().authenticated()

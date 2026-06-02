@@ -5,12 +5,16 @@ export default function FindKPIReportById() {
 
     const [id, setId] = useState("");
     const [report, setReport] = useState(null);
-    const [error, setError] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
 
     const handleSearch = () => {
 
+        setErrorMsg("");
+        setReport(null);
+
+        // ✅ Validation
         if (!id) {
-            alert("Please enter an ID");
+            setErrorMsg("⚠️ Please enter KPI Report ID");
             return;
         }
 
@@ -24,12 +28,21 @@ export default function FindKPIReportById() {
         .then((response) => {
             const r = response.data.kpiReport;
             setReport(r);
-            setError("");
         })
         .catch((error) => {
             console.error(error);
             setReport(null);
-            setError("❌ KPI Report not found");
+
+            // ✅ Handle backend message properly
+            if (error.response && error.response.data) {
+                if (error.response.data.message) {
+                    setErrorMsg(error.response.data.message);
+                } else {
+                    setErrorMsg("KPI Report not found");
+                }
+            } else {
+                setErrorMsg("KPI Report not found");
+            }
         });
     };
 
@@ -37,22 +50,36 @@ export default function FindKPIReportById() {
         <div className="container mt-4">
             <h2>Find KPI Report By ID</h2>
 
+            {/* ✅ Error Message */}
+            {errorMsg && (
+                <div className="alert alert-danger">{errorMsg}</div>
+            )}
+
             <div className="mb-3">
-                <label className="form-label">Enter ID</label>
+                <label className="form-label">
+                    Enter ID <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     className="form-control"
                     value={id}
-                    onChange={(e) => setId(e.target.value)}
+                    onChange={(e) => {
+                        setId(e.target.value);
+                        setErrorMsg("");
+                    }}
                     placeholder="Enter KPI Report ID"
                 />
+                {!id && errorMsg && (
+                    <small className="text-danger">
+                        KPI Report ID is required
+                    </small>
+                )}
             </div>
 
             <button className="btn btn-primary" onClick={handleSearch}>
                 Search
             </button>
 
-            {error && <div className="alert alert-danger mt-3">{error}</div>}
-
+            {/* ✅ Result */}
             {report && (
                 <table className="table table-bordered table-striped mt-3">
                     <tbody>

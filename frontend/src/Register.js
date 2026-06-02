@@ -29,67 +29,42 @@ export default function Register() {
         setLoading(true);
 
         axios.post("http://localhost:9011/appuserapi/add", {
-            name,
-            email,
-            password,
-            phone,
-            username,
-            role: { name: role }
+            "name": name,
+            "email": email,
+            "password": password,
+            "phone": phone,
+            "username": username,
+            "role": { "roleId": role } 
         })
         .then(() => {
             setSuccess("Account created successfully! Redirecting to login...");
             setTimeout(() => navigate("/login"), 2000);
         })
         .catch((err) => {
-            if (err.request && !err.response) {
-                // Network error — backend not reachable
-                setError("Cannot reach server. Make sure the backend is running on port 9011.");
-            } else if (err.response) {
-                const status = err.response.status;
-                const data   = err.response.data;
+            console.error(err);
 
-                // Extract message from response body
-                const msg = typeof data === "string"
-                    ? data
-                    : data?.message || data?.error || "";
-
-                if (status === 400) {
-                    if (
-                        msg.includes("USERNAME_EXISTS") ||
-                        msg.toLowerCase().includes("username") ||
-                        msg.toLowerCase().includes("duplicate")
-                    ) {
-                        setError("Username already exists. Please choose a different username.");
-                    } else if (msg.toLowerCase().includes("role")) {
-                        setError(
-                            "Selected role is not configured in the system. " +
-                            "Please ask your admin to add it to the database."
-                        );
-                    } else if (msg) {
-                        setError(msg);
-                    } else {
-                        setError("Registration failed. Please check your details and try again.");
-                    }
-                } else if (status === 500) {
-                    if (msg.toLowerCase().includes("role")) {
-                        setError(
-                            "Role not found in the database. " +
-                            "Please run: INSERT INTO role (name) VALUES ('" + role + "');"
-                        );
-                    } else {
-                        setError("Server error (" + status + "). Please try again or contact support.");
-                    }
-                } else if (status === 404) {
-                    setError("Registration endpoint not found. Check your backend API.");
-                } else {
-                    setError("Registration failed (" + status + "). Please try again.");
+            if (err.response && err.response.data) {
+                if (typeof err.response.data === "string") {
+                    setError(err.response.data);
+                } 
+                else if (err.response.data.message) {
+                    setError(err.response.data.message);
+                } 
+                else if (err.response.data.error) {
+                    setError(err.response.data.error);
+                } 
+                else {
+                    setError("Registration failed");
                 }
             } else {
-                setError("An unexpected error occurred. Please try again.");
+                setError("Registration failed");
             }
+
             setLoading(false);
         });
-    };
+
+
+    }
 
     return (
         <div className="min-vh-100 d-flex align-items-center justify-content-center"
@@ -300,13 +275,13 @@ export default function Register() {
                                         background: '#f8fafc', color: role ? '#1e293b' : '#94a3b8' }}
                                     onChange={(e) => { setRole(e.target.value); setError(""); }}>
                                     <option value="">Select role</option>
-                                    <option value="ADMIN">Admin</option>
-                                    <option value="STORE_ASSOCIATE">Store Associate</option>
-                                    <option value="ECOMMERCE_MANAGER">Ecommerce Manager</option>
-                                    <option value="INVENTORY_PLANNER">Inventory Planner</option>
-                                    <option value="FULFILLMENT_MANAGER">Fulfillment Manager</option>
-                                    <option value="CUSTOMER_SERVICE_AGENT">Customer Service Agent</option>
-                                    <option value="MARKETING_MANAGER">Marketing Manager</option>
+                                    <option value="2">Store Associate</option>
+                                    <option value="3">Ecommerce Manager</option>
+                                    <option value="4">Inventory Planner</option>
+                                    <option value="5">Fulfillment Manager</option>
+                                    <option value="6">Customer Service Agent</option>
+                                    <option value="7">Marketing Manager</option>
+
                                 </select>
                             </div>
                         </div>

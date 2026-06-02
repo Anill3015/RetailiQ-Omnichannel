@@ -10,77 +10,140 @@ export default function UpdateKPIReport() {
     const [scope, setScope] = useState("");
     const [metrics, setMetrics] = useState("");
 
+    const [errorMsg, setErrorMsg] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
+
     // ✅ LOAD EXISTING DATA
     useEffect(() => {
         const token = localStorage.getItem("token");
 
-        axios.get(`http://localhost:9011/api/findKPIReport/${id}`,{
-            headers:{
-                Authorization:`Bearer ${token}`
+        axios.get(`http://localhost:9011/api/findKPIReport/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
             }
-    })
-            .then((response) => {
+        })
+        .then((response) => {
+            let r = response.data.kpiReport;
 
-                let r = response.data.kpiReport;   // ✅ important
-
-                setScope(r.scope);
-                setMetrics(r.metrics);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("Error loading KPI Report ❌");
-            });
+            setScope(r.scope);
+            setMetrics(r.metrics);
+        })
+        .catch((error) => {
+            console.error(error);
+            setErrorMsg("Error loading KPI Report");
+        });
 
     }, [id]);
 
     // ✅ UPDATE FUNCTION
     const handleUpdate = () => {
 
+        setErrorMsg("");
+        setSuccessMsg("");
+
+        // ✅ Validation
+        if (!scope || !metrics) {
+            setErrorMsg("⚠️ Please fill all fields");
+            return;
+        }
+
         let url = `http://localhost:9011/api/updateKPIReport/${id}`;
         const token = localStorage.getItem("token");
 
         let data = {
             kpiReport: {
-                scope: scope,
-                metrics: metrics
-                // generatedDate handled by backend
+                scope,
+                metrics
             }
         };
 
-        axios.put(url, data,{
-            headers:{
-                Authorization:`Bearer ${token}`
+        axios.put(url, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
             }
-    })
-            .then(() => {
-                alert("✅ KPI Report updated successfully");
+        })
+        .then(() => {
+            setSuccessMsg("KPI Report updated successfully");
 
-                // ✅ redirect back to list
+            setTimeout(() => {
                 navigate("/KPIReport/findAllKPIReport");
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("❌ Update failed");
-            });
+            }, 1500);
+        })
+        .catch((error) => {
+            console.error(error);
+
+            if (error.response && error.response.data) {
+                if (error.response.data.message) {
+                    setErrorMsg(error.response.data.message);
+                } else {
+                    setErrorMsg( error.response.data);
+                }
+            } else {
+                setErrorMsg("Update failed");
+            }
+        });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Update KPI Report</h2>
 
-            <label>ID</label>
-            <input value={id} readOnly />
-            <br />
+            {/* ✅ Success */}
+            {successMsg && (
+                <div className="alert alert-success">{successMsg}</div>
+            )}
 
-            <label>Scope</label>
-            <input value={scope} onChange={(e) => setScope(e.target.value)} />
-            <br />
+            {/* ✅ Error */}
+            {errorMsg && (
+                <div className="alert alert-danger">{errorMsg}</div>
+            )}
 
-            <label>Metrics</label>
-            <input value={metrics} onChange={(e) => setMetrics(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">ID</label>
+                <input className="form-control" value={id} readOnly />
+            </div>
 
-            <button onClick={handleUpdate}>UPDATE</button>
+            {/* Scope */}
+            <div className="mb-3">
+                <label className="form-label">
+                    Scope <span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                    className="form-control"
+                    value={scope}
+                    onChange={(e) => {
+                        setScope(e.target.value);
+                        setErrorMsg("");
+                    }}
+                    placeholder="Enter scope"
+                />
+                {!scope && errorMsg && (
+                    <small className="text-danger">Scope is required</small>
+                )}
+            </div>
+
+            {/* Metrics */}
+            <div className="mb-3">
+                <label className="form-label">
+                    Metrics <span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                    className="form-control"
+                    value={metrics}
+                    onChange={(e) => {
+                        setMetrics(e.target.value);
+                        setErrorMsg("");
+                    }}
+                    placeholder="Enter metrics"
+                />
+                {!metrics && errorMsg && (
+                    <small className="text-danger">Metrics is required</small>
+                )}
+            </div>
+
+            <button className="btn btn-success" onClick={handleUpdate}>
+                Update
+            </button>
         </div>
     );
 }

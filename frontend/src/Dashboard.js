@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 const ROLE_ACCESS = {
     ADMIN: [
@@ -7,7 +9,7 @@ const ROLE_ACCESS = {
         'fulfillment', 'integration', 'inventory', 'inventoryavailability',
         'inventoryposition', 'kpi', 'location', 'notification', 'order',
         'pricelist', 'product', 'promotion', 'promotiontype', 'recommendation',
-        'replenishment', 'returnauth', 'role', 'user'
+        'replenishment', 'returnauth', 'role', 'user','pendingUsers'
     ],
     STORE_ASSOCIATE:        ['customerprofile', 'inventoryavailability', 'notification', 'order', 'product'],
     ECOMMERCE_MANAGER:      ['product', 'promotion', 'promotiontype', 'pricelist', 'recommendation', 'forecast', 'kpi', 'notification'],
@@ -39,6 +41,16 @@ const ALL_MODULES = [
     { key: 'role',                  label: 'Roles',                  desc: 'Role management',          route: '/Role',                   icon: 'bi-shield-fill-check',     color: '#64748b', bg: '#f8fafc', section: 'Admin' },
     { key: 'auditlog',              label: 'Audit Logs',             desc: 'Action history',           route: '/AuditLog',               icon: 'bi-journal-bookmark-fill', color: '#10b981', bg: '#ecfdf5', section: 'Admin' },
     { key: 'integration',           label: 'Integrations',           desc: 'API integrations',         route: '/IntegrationEndpoint',    icon: 'bi-plug-fill',             color: '#64748b', bg: '#f8fafc', section: 'Admin' },
+    
+    {
+        key: 'pendingUsers',
+        label: 'User Approvals',
+        route: '/pendingUsers',
+        icon: 'bi-person-check-fill',
+        color: '#64748b', bg: '#f8fafc',
+        section: 'Admin'
+    },
+
     { key: 'notification',          label: 'Notifications',          desc: 'System alerts',            route: '/Notification',           icon: 'bi-bell-fill',             color: '#3b82f6', bg: '#eff6ff', section: 'System' },
 ];
 

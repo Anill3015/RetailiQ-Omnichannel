@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode} from 'jwt-decode';
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -38,10 +39,33 @@ export default function Login() {
                 navigate("/dashboard");
             }, 1500);
         })
-        .catch(() => {
-            setError("Invalid username or password. Please try again.");
-            setLoading(false);
-        });
+        
+        .catch((err) => {
+        console.error(err);
+
+        if (err.response && err.response.data) {
+
+            if (typeof err.response.data === "string") {
+                setError(err.response.data);
+            } 
+            else if (err.response.data.error) {
+                setError(err.response.data.error);   // ✅ FIX HERE
+            } 
+            else if (err.response.data.message) {
+                setError(err.response.data.message);
+            } 
+            else {
+                setError("Login failed");
+            }
+
+        } else {
+            setError("Login failed");
+        }
+
+        setLoading(false);
+    });
+
+
     }
 
     return (

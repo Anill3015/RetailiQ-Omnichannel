@@ -80,4 +80,25 @@ public class UserController {
 
         return service.getAll(pageable);
     }
+    
+ // ✅ Get pending users
+    @GetMapping("/pending")
+    public List<User> getPendingUsers() {
+        return service.getPendingUsers();
+    }
+
+    // ✅ Approve user
+    @PutMapping("/approve/{id}")
+    public String approveUser(@PathVariable Long id) {
+        service.approveUser(id);
+        return "User approved successfully";
+    }
+
+    // ✅ Reject user
+    @PutMapping("/reject/{id}")
+    public String rejectUser(@PathVariable Long id) {
+        service.rejectUser(id);
+        return "User rejected";
+    }
+    
 }

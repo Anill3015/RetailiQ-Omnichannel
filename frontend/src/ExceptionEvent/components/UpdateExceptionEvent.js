@@ -4,26 +4,26 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function UpdateExceptionEvent() {
 
-    let { id } = useParams();
-    let navigate = useNavigate();
+    const { id } = useParams();
+    const navigate = useNavigate();
 
-    let [type, setType] = useState("");
-    let [referenceId, setReferenceId] = useState("");
-    let [severity, setSeverity] = useState("");
-    let [status, setStatus] = useState("");
+    const [type, setType] = useState("");
+    const [referenceId, setReferenceId] = useState("");
+    const [severity, setSeverity] = useState("");
+    const [status, setStatus] = useState("");
+
+    const [errorMsg, setErrorMsg] = useState("");
 
     // ✅ LOAD EXISTING DATA
     useEffect(() => {
         const token = localStorage.getItem("token");
 
-    axios.get(`http://localhost:9011/api/findExceptionEvent/${id}`,{
-            headers:{
-                Authorization:`Bearer ${token}`
+        axios.get(`http://localhost:9011/api/findExceptionEvent/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
             }
-    })
+        })
         .then((response) => {
-
-            // ✅ FIX HERE
             let e = response.data.exceptionEvent;
 
             setType(e.type);
@@ -33,65 +33,112 @@ export default function UpdateExceptionEvent() {
         })
         .catch((err) => {
             console.error(err);
-            alert("Error loading data ❌");
+            setErrorMsg("❌ Error loading data");
         });
 
-}, [id]);
+    }, [id]);
 
     // ✅ UPDATE FUNCTION
     const updateHandler = () => {
 
-        let url = `http://localhost:9011/api/updateExceptionEvent/${id}`;
+        if (!type || !referenceId || !severity || !status) {
+            setErrorMsg("⚠️ Please fill all fields");
+            return;
+        }
+
+        setErrorMsg("");
+
+        const url = `http://localhost:9011/api/updateExceptionEvent/${id}`;
         const token = localStorage.getItem("token");
-        let data = {
+
+        const data = {
             exceptionEvent: {
-                type: type,
-                referenceId: referenceId,
-                severity: severity,
-                status: status
+                type,
+                referenceId,
+                severity,
+                status
             }
         };
 
-        axios.put(url, data,{
-            headers:{
-                Authorization:`Bearer ${token}`
+        axios.put(url, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
             }
-    })
-            .then(() => {
-                alert("Updated successfully ✅");
-                navigate("/ExceptionEvent/findAllExceptionEvent");
-            })
-            .catch((err) => {
-                console.error(err);
-                alert("Update failed ❌");
-            });
+        })
+        .then(() => {
+            alert("Updated successfully");
+            navigate("/ExceptionEvent/findAllExceptionEvent");
+        })
+        .catch((err) => {
+            console.error(err);
+            setErrorMsg("Update failed");
+        });
     };
 
     return (
-        <div>
+        <div className="container mt-4">
             <h2>Edit Exception Event</h2>
 
-            <label>ID</label>
-            <input value={id} readOnly />
-            <br />
+            {/* ✅ Global Error */}
+            {errorMsg && (
+                <div className="alert alert-danger">{errorMsg}</div>
+            )}
 
-            <label>TYPE</label>
-            <input value={type} onChange={(e) => setType(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">ID</label>
+                <input className="form-control" value={id} readOnly />
+            </div>
 
-            <label>REFERENCE ID</label>
-            <input value={referenceId} onChange={(e) => setReferenceId(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Type</label>
+                <input
+                    className="form-control"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                    placeholder="Enter type"
+                />
+            </div>
 
-            <label>SEVERITY</label>
-            <input value={severity} onChange={(e) => setSeverity(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">
+                    Reference ID <span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                    className="form-control"
+                    value={referenceId}
+                    onChange={(e) => setReferenceId(e.target.value)}
+                    placeholder="Enter reference ID"
+                />
+                {!referenceId && errorMsg && (
+                    <small className="text-danger">
+                        Reference ID is mandatory
+                    </small>
+                )}
+            </div>
 
-            <label>STATUS</label>
-            <input value={status} onChange={(e) => setStatus(e.target.value)} />
-            <br />
+            <div className="mb-3">
+                <label className="form-label">Severity</label>
+                <input
+                    className="form-control"
+                    value={severity}
+                    onChange={(e) => setSeverity(e.target.value)}
+                    placeholder="Enter severity"
+                />
+            </div>
 
-            <button onClick={updateHandler}>UPDATE</button>
+            <div className="mb-3">
+                <label className="form-label">Status</label>
+                <input
+                    className="form-control"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    placeholder="Enter status"
+                />
+            </div>
+
+            <button className="btn btn-primary" onClick={updateHandler}>
+                Update
+            </button>
         </div>
     );
 }

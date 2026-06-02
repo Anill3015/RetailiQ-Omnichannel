@@ -5,12 +5,16 @@ export default function FindReturnAuthorizationById() {
 
     const [id, setId] = useState("");
     const [data, setData] = useState(null);
-    const [error, setError] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
 
     const handleSearch = () => {
 
+        setErrorMsg("");
+        setData(null);
+
+        // ✅ Validation
         if (!id) {
-            alert("Please enter ID");
+            setErrorMsg("⚠️ Please enter RMA ID");
             return;
         }
 
@@ -24,12 +28,23 @@ export default function FindReturnAuthorizationById() {
         .then((response) => {
             const rma = response.data.returnAuthorization;
             setData(rma);
-            setError("");
         })
         .catch((error) => {
             console.error(error);
             setData(null);
-            setError("Record not found ❌");
+
+            // ✅ Proper backend error handling
+            if (error.response && error.response.data) {
+                if (error.response.data.message) {
+                    setErrorMsg("❌ " + error.response.data.message);
+                } else if (typeof error.response.data === "string") {
+                    setErrorMsg("❌ " + error.response.data);
+                } else {
+                    setErrorMsg("❌ Record not found");
+                }
+            } else {
+                setErrorMsg("❌ Record not found");
+            }
         });
     };
 
@@ -37,23 +52,37 @@ export default function FindReturnAuthorizationById() {
         <div className="container mt-4">
             <h2>Find Return Authorization By ID</h2>
 
+            {/* ✅ Error Message */}
+            {errorMsg && (
+                <div className="alert alert-danger">{errorMsg}</div>
+            )}
+
             <div className="mb-3">
-                <label className="form-label">Enter RMA ID</label>
+                <label className="form-label">
+                    Enter RMA ID <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     type="number"
                     className="form-control"
                     value={id}
-                    onChange={(e) => setId(e.target.value)}
+                    onChange={(e) => {
+                        setId(e.target.value);
+                        setErrorMsg("");
+                    }}
                     placeholder="Enter RMA ID"
                 />
+                {!id && errorMsg && (
+                    <small className="text-danger">
+                        RMA ID is required
+                    </small>
+                )}
             </div>
 
             <button className="btn btn-primary" onClick={handleSearch}>
                 Search
             </button>
 
-            {error && <div className="alert alert-danger mt-3">{error}</div>}
-
+            {/* ✅ Result Table */}
             {data && (
                 <table className="table table-bordered table-striped mt-3">
                     <tbody>

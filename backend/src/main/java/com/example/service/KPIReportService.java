@@ -36,9 +36,6 @@ public class KPIReportService {
 
     public List<KPIReport> getAll() {
         List<KPIReport> list = kpiReportRepository.findAll();
-        if (list.isEmpty()) {
-            throw new KPIReportListEmptyException("No KPIReports found");
-        }
         return list;
     }
     
