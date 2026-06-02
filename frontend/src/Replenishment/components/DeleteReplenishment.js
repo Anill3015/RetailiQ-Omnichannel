@@ -11,7 +11,6 @@ export default function DeleteReplenishment() {
             headers: { "Authorization": `Bearer ${token}` }
         })
             .then((response) => {
-                alert(response.data);
                 navigate("/Replenishment/findReplenishment");
             })
             .catch((error) => {

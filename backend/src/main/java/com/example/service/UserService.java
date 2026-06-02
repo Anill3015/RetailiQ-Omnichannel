@@ -20,16 +20,51 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private final UserRepository repository;
-    private final RoleRepository roleRepository;
+    private final UserRepository     repository;
+    private final RoleRepository     roleRepository;
     private final AuditLogRepository auditLogRepository;
 
     public UserService(UserRepository repository,
                        RoleRepository roleRepository,
                        AuditLogRepository auditLogRepository) {
-        this.repository = repository;
-        this.roleRepository = roleRepository;
+        this.repository         = repository;
+        this.roleRepository     = roleRepository;
         this.auditLogRepository = auditLogRepository;
+    }
+
+    @Transactional
+    public User register(User user) {
+
+        // 1. Duplicate username check
+        if (repository.findByUsername(user.getUsername()).isPresent()) {
+            throw new RuntimeException("USERNAME_EXISTS");
+        }
+
+        // 2. Resolve role — frontend sends { "role": { "name": "INVENTORY_PLANNER" } }
+        if (user.getRole() != null) {
+            Role managedRole = null;
+
+            if (user.getRole().getRoleId() != null) {
+                // resolve by ID if provided
+                managedRole = roleRepository.findById(user.getRole().getRoleId())
+                        .orElseThrow(() -> new RuntimeException(
+                                "Role not found with id: " + user.getRole().getRoleId()));
+
+            } else if (user.getRole().getName() != null
+                    && !user.getRole().getName().isBlank()) {
+                // resolve by name (normal registration flow)
+                managedRole = roleRepository.findByName(user.getRole().getName())
+                        .orElseThrow(() -> new RuntimeException(
+                                "Role not found: " + user.getRole().getName()));
+            }
+
+            if (managedRole != null) {
+                user.setRole(managedRole);
+            }
+        }
+
+        // 3. Save — no audit log for self-registration
+        return repository.save(user);
     }
 
     @Transactional
@@ -41,12 +76,14 @@ public class UserService {
 
             if (user.getRole().getRoleId() != null) {
                 managedRole = roleRepository.findById(user.getRole().getRoleId())
-                        .orElseThrow(() ->
-                                new RuntimeException("Role not found with id: " + user.getRole().getRoleId()));
-            } else if (user.getRole().getName() != null && !user.getRole().getName().isEmpty()) {
+                        .orElseThrow(() -> new RuntimeException(
+                                "Role not found with id: " + user.getRole().getRoleId()));
+
+            } else if (user.getRole().getName() != null
+                    && !user.getRole().getName().isBlank()) {
                 managedRole = roleRepository.findByName(user.getRole().getName())
-                        .orElseThrow(() ->
-                                new RuntimeException("Role not found: " + user.getRole().getName()));
+                        .orElseThrow(() -> new RuntimeException(
+                                "Role not found: " + user.getRole().getName()));
             }
 
             if (managedRole != null) {
@@ -54,7 +91,7 @@ public class UserService {
             }
         }
 
-        User saved = repository.save(user);
+        User saved  = repository.save(user);
         String action = isNew ? "USER_CREATED" : "USER_UPDATED";
         logAction(action, saved);
         return saved;
@@ -65,8 +102,8 @@ public class UserService {
         User existingUser = getById(userId);
 
         Role managedRole = roleRepository.findById(roleId)
-                .orElseThrow(() ->
-                        new RuntimeException("Role not found with id: " + roleId));
+                .orElseThrow(() -> new RuntimeException(
+                        "Role not found with id: " + roleId));
 
         existingUser.setName(name);
         existingUser.setEmail(email);
@@ -79,22 +116,14 @@ public class UserService {
 
     public User getById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() ->
-                        new UserNotFoundException("User not found with id " + id));
+                .orElseThrow(() -> new UserNotFoundException(
+                        "User not found with id " + id));
     }
 
-    // ✅ Added
     public User findByUsername(String username) {
         return repository.findByUsername(username)
-                .orElseThrow(() ->
-                        new RuntimeException("User not found with username: " + username));
-    }
-
-    @Transactional
-    public void delete(Long id) {
-        User user = getById(id);
-        auditLogRepository.deleteByUser(user);
-        repository.delete(user);
+                .orElseThrow(() -> new RuntimeException(
+                        "User not found with username: " + username));
     }
 
     public List<User> getAllUsers() {
@@ -112,18 +141,14 @@ public class UserService {
         }
         return page;
     }
+
     @Transactional
-    public User register(User user) {
-        // ✅ Resolve role
-        if (user.getRole() != null && user.getRole().getRoleId() != null) {
-            Role managedRole = roleRepository.findById(user.getRole().getRoleId())
-                    .orElseThrow(() ->
-                            new RuntimeException("Role not found"));
-            user.setRole(managedRole);
-        }
-        // ✅ Save without audit log
-        return repository. save(user);
+    public void delete(Long id) {
+        User user = getById(id);
+        auditLogRepository.deleteByUser(user);
+        repository.delete(user);
     }
+
     private void logAction(String action, User user) {
         AuditLog log = new AuditLog();
         log.setAction(action);
