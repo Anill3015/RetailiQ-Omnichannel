@@ -42,12 +42,6 @@ import UpdateIntegrationEndpoint from './IntegrationEndpoint/components/UpdateIn
 import DeleteIntegrationEndpoint from './IntegrationEndpoint/components/DeleteIntegrationEndpoint';
 import FindIntegrationEndpoint from './IntegrationEndpoint/components/FindIntegrationEndpoint';
 
-import InventoryHome from './Inventory/components/InventoryHome';
-import CreateInventory from './Inventory/components/CreateInventory';
-import FindInventory from './Inventory/components/FindInventory';
-import UpdateInventory from './Inventory/components/UpdateInventory';
-import DeleteInventory from './Inventory/components/DeleteInventory';
-
 import InventoryAvailabilityHome from './InventoryAvailability/components/InventoryAvailabilityHome';
 import CreateInventoryAvailability from './InventoryAvailability/components/FindInventoryAvailability';
 
@@ -210,13 +204,6 @@ function App() {
             <Route path="updateIntegrationEndpoint" element={<UpdateIntegrationEndpoint />} />
         </Route>
 
-        {/* ✅ Inventory */}
-        <Route path="Inventory" element={<ProtectedRoute><InventoryHome /></ProtectedRoute>}>
-            <Route path="createInventory"      element={<CreateInventory />} />
-            <Route path="deleteInventory"      element={<DeleteInventory />} />
-            <Route path="findInventory"        element={<FindInventory />} />
-            <Route path="updateInventory/:eid" element={<UpdateInventory />} />
-        </Route>
 
         {/* ✅ InventoryAvailability */}
         <Route path="InventoryAvailability" element={<ProtectedRoute><InventoryAvailabilityHome /></ProtectedRoute>}>
