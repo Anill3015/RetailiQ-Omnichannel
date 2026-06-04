@@ -1,4 +1,6 @@
 import {Link, Outlet, useNavigate} from 'react-router'
+import { FaHome } from "react-icons/fa";
+
 export default function InventoryPositionHome(){
     let navigate = useNavigate();
     const logout = () => {
@@ -8,9 +10,14 @@ export default function InventoryPositionHome(){
 
     return (
         <div>
-            <div>
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div className="container-fluid">
+            
+  <nav style={{ display: "flex", gap: "20px", padding: "10px" }} className="navbar navbar-expand-lg navbar-dark bg-dark">
+ 
+                 <div className='container-fluid'>
+                     
+ <Link to="/Dashboard" style={{ fontSize: "22px" }}>
+         <FaHome />
+       </Link>
       
       <Link to="/InventoryPosition" className="navbar-brand">
         InventoryPosition
@@ -61,19 +68,16 @@ export default function InventoryPositionHome(){
             </Link>
           </li>
 
-        </ul>
-
-        {/* Logout aligned right */}
         <button className="btn btn-danger btn-sm" onClick={logout}>
           Logout
         </button>
-        
+        </ul>
       </div>
-    </div>
+      </div>
   </nav>
-</div>
 
-            <Outlet></Outlet>
+
+            <Outlet />
         </div>
        
     )

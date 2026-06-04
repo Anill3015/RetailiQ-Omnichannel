@@ -1,4 +1,5 @@
 import { Link, Outlet, useNavigate } from 'react-router';
+import { FaHome } from "react-icons/fa";
 
 export default function LocationHome() {
     let navigate = useNavigate();
@@ -8,11 +9,28 @@ export default function LocationHome() {
     }
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className='container-fluid'>
+                   <nav style={{ display: "flex", gap: "20px", padding: "10px" }} className="navbar navbar-expand-lg navbar-dark bg-dark">
+       
+                       <div className='container-fluid'>
+                           
+       <Link to="/Dashboard" style={{ fontSize: "22px" }}>
+               <FaHome />
+             </Link>
+
              <Link to="/Location" className="navbar-brand">Location</Link>
-            
-                <ul className="navbar-nav">
+            <button
+        className="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarContent"
+        aria-controls="navbarContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
+       <div className="collapse navbar-collapse" id="navbarContent">
+        <ul className="navbar-nav me-auto">
                     <li className="nav-item"><Link className="nav-link" to="createLocation">Add Location</Link></li>
                     <li className="nav-item"><Link className="nav-link" to="findLocation">Find All Locations</Link></li>
                     <li className="nav-item"><Link className="nav-link" to="findLocationById">Find Location By ID</Link></li>
@@ -20,6 +38,7 @@ export default function LocationHome() {
                     <li className="nav-item"><Link className="nav-link" to="deleteLocation">Delete Location</Link></li>
                      <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
                 </ul>
+                </div>
                 </div>
             </nav>
             <Outlet />
