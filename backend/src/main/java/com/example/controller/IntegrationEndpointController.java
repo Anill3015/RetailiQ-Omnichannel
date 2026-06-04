@@ -47,6 +47,24 @@ public class IntegrationEndpointController {
     public IntegrationEndpoint findById(@PathVariable Long id) {
         return service.getById(id);
     }
+ // ✅ Add this to IntegrationEndpointController.java
+    @DeleteMapping("/deleteIntegrationEndpoint/{id}")
+    public String deleteIntegrationEndpoint(@PathVariable Long id) {
+        service.delete(id);
+        return "Integration Endpoint deleted successfully";
+    }
+    
+ // ✅ Add this to IntegrationEndpointController.java
+    @PostMapping("/updateIntegrationEndpoint")
+    public IntegrationEndpointResponseDTO updateIntegrationEndpoint(
+            @RequestBody IntegrationEndpointDTO dto) {
+        IntegrationEndpoint updated = service.update(dto.getIntegrationEndpoint());
+        IntegrationEndpointResponseDTO response = new IntegrationEndpointResponseDTO();
+        response.setIntegrationEndpoint(updated);
+        response.setMessage("Integration endpoint updated successfully");
+        response.setStatusCode(200);
+        return response;
+    }
 
     // ✅ Pagination
     @GetMapping("/fetchIntegrationEndpointsWithPagination")

@@ -8,6 +8,7 @@ export default function FindPromotionById() {
 
     let search = (event) => {
         event.preventDefault();
+<<<<<<< HEAD
         setError("");
         setPromotion(null);
 
@@ -15,6 +16,10 @@ export default function FindPromotionById() {
             setError("Please enter a Promotion ID");
             return;
         }
+=======
+        setError(""); setPromotion(null);
+        if (!id) { setError("Please enter a Promotion ID"); return; }
+>>>>>>> Rakesh
 
         axios.get(`http://localhost:9011/promotion/find/${id}`)
             .then((res) => setPromotion(res.data))
@@ -28,6 +33,7 @@ export default function FindPromotionById() {
     }
 
     return (
+<<<<<<< HEAD
         <div>
             <h2>Find Promotion By ID</h2>
             <form onSubmit={search}>
@@ -55,6 +61,25 @@ export default function FindPromotionById() {
                             <th>Rules</th>
                             <th>Validity</th>
                             <th>Promotion Type</th>
+=======
+        <div className="container mt-4">
+            <h2>Find Promotion By ID</h2>
+            <form onSubmit={search} className="d-flex gap-2 mb-3">
+                <input type="number" className="form-control w-25"
+                    placeholder="enter promotion id" value={id}
+                    onChange={(e) => setId(e.target.value)} />
+                <button type="submit" className="btn btn-primary">Search</button>
+            </form>
+
+            {error && <div className="alert alert-danger">{error}</div>}
+
+            {promotion && (
+                <table className="table table-bordered table-striped">
+                    <thead className="table-dark">
+                        <tr>
+                            <th>ID</th><th>Name</th><th>Rules</th>
+                            <th>Validity</th><th>Promotion Type</th>
+>>>>>>> Rakesh
                         </tr>
                     </thead>
                     <tbody>

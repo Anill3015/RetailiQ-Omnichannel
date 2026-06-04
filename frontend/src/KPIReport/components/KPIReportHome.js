@@ -1,16 +1,31 @@
-import {Link, Outlet} from 'react-router'
-export default function KPIReportHome(){
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
+export default function KPIReportHome() {
+    const navigate = useNavigate();
+ 
+    const logout = () => {
+        localStorage.clear();
+        navigate("/login");
+    }
     return (
         <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="createKPIReport">Add KPIReport</Link>
+            <nav className="navbar bg-dark px-3">
+                <span className="navbar-brand text-white">
+                    KPI Reports
+                </span>
+
+                <ul className="nav">
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="/dashboard">
+                            Home
+                        </Link>
                     </li>
-                    <li>
-                        <Link to="deleteKPIReport">Delete KPIReport</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="createKPIReport">
+                            Add
+                        </Link>
                     </li>
+<<<<<<< HEAD
                     <li>
                         <Link to="findKPIReportById">Find KPIReport By Id</Link>
                     </li>
@@ -22,9 +37,26 @@ export default function KPIReportHome(){
  
                     </li>
                    
+=======
+                    
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findKPIReportById">
+                            Find By Id
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findAllKPIReport">
+                            Find All 
+                        </Link>
+                    </li>
+                    <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
+>>>>>>> Rakesh
                 </ul>
             </nav>
-            <Outlet></Outlet>
+
+            <div className="container mt-4">
+                <Outlet />
+            </div>
         </div>
-    )
+    );
 }

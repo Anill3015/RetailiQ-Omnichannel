@@ -8,12 +8,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-
+    private String status;
     private String name;
+    @Column(unique = true)
     private String email;
     private String phone;
 
     // ✅ Added for authentication
+<<<<<<< HEAD
+=======
+    @Column(unique = true)
+>>>>>>> Rakesh
     private String username;
     private String password;
 
@@ -41,4 +46,15 @@ public class User {
 
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
+<<<<<<< HEAD
+=======
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+    
+    
+>>>>>>> Rakesh
 }

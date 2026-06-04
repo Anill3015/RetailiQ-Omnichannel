@@ -4,9 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+<<<<<<< HEAD
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 
 import axios from 'axios';
+=======
+import axios from 'axios';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+>>>>>>> Rakesh
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
@@ -33,6 +38,10 @@ axios.interceptors.response.use(
     }
 );
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Rakesh
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <App />

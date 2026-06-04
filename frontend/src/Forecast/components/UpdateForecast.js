@@ -11,9 +11,23 @@ export default function UpdateForecast() {
     const [period, setPeriod] = useState("");
     const [forecastQty, setForecastQty] = useState("");
 
+<<<<<<< HEAD
     useEffect(() => {
         if (!fcid) return;
         axios.get(`http://localhost:9011/api/forecast/find/${fcid}`)
+=======
+    const skuHandler = (e) => setSku(e.target.value);
+    const locationIdHandler = (e) => setLocationId(e.target.value);
+    const periodHandler = (e) => setPeriod(e.target.value);
+    const forecastQtyHandler = (e) => setForecastQty(e.target.value);
+
+    useEffect(() => {
+        if (!fcid) return;
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/api/forecast/find/${fcid}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        }   )
+>>>>>>> Rakesh
             .then((response) => {
                 const f = response.data;
                 setSku(f.product?.sku || "");
@@ -22,7 +36,17 @@ export default function UpdateForecast() {
                 setForecastQty(f.forecastQty || "");
             })
             .catch((error) => {
+<<<<<<< HEAD
                 alert("Error fetching forecast: " + (error.response?.data?.message || error.message));
+=======
+                if (error.response) {
+                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+                } else if (error.request) {
+                    alert("No response from server. Make sure the backend is running on port 9011.");
+                } else {
+                    alert("Error: " + error.message);
+                }
+>>>>>>> Rakesh
             });
     }, [fcid]);
 
@@ -51,11 +75,22 @@ export default function UpdateForecast() {
             navigate("/Forecast/findForecast");
         })
         .catch((error) => {
+<<<<<<< HEAD
             alert("Update Failed: " + (error.response?.data?.message || error.message));
+=======
+            if (error.response) {
+                alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+            } else if (error.request) {
+                alert("No response from server. Make sure the backend is running on port 9011.");
+            } else {
+                alert("Error: " + error.message);
+            }
+>>>>>>> Rakesh
         });
     };
 
     return (
+<<<<<<< HEAD
         <div>
             <h2>Update Forecast</h2>
 
@@ -81,6 +116,38 @@ export default function UpdateForecast() {
 
             <button onClick={updateHandler}>UPDATE</button>
             <button onClick={() => navigate("/Forecast/findForecast")}>Cancel</button>
+=======
+        <div className="container mt-4">
+            <h2>Update Forecast</h2>
+
+            <div className="mb-3">
+                <label className="form-label">Forecast ID</label>
+                <input className="form-control" type="text" value={fcid} readOnly />
+            </div>
+
+            <div className="mb-3">
+                <label className="form-label">Product SKU</label>
+                <input className="form-control" type="text" value={sku} onChange={skuHandler} placeholder="Enter product SKU" />
+            </div>
+
+            <div className="mb-3">
+                <label className="form-label">Location ID</label>
+                <input className="form-control" type="number" value={locationId} onChange={locationIdHandler} placeholder="Enter location ID" />
+            </div>
+
+            <div className="mb-3">
+                <label className="form-label">Period</label>
+                <input className="form-control" type="text" value={period} onChange={periodHandler} placeholder="e.g. 2026-05" />
+            </div>
+
+            <div className="mb-3">
+                <label className="form-label">Forecast Quantity</label>
+                <input className="form-control" type="number" value={forecastQty} onChange={forecastQtyHandler} placeholder="Enter forecast quantity" />
+            </div>
+
+            <button className="btn btn-primary me-2" onClick={updateHandler}>Update</button>
+            <button className="btn btn-secondary" onClick={() => navigate("/Forecast/findForecast")}>Cancel</button>
+>>>>>>> Rakesh
         </div>
     );
 }

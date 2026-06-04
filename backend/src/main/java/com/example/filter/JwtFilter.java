@@ -20,13 +20,17 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
+<<<<<<< HEAD
 
+=======
+>>>>>>> Rakesh
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
+<<<<<<< HEAD
         String path = request.getRequestURI();
 
         // ✅ ✅ VERY IMPORTANT: Skip public APIs
@@ -41,12 +45,18 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         System.out.println("JwtFilter running for: " + path);
+=======
+        // ✅ Add this debug line
+        System.out.println("JwtFilter running for: " + request.getRequestURI());
+        
+>>>>>>> Rakesh
 
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
 
+<<<<<<< HEAD
             try {
                 if (jwtUtil.validateToken(token)) {
 
@@ -72,4 +82,26 @@ public class JwtFilter extends OncePerRequestFilter {
         // ✅ ✅ Always continue filter chain
         filterChain.doFilter(request, response);
     }
+=======
+            if (jwtUtil.validateToken(token)) {
+                String username = jwtUtil.extractUsername(token);
+                String role = jwtUtil.extractRole(token);
+                String springRole = "ROLE_" + role.toUpperCase();
+
+                UsernamePasswordAuthenticationToken auth =
+                        new UsernamePasswordAuthenticationToken(
+                                username, null,
+                                List.of(new SimpleGrantedAuthority(springRole))
+                        );
+
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
+        }
+
+        filterChain.doFilter(request, response);
+    }
+
+
+
+>>>>>>> Rakesh
 }

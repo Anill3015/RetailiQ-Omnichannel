@@ -6,7 +6,14 @@ export default function DeleteReplenishment() {
     const navigate = useNavigate();
 
     const deleteHandler = () => {
+<<<<<<< HEAD
         axios.delete(`http://localhost:9011/api/replenishment/delete/${rid}`)
+=======
+        const token = localStorage.getItem("token");
+        axios.delete(`http://localhost:9011/api/replenishment/delete/${rid}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+>>>>>>> Rakesh
             .then((response) => {
                 alert(response.data);
                 navigate("/Replenishment/findReplenishment");

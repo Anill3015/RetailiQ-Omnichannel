@@ -1,17 +1,19 @@
-import {Link, Outlet} from 'react-router'
-export default function AuditLogHome(){
+import { Link, Outlet } from 'react-router-dom';
 
+export default function AuditLogHome() {
     return (
         <div>
-            <nav>
-                <ul>
-                    
-                    <li>
-                        <Link to="findAuditLog">Find AuditLog</Link>
+            <nav className="navbar bg-dark px-3">
+                <span className="navbar-brand text-white">Audit Logs</span>
+                <ul className="nav">
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findAuditLog">Find All</Link>
                     </li>
                 </ul>
             </nav>
-            <Outlet></Outlet>
+            <div className="container mt-4">
+                <Outlet />
+            </div>
         </div>
-    )
+    );
 }

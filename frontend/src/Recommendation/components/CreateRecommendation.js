@@ -5,6 +5,12 @@ export default function CreateRecommendation() {
     const [customerId, setCustomerId] = useState("");
     const [skuList, setSkuList] = useState("");
 
+<<<<<<< HEAD
+=======
+    const customerIdHandler = (e) => setCustomerId(e.target.value);
+    const skuListHandler = (e) => setSkuList(e.target.value);
+
+>>>>>>> Rakesh
     const saveHandler = () => {
         if (!customerId) {
             alert("Customer ID is required");
@@ -28,11 +34,22 @@ export default function CreateRecommendation() {
             alert("Recommendation Saved! " + response.data.message);
         })
         .catch((error) => {
+<<<<<<< HEAD
             alert("Error: " + (error.response?.data?.message || error.message));
+=======
+            if (error.response) {
+                alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
+            } else if (error.request) {
+                alert("No response from server. Make sure the backend is running on port 9011.");
+            } else {
+                alert("Error: " + error.message);
+            }
+>>>>>>> Rakesh
         });
     };
 
     return (
+<<<<<<< HEAD
         <div>
             <h2>Create Recommendation</h2>
 
@@ -45,6 +62,22 @@ export default function CreateRecommendation() {
             <br />
 
             <button onClick={saveHandler}>SAVE</button>
+=======
+        <div className="container mt-4">
+            <h2>Create Recommendation</h2>
+
+            <div className="mb-3">
+                <label className="form-label">Customer ID</label>
+                <input className="form-control" type="number" value={customerId} onChange={customerIdHandler} placeholder="Enter Customer ID" />
+            </div>
+
+            <div className="mb-3">
+                <label className="form-label">SKU List (comma separated)</label>
+                <input className="form-control" value={skuList} onChange={skuListHandler} placeholder="SKU001, SKU002" />
+            </div>
+
+            <button className="btn btn-primary" onClick={saveHandler}>Save</button>
+>>>>>>> Rakesh
         </div>
     );
 }

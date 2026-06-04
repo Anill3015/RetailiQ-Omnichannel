@@ -8,6 +8,7 @@ export default function CreateUser() {
     const [phone, setPhone] = useState("");
     const [role, setRole] = useState("");
 
+<<<<<<< HEAD
     let nameHandler = (event) => {
         setName(event.target.value);
     }
@@ -23,6 +24,12 @@ export default function CreateUser() {
     let roleHandler = (event) => {
         setRole(event.target.value);
     }
+=======
+    let nameHandler = (event) => { setName(event.target.value); }
+    let emailHandler = (event) => { setEmail(event.target.value); }
+    let phoneHandler = (event) => { setPhone(event.target.value); }
+    let roleHandler = (event) => { setRole(event.target.value); }
+>>>>>>> Rakesh
 
     let saveUser = (event) => {
         event.preventDefault();
@@ -41,7 +48,18 @@ export default function CreateUser() {
             }
         }
 
+<<<<<<< HEAD
         axios.post("http://localhost:9011/user/add", data)
+=======
+        const token = localStorage.getItem("token");
+
+        // ✅ Fixed — data is now passed as second argument
+        axios.post("http://localhost:9011/user/add", data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+>>>>>>> Rakesh
             .then((res) => {
                 alert("User created successfully!");
                 setName("");
@@ -59,6 +77,7 @@ export default function CreateUser() {
     }
 
     return (
+<<<<<<< HEAD
         <div>
             <h2>Create User</h2>
             <form onSubmit={saveUser}>
@@ -100,6 +119,61 @@ export default function CreateUser() {
 </select><br />
 
                 <button type="submit">Add User</button>
+=======
+        <div className="container mt-4">
+            <h2>Create User</h2>
+            <form onSubmit={saveUser}>
+
+                <div className="mb-3">
+                    <label className="form-label">Name</label>
+                    <input
+                        placeholder="enter name"
+                        value={name}
+                        onChange={nameHandler}
+                        className="form-control"
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <input
+                        placeholder="enter email"
+                        value={email}
+                        onChange={emailHandler}
+                        className="form-control"
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Phone Number</label>
+                    <input
+                        placeholder="enter phone number"
+                        value={phone}
+                        onChange={phoneHandler}
+                        className="form-control"
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Role</label>
+                    <select
+                        className="form-select"
+                        value={role}
+                        onChange={roleHandler}>
+                        <option value="">Select Role</option>
+                        <option value="ADMIN">Admin</option>
+                        <option value="USER">User</option>
+                        <option value="STORE_ASSOCIATE">Store Associate</option>
+                        <option value="ECOMMERCE_MANAGER">Ecommerce Manager</option>
+                        <option value="INVENTORY_PLANNER">Inventory Planner</option>
+                        <option value="FULFILLMENT_MANAGER">Fulfillment Manager</option>
+                        <option value="CUSTOMER_SERVICE_AGENT">Customer Service Agent</option>
+                        <option value="MARKETING_MANAGER">Marketing Manager</option>
+                    </select>
+                </div>
+
+                <button type="submit" className="btn btn-primary">Add User</button>
+>>>>>>> Rakesh
             </form>
         </div>
     );

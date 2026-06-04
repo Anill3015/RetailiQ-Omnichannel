@@ -1,22 +1,40 @@
-import {Link, Outlet} from 'react-router'
-export default function RecommendationHome(){
+import { Link, Outlet } from 'react-router-dom';
 
+export default function RecommendationHome() {
     return (
         <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="createRecommendation">Add Recommendation</Link>
+            <nav className="navbar bg-dark px-3">
+                <span className="navbar-brand text-white">
+                    Recommendation
+                </span>
+
+                <ul className="nav">
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="createRecommendation">
+                            Add
+                        </Link>
                     </li>
-                    <li>
-                        <Link to="findRecommendation">Find Recommendation</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findRecommendation">
+                            Find
+                        </Link>
                     </li>
+<<<<<<< HEAD
                     <li>
                         <Link to="findRecommendationById">Find Recommendation by ID</Link>
+=======
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findRecommendationById">
+                            Find By ID
+                        </Link>
+>>>>>>> Rakesh
                     </li>
                 </ul>
             </nav>
-            <Outlet></Outlet>
+
+            <div className="container mt-4">
+                <Outlet />
+            </div>
         </div>
-    )
+    );
 }

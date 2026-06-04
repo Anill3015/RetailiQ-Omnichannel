@@ -7,7 +7,16 @@ export default function DeleteProduct() {
     const navigate = useNavigate();
 
     useEffect(() => {
+<<<<<<< HEAD
         axios.delete(`http://localhost:9011/product/delete/${id}`)
+=======
+        const token = localStorage.getItem("token");
+        axios.delete(`http://localhost:9011/product/delete/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+>>>>>>> Rakesh
             .then((res) => {
                 alert(res.data);
                 navigate("/Product/findProduct");
@@ -23,8 +32,13 @@ export default function DeleteProduct() {
     }, [id]);
 
     return (
+<<<<<<< HEAD
         <div>
             <h2>Deleting Product...</h2>
+=======
+        <div className="container mt-4">
+            <div className="alert alert-warning">Deleting Product...</div>
+>>>>>>> Rakesh
         </div>
     );
 }

@@ -1,13 +1,27 @@
-import {Link, Outlet} from 'react-router'
-export default function NotificationHome(){
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+
+export default function NotificationHome() {
+    const navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.clear();
+        navigate("/login");
+    }
 
     return (
         <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="createNotification">Add Notification</Link>
+            <nav className="navbar bg-dark px-3">
+                <span className="navbar-brand text-white">
+                    Notification
+                </span>
+
+                <ul className="nav">
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="/dashboard">
+                            Home
+                        </Link>
                     </li>
+<<<<<<< HEAD
                     <li>
                         <Link to="findNotificationById">Find NotificationById</Link>
                     </li>
@@ -15,9 +29,30 @@ export default function NotificationHome(){
                         <Link to="findAllNotification">FindAll Notification</Link>
  
                     </li>
+=======
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="createNotification">
+                            Add
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findNotificationById">
+                            Find By ID
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findAllNotification">
+                            Find All
+                        </Link>
+                    </li>
+                    <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
+>>>>>>> Rakesh
                 </ul>
             </nav>
-            <Outlet></Outlet>
+
+            <div className="container mt-4">
+                <Outlet />
+            </div>
         </div>
-    )
+    );
 }

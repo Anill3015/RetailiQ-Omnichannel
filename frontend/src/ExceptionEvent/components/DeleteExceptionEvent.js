@@ -12,10 +12,21 @@ export default function DeleteExceptionEvent() {
     useEffect(() => {
 
         let confirmDelete = window.confirm("Are you sure you want to delete this record?");
+<<<<<<< HEAD
 
         if (confirmDelete) {
 
             axios.delete(`http://localhost:9011/api/deleteExceptionEvent/${id}`)
+=======
+        const token = localStorage.getItem("token");
+        if (confirmDelete) {
+
+            axios.delete(`http://localhost:9011/api/deleteExceptionEvent/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+>>>>>>> Rakesh
                 .then(() => {
                     setStatus("✅ Deleted successfully");
 

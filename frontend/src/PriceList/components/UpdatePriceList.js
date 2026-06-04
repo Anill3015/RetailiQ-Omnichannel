@@ -5,7 +5,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 export default function UpdatePriceList() {
     const { id } = useParams();
     const navigate = useNavigate();
+<<<<<<< HEAD
 
+=======
+>>>>>>> Rakesh
     const [currency, setCurrency] = useState("");
     const [price, setPrice] = useState("");
     const [effectiveFrom, setEffectiveFrom] = useState("");
@@ -13,16 +16,36 @@ export default function UpdatePriceList() {
     const [productId, setProductId] = useState("");
     const [products, setProducts] = useState([]);
 
+<<<<<<< HEAD
     // Load products for dropdown
     useEffect(() => {
         axios.get("http://localhost:9011/product/fetchAllPaginated?pgno=0&size=100&sorting=productId&asc=true")
+=======
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        axios.get("http://localhost:9011/product/fetchAllPaginated?pgno=0&size=100&sorting=productId&asc=true",{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+>>>>>>> Rakesh
             .then((res) => setProducts(res.data.content))
             .catch((err) => alert("Error loading products: " + err.message));
     }, []);
 
+<<<<<<< HEAD
     // Load existing pricelist data
     useEffect(() => {
         axios.get(`http://localhost:9011/pricelist/find/${id}`)
+=======
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/pricelist/find/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+>>>>>>> Rakesh
             .then((res) => {
                 setCurrency(res.data.currency);
                 setPrice(res.data.price);
@@ -36,15 +59,21 @@ export default function UpdatePriceList() {
             });
     }, [id]);
 
+<<<<<<< HEAD
     let updatePriceList = (event) => {
         event.preventDefault();
 
+=======
+    let update = (event) => {
+        event.preventDefault();
+>>>>>>> Rakesh
         let data = {
             "priceListId": Number(id),
             "currency": currency,
             "price": Number(price),
             "effectiveFrom": effectiveFrom + ":00",
             "effectiveTo": effectiveTo + ":00",
+<<<<<<< HEAD
             "product": {
                 "productId": Number(productId)
             }
@@ -52,6 +81,13 @@ export default function UpdatePriceList() {
 
         axios.put("http://localhost:9011/pricelist/update", data)
             .then((res) => {
+=======
+            "product": { "productId": Number(productId) }
+        }
+
+        axios.put("http://localhost:9011/pricelist/update", data)
+            .then(() => {
+>>>>>>> Rakesh
                 alert("PriceList updated successfully!");
                 navigate("/PriceList/findPriceList");
             })
@@ -65,6 +101,7 @@ export default function UpdatePriceList() {
     }
 
     return (
+<<<<<<< HEAD
         <div>
             <h2>Update PriceList</h2>
             <form onSubmit={updatePriceList}>
@@ -110,6 +147,46 @@ export default function UpdatePriceList() {
                 <button type="submit">Update PriceList</button>
                 &nbsp;
                 <button type="button" onClick={() => navigate("/PriceList/findPriceList")}>Cancel</button>
+=======
+        <div className="container mt-4">
+            <h2>Update PriceList</h2>
+            <form onSubmit={update}>
+                <div className="mb-3">
+                    <label className="form-label">Currency</label>
+                    <input className="form-control" placeholder="e.g. USD, INR"
+                        value={currency} onChange={(e) => setCurrency(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Price</label>
+                    <input type="number" className="form-control" placeholder="enter price"
+                        value={price} onChange={(e) => setPrice(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Effective From</label>
+                    <input type="datetime-local" className="form-control"
+                        value={effectiveFrom} onChange={(e) => setEffectiveFrom(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Effective To</label>
+                    <input type="datetime-local" className="form-control"
+                        value={effectiveTo} onChange={(e) => setEffectiveTo(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Product</label>
+                    <select className="form-select" value={productId}
+                        onChange={(e) => setProductId(e.target.value)}>
+                        <option value="">Select Product</option>
+                        {products.map((p) => (
+                            <option key={p.productId} value={p.productId}>
+                                {p.name} ({p.sku})
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <button type="submit" className="btn btn-primary me-2">Update PriceList</button>
+                <button type="button" className="btn btn-secondary"
+                    onClick={() => navigate("/PriceList/findPriceList")}>Cancel</button>
+>>>>>>> Rakesh
             </form>
         </div>
     );

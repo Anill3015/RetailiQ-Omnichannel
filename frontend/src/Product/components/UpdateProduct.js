@@ -11,7 +11,15 @@ export default function UpdateProduct() {
     const [category, setCategory] = useState("");
 
     useEffect(() => {
+<<<<<<< HEAD
         axios.get(`http://localhost:9011/product/find/${id}`)
+=======
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/product/find/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }})
+>>>>>>> Rakesh
             .then((res) => {
                 setSku(res.data.sku);
                 setName(res.data.name);
@@ -32,8 +40,17 @@ export default function UpdateProduct() {
             "name": name,
             "category": category
         }
+<<<<<<< HEAD
 
         axios.post("http://localhost:9011/product/add", data)
+=======
+        const token = localStorage.getItem("token");
+        axios.post("http://localhost:9011/product/add", data,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+>>>>>>> Rakesh
             .then((res) => {
                 alert("Product updated successfully!");
                 navigate("/Product/findProduct");
