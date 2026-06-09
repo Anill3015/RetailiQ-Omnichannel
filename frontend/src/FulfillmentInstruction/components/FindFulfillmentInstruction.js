@@ -22,18 +22,21 @@ export default function FindFulfillmentInstruction() {
             });
     }, []);
 
-    useEffect(()=>{
-        if(searchId === " "){
-            axios.get("http://localhost:9011/fulfillments/findAll")
-            .then((res)=>{setFulArr(res.data)}
-            
-        )
+  useEffect(()=>{
+    if(searchId === ""){           // ← empty string check
+        const token = localStorage.getItem("token");
+        axios.get("http://localhost:9011/fulfillments/findAll", {
+            headers: { Authorization: "Bearer " + token }   // ← add token
+        })
+        .then((res)=>{ setFulArr(res.data) })
         return;
-        }
-
-        axios.get("http://localhost:9011/fulfillments/findById/"+searchId)
-        .then((res)=>setFulArr(res.data))
-    }, [searchId])
+    }
+    const token = localStorage.getItem("token");
+    axios.get("http://localhost:9011/fulfillments/findById/"+searchId, {
+        headers: { Authorization: "Bearer " + token }       // ← add token
+    })
+    .then((res)=> setFulArr([res.data]))   // ← wrap in array, since findById returns single object
+}, [searchId])
 
     return (
         <div className="container mt-4">
@@ -82,8 +85,8 @@ export default function FindFulfillmentInstruction() {
                                     <td>{index === 0 ? e.status : ""}</td>
                                     <td>{item.sku}</td>
                                     <td>{item.quantity}</td>
-                                    <td>{index === 0 ? <Link to={"/FulfillmentInstruction/deleteFulfillmentInstruction/" + e.instructionID}>Delete</Link> : ""}</td>
-                                    <td>{index === 0 ? <Link to={"/fulfillment/updateFulfillmentInstruction/" + e.instructionID}>Edit</Link> : ""}</td>
+                                    <td>{index === 0 ? <Link to={"/FulfillmentInstruction/deleteFulfillmentInstruction/" + e.instructionID} className="btn btn-danger btn-sm me-2">Delete</Link> : ""}</td>
+                                    <td>{index === 0 ? <Link to={"/FulfillmentInstruction/updateFulfillmentInstruction/" + e.instructionID} className="btn btn-warning btn-sm">Edit</Link> : ""}</td>
                                 </tr>
                             ));
                         })

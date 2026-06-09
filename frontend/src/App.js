@@ -191,9 +191,9 @@ function App() {
         {/* ✅ FulfillmentInstruction */}
         <Route path="FulfillmentInstruction" element={<ProtectedRoute><FulfillmentInstructionHome /></ProtectedRoute>}>
             <Route path="createFulfillmentInstruction" element={<CreateFulfillmentInstruction />} />
-            <Route path="deleteFulfillmentInstruction/:id" element={<DeleteFulfillmentInstruction />} />
+            <Route path="deleteFulfillmentInstruction/:eid" element={<DeleteFulfillmentInstruction />} />
             <Route path="findFulfillmentInstruction"   element={<FindFulfillmentInstruction />} />
-            <Route path="updateFulfillmentInstruction/:id" element={<UpdateFulfillmentInstruction />} />
+            <Route path="updateFulfillmentInstruction/:eid" element={<UpdateFulfillmentInstruction />} />
         </Route>
 
         {/* ✅ IntegrationEndpoint */}
