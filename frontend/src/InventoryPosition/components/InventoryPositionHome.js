@@ -1,84 +1,71 @@
-import {Link, Outlet, useNavigate} from 'react-router'
+import { Link, Outlet, useNavigate } from "react-router";
 import { FaHome } from "react-icons/fa";
 
-export default function InventoryPositionHome(){
-    let navigate = useNavigate();
-    const logout = () => {
-        localStorage.clear();
-        navigate("/login");
-    }
+export default function InventoryPositionHome() {
+  let navigate = useNavigate();
 
-    return (
-        <div>
-            
-  <nav style={{ display: "flex", gap: "20px", padding: "10px" }} className="navbar navbar-expand-lg navbar-dark bg-dark">
- 
-                 <div className='container-fluid'>
-                     
- <Link to="/Dashboard" style={{ fontSize: "22px" }}>
-         <FaHome />
-       </Link>
-      
-      <Link to="/InventoryPosition" className="navbar-brand">
-        InventoryPosition
-      </Link>
+  const logout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
 
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarContent"
-        aria-controls="navbarContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-
-      <div className="collapse navbar-collapse" id="navbarContent">
-        <ul className="navbar-nav me-auto">
+  return (
+    <div>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+        <div className="container-fluid">
           
-          <li className="nav-item">
-            <Link className="nav-link" to="createInventoryPosition">
-              Add InventoryPosition
+          <div className="d-flex align-items-center gap-3">
+            <Link to="/Dashboard" className="text-white fs-4">
+              <FaHome />
             </Link>
-          </li>
 
-          <li className="nav-item">
-            <Link className="nav-link" to="deleteInventoryPosition">
-              Delete InventoryPosition
+            <Link to="/InventoryPosition" className="navbar-brand mb-0">
+              InventoryPosition
             </Link>
-          </li>
+          </div>
 
-          <li className="nav-item">
-            <Link className="nav-link" to="findInventoryPosition">
-              Find InventoryPosition
-            </Link>
-          </li>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
 
-          <li className="nav-item">
-            <Link className="nav-link" to="findInventoryPositionById">
-              Find InventoryPositionById
-            </Link>
-          </li>
+          <div
+            className="collapse navbar-collapse justify-content-end"
+            id="navbarContent"
+          >
+            <ul className="navbar-nav align-items-center gap-3">
+              
+              <li className="nav-item">
+                <Link className="nav-link" to="createInventoryPosition">
+                  Add Inventory
+                </Link>
+              </li>
 
-          <li className="nav-item">
-            <Link className="nav-link" to="updateInventoryPosition">
-              Update InventoryPosition
-            </Link>
-          </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="findInventoryPosition">
+                  Find Inventory
+                </Link>
+              </li>
 
-        <button className="btn btn-danger btn-sm" onClick={logout}>
-          Logout
-        </button>
-        </ul>
-      </div>
-      </div>
-  </nav>
+              <li className="nav-item">
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              </li>
 
-
-            <Outlet />
+            </ul>
+          </div>
         </div>
-       
-    )
+      </nav>
+
+      <Outlet />
+    </div>
+  );
 }
