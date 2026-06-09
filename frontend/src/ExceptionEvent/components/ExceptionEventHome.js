@@ -2,11 +2,12 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 export default function ExceptionEventHome() {
     const navigate = useNavigate();
- 
+
     const logout = () => {
         localStorage.clear();
         navigate("/login");
-    }
+    };
+
     return (
         <div>
             <nav className="navbar bg-dark px-3">
@@ -14,23 +15,38 @@ export default function ExceptionEventHome() {
                     Exception Events
                 </span>
 
-                <ul className="nav">
+                <ul className="nav align-items-center">
+
+                    {/* ✅ HOME BUTTON */}
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="/dashboard">
+                            Home
+                        </Link>
+                    </li>
+
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="createExceptionEvent">
                             Add
                         </Link>
                     </li>
+
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findExceptionEventById">
                             Find By ID
                         </Link>
                     </li>
+
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findAllExceptionEvent">
                             Find All
                         </Link>
                     </li>
-                    <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
+
+                    <li className="nav-item ms-3">
+                        <button className="btn btn-danger btn-sm" onClick={logout}>
+                            Logout
+                        </button>
+                    </li>
                 </ul>
             </nav>
 

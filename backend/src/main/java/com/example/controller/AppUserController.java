@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/appuserapi")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AppUserController {
 
     @Autowired
@@ -19,7 +20,9 @@ public class AppUserController {
     @PostMapping("/add")
     public User register(@RequestBody User user) {
         // ✅ Encode password before saving
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         return userService.register(user);
     }
 }

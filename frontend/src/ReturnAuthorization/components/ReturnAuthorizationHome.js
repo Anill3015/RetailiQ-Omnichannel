@@ -16,10 +16,16 @@ export default function ReturnAuthorizationHome() {
 
                 <ul className="nav">
                     <li className="nav-item">
+                        <Link className="nav-link text-white" to="/dashboard">
+                            Home
+                        </Link>
+                    </li>
+                    <li className="nav-item">
                         <Link className="nav-link text-white" to="createReturnAuthorization">
                             Add 
                         </Link>
                     </li>
+                   
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findReturnAuthorizationById">
                             Find By Id

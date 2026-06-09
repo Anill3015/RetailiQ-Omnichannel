@@ -6,7 +6,6 @@ import com.example.service.UserService;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
@@ -18,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @Tag(name = "User Controller")
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final UserService service;
@@ -33,7 +32,6 @@ public class UserController {
         return service.save(user);
     }
 
-    // ✅ Now uses UpdateUserRequest DTO instead of User entity
     @PutMapping("/update")
     @Operation(summary = "Update User")
     public User update(@RequestBody UpdateUserRequest request) {
@@ -73,11 +71,29 @@ public class UserController {
             @RequestParam String sorting,
             @RequestParam boolean asc) {
 
-        Pageable pageable = PageRequest.of(
-                pgno, size,
-                asc ? Sort.by(sorting).ascending()
-                        : Sort.by(sorting).descending());
+        return service.getAll(
+                PageRequest.of(pgno, size,
+                        asc ? Sort.by(sorting).ascending()
+                                : Sort.by(sorting).descending()));
+    }
 
-        return service.getAll(pageable);
+    @PutMapping("/approve/{id}")
+    @Operation(summary = "Approve User")
+    public String approve(@PathVariable Long id) {
+        service.approveUser(id);
+        return "User approved successfully";
+    }
+
+    @PutMapping("/reject/{id}")
+    @Operation(summary = "Reject User")
+    public String reject(@PathVariable Long id) {
+        service.rejectUser(id);
+        return "User rejected successfully";
+    }
+
+    @GetMapping("/pending")
+    @Operation(summary = "Get Pending Users")
+    public List<User> getPending() {
+        return service.getPendingUsers();
     }
 }

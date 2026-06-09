@@ -25,20 +25,35 @@ public class LoginController {
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody User loginRequest) {
-        // ✅ Find user by username
+
         User user = userService.findByUsername(loginRequest.getUsername());
 
-        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+        // ✅ Check password
+        if (!passwordEncoder.matches(loginRequest.getPassword(),
+                user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
-        String roleName = user.getRole() != null ? user.getRole().getName() : "USER";
+        // ✅ Block pending users
+        if ("PENDING".equals(user.getStatus())) {
+            throw new RuntimeException(
+                    "Your account is pending admin approval");
+        }
+
+        // ✅ Block rejected users
+        if ("REJECTED".equals(user.getStatus())) {
+            throw new RuntimeException(
+                    "Your account has been rejected. Contact admin.");
+        }
+
+        String roleName = user.getRole() != null
+                ? user.getRole().getName() : "USER";
 
         String token = jwtUtil.generateToken(user.getUsername(), roleName);
 
         Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-        response.put("role", roleName);
+        response.put("token",    token);
+        response.put("role",     roleName);
         response.put("username", user.getUsername());
         return response;
     }

@@ -16,10 +16,16 @@ export default function KPIReportHome() {
 
                 <ul className="nav">
                     <li className="nav-item">
+                        <Link className="nav-link text-white" to="/dashboard">
+                            Home
+                        </Link>
+                    </li>
+                    <li className="nav-item">
                         <Link className="nav-link text-white" to="createKPIReport">
                             Add
                         </Link>
                     </li>
+                    
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findKPIReportById">
                             Find By Id

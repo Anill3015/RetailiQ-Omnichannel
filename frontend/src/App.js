@@ -137,6 +137,7 @@ import FindProduct from './Product/components/FindProduct';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
 import Register from './Register';
+import PendingUsers from './PendingUsers';
 
 function App() {
   return (
@@ -155,6 +156,11 @@ function App() {
         <Route path="/dashboard" element={
             <ProtectedRoute><Dashboard /></ProtectedRoute>
         } />
+        
+        <Route path="/pendingUsers" element={
+          <ProtectedRoute><PendingUsers /></ProtectedRoute>
+        } />
+
 
         {/* ✅ Forecast */}
         <Route path="Forecast" element={<ProtectedRoute><ForecastHome /></ProtectedRoute>}>

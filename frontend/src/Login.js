@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { jwtDecode} from 'jwt-decode';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -14,8 +13,7 @@ export default function Login() {
 
     let login = (event) => {
         event.preventDefault();
-        setError("");
-        setSuccess("");
+        setError(""); setSuccess("");
 
         if (!username || !password) {
             setError("Please fill in all fields");
@@ -32,15 +30,19 @@ export default function Login() {
             localStorage.setItem("token",    res.data.token);
             localStorage.setItem("role",     res.data.role);
             localStorage.setItem("username", res.data.username);
-
             setSuccess("Login successful! Welcome " + res.data.username + " 🎉");
-
-            setTimeout(() => {
-                navigate("/dashboard");
-            }, 1500);
+            setTimeout(() => navigate("/dashboard"), 1500);
         })
-        .catch(() => {
-            setError("Invalid username or password. Please try again.");
+        .catch((err) => {
+            const msg = err.response?.data?.error ||
+                        err.response?.data?.message || err.message;
+            if (msg?.includes("pending")) {
+                setError("Your account is pending admin approval.");
+            } else if (msg?.includes("rejected")) {
+                setError("Your account has been rejected. Contact admin.");
+            } else {
+                setError("Invalid username or password. Please try again.");
+            }
             setLoading(false);
         });
     }
@@ -75,12 +77,9 @@ export default function Login() {
                     {success && (
                         <div className="d-flex align-items-center mb-4 px-3 py-2"
                             style={{
-                                background: '#f0fdf4',
-                                border: '1px solid #86efac',
-                                borderLeft: '4px solid #16a34a',
-                                borderRadius: '8px',
-                                fontSize: '14px',
-                                color: '#15803d'
+                                background: '#f0fdf4', border: '1px solid #86efac',
+                                borderLeft: '4px solid #16a34a', borderRadius: '8px',
+                                fontSize: '14px', color: '#15803d'
                             }}>
                             <i className="bi bi-check-circle-fill me-2"
                                 style={{ color: '#16a34a', fontSize: '16px' }}></i>
@@ -92,12 +91,9 @@ export default function Login() {
                     {error && (
                         <div className="d-flex align-items-center mb-4 px-3 py-2"
                             style={{
-                                background: '#fffbeb',
-                                border: '1px solid #fcd34d',
-                                borderLeft: '4px solid #f59e0b',
-                                borderRadius: '8px',
-                                fontSize: '14px',
-                                color: '#92400e'
+                                background: '#fffbeb', border: '1px solid #fcd34d',
+                                borderLeft: '4px solid #f59e0b', borderRadius: '8px',
+                                fontSize: '14px', color: '#92400e'
                             }}>
                             <i className="bi bi-exclamation-triangle-fill me-2"
                                 style={{ color: '#f59e0b', fontSize: '16px' }}></i>
@@ -171,32 +167,28 @@ export default function Login() {
                         </div>
 
                         {/* Sign In Button */}
-                        <div className="d-grid mb-2">
+                        <div className="d-grid mb-3">
                             <button
                                 type="submit"
                                 className="btn btn-lg fw-semibold text-white"
                                 disabled={loading}
                                 style={{
                                     background: 'linear-gradient(135deg, #1e3a5f, #0f3460)',
-                                    border: 'none',
-                                    borderRadius: '10px',
-                                    padding: '13px',
-                                    letterSpacing: '0.5px',
+                                    border: 'none', borderRadius: '10px',
+                                    padding: '13px', letterSpacing: '0.5px',
                                     transition: 'opacity 0.2s'
                                 }}
                                 onMouseEnter={e => e.currentTarget.style.opacity = '0.88'}
-                                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                            >
+                                onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
                                 {loading
-                                    ? <><span className="spinner-border spinner-border-sm me-2">
-                                        </span>Signing in...</>
+                                    ? <><span className="spinner-border spinner-border-sm me-2"></span>Signing in...</>
                                     : <><i className="bi bi-box-arrow-in-right me-2"></i>Sign In</>
                                 }
                             </button>
                         </div>
 
-                        {/* ✅ Register link */}
-                        <p className="text-center text-muted small mb-0 mt-2">
+                        {/* Register link */}
+                        <p className="text-center text-muted small mb-0">
                             Don't have an account?{" "}
                             <Link to="/register"
                                 className="fw-medium text-decoration-none"

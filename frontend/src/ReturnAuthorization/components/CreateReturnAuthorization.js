@@ -7,18 +7,24 @@ export default function CreateReturnAuthorization() {
     const [sku, setSku] = useState("");
     const [status, setStatus] = useState("");
     const [orderId, setOrderId] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
 
     const handleCreate = () => {
 
-        if (!orderId) {
-            alert("❌ Order ID is required");
+        setErrorMsg("");
+        setSuccessMsg("");
+
+        // ✅ Validation
+        if (!reason || !sku || !status || !orderId) {
+            setErrorMsg("⚠️ Please fill all fields");
             return;
         }
 
         const numericOrderId = Number(orderId);
 
         if (isNaN(numericOrderId)) {
-            alert("❌ Enter valid numeric Order ID");
+            setErrorMsg("❌ Order ID must be a number");
             return;
         }
 
@@ -36,68 +42,120 @@ export default function CreateReturnAuthorization() {
             }
         };
 
-        console.log("Sending data:", data);
-
         axios.post(url, data, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
         .then(() => {
-            alert("✅ Return Authorization created successfully");
+            setSuccessMsg("✅ Return Authorization created successfully");
+
+            // ✅ Clear fields
             setReason("");
             setSku("");
             setStatus("");
             setOrderId("");
         })
         .catch((error) => {
-            console.error("Error:", error);
-            alert("❌ Error creating Return Authorization");
+            console.error(error);
+
+            if (error.response) {
+
+                if (typeof error.response.data === "string") {
+                    setErrorMsg("❌ " + error.response.data);
+                }
+                else if (error.response.data.message) {
+                    setErrorMsg("❌ " + error.response.data.message);
+                }
+                else {
+                    setErrorMsg("❌ Invalid Order ID");
+                }
+
+            } else {
+                setErrorMsg("❌ Error creating Return Authorization");
+            }
         });
+
     };
 
     return (
         <div className="container mt-4">
             <h2>Create Return Authorization</h2>
 
+            {/* ✅ Success Message */}
+            {successMsg && (
+                <div className="alert alert-success">{successMsg}</div>
+            )}
+
+            {/* ✅ Error Message */}
+            {errorMsg && (
+                <div className="alert alert-danger">{errorMsg}</div>
+            )}
+
+            {/* Reason */}
             <div className="mb-3">
                 <label className="form-label">Reason</label>
                 <input
                     className="form-control"
                     value={reason}
-                    onChange={(e) => setReason(e.target.value)}
+                    onChange={(e) => {
+                        setReason(e.target.value);
+                        setErrorMsg("");
+                    }}
                     placeholder="Enter reason"
                 />
             </div>
 
+            {/* SKU */}
             <div className="mb-3">
-                <label className="form-label">SKU</label>
+                <label className="form-label">
+                    SKU <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     className="form-control"
                     value={sku}
-                    onChange={(e) => setSku(e.target.value)}
+                    onChange={(e) => {
+                        setSku(e.target.value);
+                        setErrorMsg("");
+                    }}
                     placeholder="Enter SKU"
                 />
+                {!sku && errorMsg && (
+                    <small className="text-danger">SKU is required</small>
+                )}
             </div>
 
+            {/* Status */}
             <div className="mb-3">
                 <label className="form-label">Status</label>
                 <input
                     className="form-control"
                     value={status}
-                    onChange={(e) => setStatus(e.target.value)}
+                    onChange={(e) => {
+                        setStatus(e.target.value);
+                        setErrorMsg("");
+                    }}
                     placeholder="Enter status"
                 />
             </div>
 
+            {/* Order ID */}
             <div className="mb-3">
-                <label className="form-label">Order ID</label>
+                <label className="form-label">
+                    Order ID <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     className="form-control"
                     value={orderId}
-                    onChange={(e) => setOrderId(e.target.value)}
+                    onChange={(e) => {
+                        setOrderId(e.target.value);
+                        setErrorMsg("");
+                    }}
                     placeholder="Enter numeric order ID"
                 />
+                {!orderId && errorMsg && (
+                    <small className="text-danger">Order ID is required</small>
+                )}
             </div>
 
             <button className="btn btn-warning" onClick={handleCreate}>

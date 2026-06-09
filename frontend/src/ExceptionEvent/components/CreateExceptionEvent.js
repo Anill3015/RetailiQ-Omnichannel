@@ -8,7 +8,16 @@ export default function AddExceptionEvent() {
     const [severity, setSeverity] = useState("");
     const [status, setStatus] = useState("");
 
+    const [errorMsg, setErrorMsg] = useState("");
+
     const saveHandler = () => {
+
+        if (!type || !referenceId || !severity || !status) {
+            setErrorMsg("⚠️ Please fill all fields");
+            return;
+        }
+
+        setErrorMsg("");
 
         const url = "http://localhost:9011/api/addExceptionEvent";
         const token = localStorage.getItem("token");
@@ -27,19 +36,28 @@ export default function AddExceptionEvent() {
                 Authorization: `Bearer ${token}`
             }
         })
-        .then((response) => {
+        .then(() => {
             alert("Exception Event added successfully");
-            console.log(response.data);
+
+            setType("");
+            setReferenceId("");
+            setSeverity("");
+            setStatus("");
         })
         .catch((error) => {
             console.error(error);
-            alert("Error adding exception event");
+            setErrorMsg("Error adding exception event");
         });
     };
 
     return (
         <div className="container mt-4">
             <h2>Add Exception Event</h2>
+
+            {/* ✅ Global error */}
+            {errorMsg && (
+                <div className="alert alert-danger">{errorMsg}</div>
+            )}
 
             <div className="mb-3">
                 <label className="form-label">Type</label>
@@ -52,13 +70,18 @@ export default function AddExceptionEvent() {
             </div>
 
             <div className="mb-3">
-                <label className="form-label">Reference ID</label>
+                <label className="form-label">
+                    Reference ID <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     className="form-control"
                     value={referenceId}
                     onChange={(e) => setReferenceId(e.target.value)}
                     placeholder="Enter reference ID"
                 />
+                {!referenceId && errorMsg && (
+                    <small className="text-danger">Reference ID is mandatory</small>
+                )}
             </div>
 
             <div className="mb-3">

@@ -46,9 +46,6 @@ public class ExceptionEventService {
     
     public List<ExceptionEvent> getAll() {
         List<ExceptionEvent> list = exceptionEventRepository.findAll();
-        if (list.isEmpty()) {
-            throw new ExceptionEventListEmptyException("No ExceptionEvents found");
-        }
         return list;
     }
     
