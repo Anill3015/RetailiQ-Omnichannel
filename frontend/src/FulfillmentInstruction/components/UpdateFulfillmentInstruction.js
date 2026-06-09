@@ -41,27 +41,32 @@ export default function UpdateFulfillmentInstruction(){
         }
     
 
-    axios.put(url,inv)
-        .then((res)=>{
-        alert("update sucess"+(res.data))
-        navigate("/fulfillments/findFulfillmentInstruction")
-    },[])
+   const token = localStorage.getItem("token");
+axios.put(url, inv, {
+    headers: { Authorization: "Bearer " + token }   // ← add token
+})
+.then((res)=>{
+    alert("update success")
+    navigate("/FulfillmentInstruction/findFulfillmentInstruction")  // ← check your route path
+})
+.catch((error)=>{ alert("Error: " + error.message) }) 
 }
 
      useEffect(()=>{
-        let url="http://localhost:9011/fulfillments/findAll/"+eid
-        axios.get(url)
-        .then((res)=>{
-            setOrderID(res.data.orderID)
-            setSourceLocationId(res.data.sourceLocationID)
-            setDestination(res.data.destination)
-            setSku(res.data.sku)
-            setQuantity(res.data.quantity)
-        })
-        .catch((error)=>{
-            alert("Error :" +(error.message))
-        })
-    },[eid])
+    const token = localStorage.getItem("token");
+    let url="http://localhost:9011/fulfillments/findById/"+eid  // ← correct endpoint
+    axios.get(url, {
+        headers: { Authorization: "Bearer " + token }          // ← add token
+    })
+    .then((res)=>{
+        setOrderID(res.data.orderID)
+        setSourceLocationId(res.data.sourceLocationID)
+        setDestination(res.data.destination)
+        setSku(res.data.items?.[0]?.sku || "")         // ← items is an array
+        setQuantity(res.data.items?.[0]?.quantity || "")
+    })
+    .catch((error)=>{ alert("Error :" +(error.message)) })
+},[eid])
 
     return(
         <div className="container mt-4">
