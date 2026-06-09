@@ -18,20 +18,8 @@ axios.interceptors.request.use((config) => {
     return config;
 });
 
-// Redirect to login on 401/403
-axios.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response &&
-            (error.response.status === 401 ||
-             error.response.status === 403)) {
-            localStorage.clear();
-            window.location.href = "/login";
-        }
-        return Promise.reject(error);
-    }
-);
-
+// ✅ REMOVED response interceptor completely
+// Let each component handle errors itself
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
