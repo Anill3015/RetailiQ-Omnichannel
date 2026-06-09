@@ -24,7 +24,7 @@ public class FulfillmentInstructionController {
         return service.create(dto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/findById/{id}")
     public FulfillmentInstructionResponseDTO getById(
             @PathVariable int id) {
         return service.getById(id);
