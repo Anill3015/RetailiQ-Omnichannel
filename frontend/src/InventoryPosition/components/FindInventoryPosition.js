@@ -8,6 +8,7 @@ import {BrowserRouter as Router,
 } from 'react-router-dom'
 export default function FindInventoryPosition(){
     let [invArr, setInvData]= useState([])
+    let [searchId, setSearchId]= useState("")
 
     useEffect(()=>{
         let url ="http://localhost:9011/inventory/fetchAll"
@@ -19,9 +20,30 @@ export default function FindInventoryPosition(){
             alert("Error :" +(error.message))
         })
     },[])
+
+    useEffect(()=>{
+        if(searchId === ""){
+            axios.get("http://localhost:9011/inventory/fetchAll")
+            .then((res)=> {
+                setInvData(res.data)});
+            return;
+        }
+
+        axios.get("http://localhost:9011/inventory/find/" + searchId)
+        .then((res)=>{
+            console.log(res.data)
+            setInvData([res.data])
+        })
+        .catch(()=>{
+            setInvData([]);
+        })
+    },[searchId])
     return(
          <div className="container mt-4">
             <h2 className="mb-3">Inventory Position</h2>
+            <div className="d-flex justify-content-end mb-3">
+            <input type="text"  placeholder="Enter Inventory ID" className="form-control w-25" value={searchId} onChange={(e)=>{setSearchId(e.target.value)}}></input>
+            </div>
             <div className="table-responsive">
             <table className="table table-bordered table-striped table-hover align-middle">
                 <thead className="table-dark">
@@ -41,7 +63,7 @@ export default function FindInventoryPosition(){
                         invArr.map((e)=>{
                             return (
                                 <tr>
-                                    <td>{e.inventoryID}</td>
+                                    <td>{e.inventoryId || e.inventoryID}</td>
                                     <td>{e.locationID}</td>
                                     <td>{e.sku}</td>
                                     <td>{e.quantityOnHand}</td>

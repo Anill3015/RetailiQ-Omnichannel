@@ -12,15 +12,16 @@ export default function FulfillmentInstructionHome(){
 
     return (
         <div>
-            <nav style={{ display: "flex", gap: "20px", padding: "10px" }} className="navbar navbar-expand-lg navbar-dark bg-dark">
-
-                <div className='container-fluid'>
+           <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+        <div className="container-fluid">
+          
+          <div className="d-flex align-items-center gap-3">
                     
 <Link to="/Dashboard" style={{ fontSize: "22px" }}>
         <FaHome />
       </Link>
-
                     <Link to="/FulfillmentInstruction" className="navbar-brand">Fulfillment Instructions</Link>
+                    </div>
                      <button
         className="navbar-toggler"
         type="button"
@@ -32,22 +33,19 @@ export default function FulfillmentInstructionHome(){
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-       <div className="collapse navbar-collapse" id="navbarContent">
-        <ul className="navbar-nav me-auto">
+      
+<div className="collapse navbar-collapse justify-content-end" id="navbarContent">
+  <ul className="navbar-nav align-items-center gap-3">
+
 
                     <li className="nav-item">
                         <Link className="nav-link" to="createFulfillmentInstruction">Add FulfillmentInstruction</Link>
                     </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="deleteFulfillmentInstruction">Delete FulfillmentInstruction</Link>
-                    </li>
+                    
                     <li className="nav-item">
                         <Link className="nav-link" to="findFulfillmentInstruction">Find FulfillmentInstruction</Link>
                     </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="updateFulfillmentInstruction">Update FulfillmentInstruction</Link>
- 
-                    </li>
+                    
                     <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
                    
                 </ul>

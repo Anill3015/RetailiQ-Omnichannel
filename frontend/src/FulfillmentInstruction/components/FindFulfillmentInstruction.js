@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function FindFulfillmentInstruction() {
     let [fulArr, setFulArr] = useState([]);
+    let [searchId, setSearchId] = useState("")
 
     useEffect(() => {
                 const token = localStorage.getItem("token");
@@ -14,13 +15,25 @@ export default function FindFulfillmentInstruction() {
             }
         })
             .then((res) => {
-                console.log(res.data);
                 setFulArr(res.data);
             })
             .catch((error) => {
                 alert("Error: " + error.message);
             });
     }, []);
+
+    useEffect(()=>{
+        if(searchId === " "){
+            axios.get("http://localhost:9011/fulfillments/findAll")
+            .then((res)=>{setFulArr(res.data)}
+            
+        )
+        return;
+        }
+
+        axios.get("http://localhost:9011/fulfillments/findById/"+searchId)
+        .then((res)=>setFulArr(res.data))
+    }, [searchId])
 
     return (
         <div className="container mt-4">

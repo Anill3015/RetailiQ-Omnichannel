@@ -13,11 +13,15 @@ export default function LocationHome() {
        
                        <div className='container-fluid'>
                            
+<div className="d-flex align-items-center gap-3">
+
        <Link to="/Dashboard" style={{ fontSize: "22px" }}>
                <FaHome />
              </Link>
 
              <Link to="/Location" className="navbar-brand">Location</Link>
+
+             </div>
             <button
         className="navbar-toggler"
         type="button"
@@ -29,9 +33,10 @@ export default function LocationHome() {
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-       <div className="collapse navbar-collapse" id="navbarContent">
-        <ul className="navbar-nav me-auto">
-                    <li className="nav-item"><Link className="nav-link" to="createLocation">Add Location</Link></li>
+
+<div className="collapse navbar-collapse justify-content-end"
+  id="navbarContent">
+<ul className="navbar-nav align-items-center gap-3">                    <li className="nav-item"><Link className="nav-link" to="createLocation">Add Location</Link></li>
                     <li className="nav-item"><Link className="nav-link" to="findLocation">Find All Locations</Link></li>
                     <li className="nav-item"><Link className="nav-link" to="findLocationById">Find Location By ID</Link></li>
                     <li className="nav-item"><Link className="nav-link" to="updateLocation">Update Location</Link></li>

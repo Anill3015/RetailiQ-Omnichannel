@@ -13,10 +13,13 @@ export default function OrderHome() {
        
                        <div className='container-fluid'>
                            
+<div className="d-flex align-items-center gap-3">
+
        <Link to="/Dashboard" style={{ fontSize: "22px" }}>
                <FaHome />
              </Link>
              <Link to="/Order" className="navbar-brand">Orders</Link>
+             </div>
              <button
         className="navbar-toggler"
         type="button"
@@ -28,8 +31,15 @@ export default function OrderHome() {
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-       <div className="collapse navbar-collapse" id="navbarContent">
-        <ul className="navbar-nav me-auto">
+       
+
+<div
+  className="collapse navbar-collapse justify-content-end"
+  id="navbarContent"
+>
+  <ul className="navbar-nav align-items-center gap-3">
+
+
                     <li className="nav-item"><Link className="nav-link" to="createOrder">Add Order</Link></li>
                     <li className="nav-item"><Link className="nav-link" to="findOrder">Find All Orders</Link></li>
                     <li className="nav-item"><Link className="nav-link" to="findOrderById">Find Order By ID</Link></li>
