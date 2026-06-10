@@ -13,21 +13,66 @@ import org.springframework.stereotype.Service;
 public class FulfillmentInstructionService {
 
     private final FulfillmentInstructionRepository repository;
+    private final ExceptionEventService exceptionEventService;
 
-    public FulfillmentInstructionService(FulfillmentInstructionRepository repository) {
+    public FulfillmentInstructionService(
+            FulfillmentInstructionRepository repository,
+            ExceptionEventService exceptionEventService) {
+
         this.repository = repository;
+        this.exceptionEventService = exceptionEventService;
     }
 
     public FulfillmentInstructionResponseDTO create(FulfillmentInstructionRequestDTO dto) {
 
-        FulfillmentInstruction entity = new FulfillmentInstruction();
-        entity.setOrderID(dto.getOrderID());
-        entity.setSourceLocationID(dto.getSourceLocationID());
-        entity.setDestination(dto.getDestination());
-        entity.setStatus("CREATED");
-        entity.setItems(dto.getItems() == null ? null : dto.getItems().toString());
+        // ✅ VALIDATION FIRST (CRITICAL)
+        if (dto.getOrderID() <= 0) {
 
-        return mapToResponse(repository.save(entity));
+            System.out.println("🔥 Fulfillment validation failed");
+
+            exceptionEventService.createException(
+                    "FULFILLMENT_FAILURE",
+                    "INVALID_ORDER_ID",
+                    "CRITICAL"
+            );
+
+            throw new RuntimeException("Order ID must be valid");
+        }
+
+        if (dto.getSourceLocationID() <= 0) {
+
+            exceptionEventService.createException(
+                    "FULFILLMENT_FAILURE",
+                    String.valueOf(dto.getOrderID()),
+                    "HIGH"
+            );
+
+            throw new RuntimeException("Invalid Source Location ID");
+        }
+
+        try {
+
+            FulfillmentInstruction entity = new FulfillmentInstruction();
+
+            entity.setOrderID(dto.getOrderID());
+            entity.setSourceLocationID(dto.getSourceLocationID());
+            entity.setDestination(dto.getDestination());
+            entity.setStatus("CREATED");
+            entity.setItems(dto.getItems() == null ? null : dto.getItems().toString());
+
+            return mapToResponse(repository.save(entity));
+
+        } catch (Exception e) {
+
+            // ✅ SYSTEM FAILURE
+            exceptionEventService.createException(
+                    "FULFILLMENT_FAILURE",
+                    String.valueOf(dto.getOrderID()),
+                    "CRITICAL"
+            );
+
+            throw new RuntimeException("Fulfillment failed: " + e.getMessage());
+        }
     }
 
     public FulfillmentInstructionResponseDTO getById(int id) {

@@ -104,4 +104,19 @@ public class ReturnAuthorizationController {
 
         return service.getReturnAuthorizationsWithPagination(pageable);
     }
+    
+    @PutMapping("/approveReturn/{id}")
+    public ReturnAuthorization approve(@PathVariable Long id) {
+        return service.approve(id);
+    }
+
+    @PutMapping("/rejectReturn/{id}")
+    public ReturnAuthorization reject(@PathVariable Long id) {
+        return service.reject(id);
+    }
+
+    @PutMapping("/completeReturn/{id}")
+    public ReturnAuthorization complete(@PathVariable Long id) {
+        return service.complete(id);
+    }
 }

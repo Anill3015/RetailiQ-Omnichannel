@@ -67,6 +67,19 @@ public class ExceptionEventController {
         service.delete(id);
         return "Deleted successfully";
     }
+    
+ // ✅ FILTER BY STATUS
+    @GetMapping("/filterByStatus")
+    public List<ExceptionEvent> filterByStatus(@RequestParam String status) {
+        return service.getByStatus(status);
+    }
+
+    // ✅ FILTER BY SEVERITY
+    @GetMapping("/filterBySeverity")
+    public List<ExceptionEvent> filterBySeverity(@RequestParam String severity) {
+        return service.getBySeverity(severity);
+    }
+    
 
 
     @GetMapping("/findExceptionEvent/{id}")

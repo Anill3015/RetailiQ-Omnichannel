@@ -146,6 +146,7 @@ import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
 import Register from './Register';
 import PendingUsers from './PendingUsers';
+import KpiDashboard from './KPIReport/components/KpiDashboard';
 
 function App() {
   return (
@@ -255,6 +256,7 @@ function App() {
             <Route path="findKPIReportById"   element={<FindKPIReportById />} />
             <Route path="findAllKPIReport"    element={<FindAllKPIReport />} />
             <Route path="updateKPIReport/:id" element={<UpdateKPIReport />} />
+            <Route path="dashboard" element={<KpiDashboard />} />
         </Route>
 
         {/* ✅ Location */}
