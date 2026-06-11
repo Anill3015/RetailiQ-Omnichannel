@@ -29,6 +29,8 @@ public class MyExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    
+    
     // ✅ LIST EMPTY (404)
     @ExceptionHandler(ListEmptyException.class)
     public ResponseEntity<Map<String, String>> handleListEmptyException(ListEmptyException ex) {

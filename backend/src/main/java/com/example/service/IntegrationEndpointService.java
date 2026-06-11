@@ -34,7 +34,7 @@ public class IntegrationEndpointService {
         notification.setUserId(101L);
         notification.setMessage(
                 "Integration endpoint " + endpoint.getName() + " added successfully");
-        notification.setCategory("INTEGRATION");
+        notification.setCategory(Notification.NotificationCategory.INTEGRATION);
         notification.setStatus("NEW");
         notification.setReadFlag(false);
         notification.setCreatedDate(LocalDateTime.now());

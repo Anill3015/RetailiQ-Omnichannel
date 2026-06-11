@@ -1,122 +1,169 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateNotification() {
+    const navigate = useNavigate();
 
-    const [userId, setUserId] = useState("");
-    const [message, setMessage] = useState("");
-    const [category, setCategory] = useState("");
-    const [status, setStatus] = useState("");
-    const [createdDate, setCreatedDate] = useState("");
-    const [readFlag, setReadFlag] = useState(false);
+    const [formData, setFormData] = useState({
+        userId: "",
+        message: "",
+        category: "ORDER",
+        deliveryChannel: "IN_APP",
+        status: "NEW",
+        readFlag: false
+    });
 
-    const saveHandler = () => {
-        const url = "http://localhost:9011/api/addNotification";
-        const data = {
-            notification: {
-                userId: parseInt(userId),
-                message: message,
-                category: category,
-                status: status,
-                createdDate: createdDate + "T00:00:00",  // ✅ LocalDateTime format
-                readFlag: readFlag                        // ✅ boolean
-            }
-        };
+    const [successMsg, setSuccessMsg] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
 
-        axios.post(url, data)
-            .then((response) => {
-                alert("Notification added successfully!");
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
-                } else if (error.request) {
-                    alert("No response from server. Make sure the backend is running on port 9011.");
-                } else {
-                    alert("Error: " + error.message);
-                }
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem("token");
+
+        axios.post("http://localhost:9011/api/addNotification", formData, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(() => {
+            setSuccessMsg("Notification added successfully!");
+            setErrorMsg("");
+            // Reset form
+            setFormData({
+                userId: "",
+                message: "",
+                category: "ORDER",
+                deliveryChannel: "IN_APP",
+                status: "NEW",
+                readFlag: false
             });
+            // Navigate after 2 seconds
+            setTimeout(() => navigate("/Notification/findAllNotification"), 2000);
+        })
+        .catch((error) => {
+            setErrorMsg("Failed to add notification. Please try again.");
+            setSuccessMsg("");
+            console.error("Error:", error.response || error);
+        });
     };
 
     return (
         <div className="container mt-4">
-            <h2>Create Notification</h2>
+            <h2 className="mb-4">Create Notification</h2>
 
-            <div className="mb-3">
-                <label className="form-label">User ID</label>
-                <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Enter User ID"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
-                />
-            </div>
+            {/* Success Alert */}
+            {successMsg && (
+                <div className="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
+                    <span>✅</span>
+                    <strong>{successMsg}</strong>
+                    <span className="ms-2 text-muted" style={{ fontSize: "13px" }}>Redirecting...</span>
+                    <button type="button" className="btn-close ms-auto" onClick={() => setSuccessMsg("")} />
+                </div>
+            )}
 
-            <div className="mb-3">
-                <label className="form-label">Message</label>
-                <input
-                    className="form-control"
-                    placeholder="Enter message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                />
-            </div>
+            {/* Error Alert */}
+            {errorMsg && (
+                <div className="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
+                    <span>❌</span>
+                    <strong>{errorMsg}</strong>
+                    <button type="button" className="btn-close ms-auto" onClick={() => setErrorMsg("")} />
+                </div>
+            )}
 
-            <div className="mb-3">
-                <label className="form-label">Category</label>
-                <select
-                    className="form-select"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
+            <form onSubmit={handleSubmit}>
+
+                <div className="mb-3">
+                    <label className="form-label">User ID</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        name="userId"
+                        value={formData.userId}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Message</label>
+                    <textarea
+                        className="form-control"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        rows={3}
+                        required
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Category</label>
+                    <select
+                        className="form-select"
+                        name="category"
+                        value={formData.category}
+                        onChange={handleChange}
+                    >
+                        <option value="ORDER">ORDER</option>
+                        <option value="INVENTORY">INVENTORY</option>
+                        <option value="PROMOTION">PROMOTION</option>
+                        <option value="INTEGRATION">INTEGRATION</option>
+                    </select>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Delivery Channel</label>
+                    <select
+                        className="form-select"
+                        name="deliveryChannel"
+                        value={formData.deliveryChannel}
+                        onChange={handleChange}
+                    >
+                        <option value="IN_APP">IN_APP</option>
+                        <option value="EMAIL">EMAIL</option>
+                        <option value="SMS">SMS</option>
+                        <option value="WEBHOOK">WEBHOOK</option>
+                    </select>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Status</label>
+                    <select
+                        className="form-select"
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                    >
+                        <option value="NEW">NEW</option>
+                        <option value="UNREAD">UNREAD</option>
+                        <option value="READ">READ</option>
+                    </select>
+                </div>
+
+                <div className="mb-3 form-check">
+                    <input
+                        type="checkbox"
+                        className="form-check-input"
+                        name="readFlag"
+                        checked={formData.readFlag}
+                        onChange={handleChange}
+                    />
+                    <label className="form-check-label">Read Flag</label>
+                </div>
+
+                <button type="submit" className="btn btn-primary me-2">Save</button>
+                <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => navigate("/Notification/findAllNotification")}
                 >
-                    {/* ✅ matches Notification category from project doc */}
-                    <option value="">-- Select Category --</option>
-                    <option value="Order">Order</option>
-                    <option value="Inventory">Inventory</option>
-                    <option value="Promotion">Promotion</option>
-                    <option value="Integration">Integration</option>
-                </select>
-            </div>
-
-            <div className="mb-3">
-                <label className="form-label">Status</label>
-                <select
-                    className="form-select"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                >
-                    <option value="">-- Select Status --</option>
-                    <option value="UNREAD">UNREAD</option>
-                    <option value="READ">READ</option>
-                    <option value="NEW">NEW</option>
-                </select>
-            </div>
-
-            <div className="mb-3">
-                <label className="form-label">Created Date</label>
-                <input
-                    type="date"
-                    className="form-control"
-                    value={createdDate}
-                    onChange={(e) => setCreatedDate(e.target.value)}
-                />
-            </div>
-
-            <div className="mb-3 form-check">
-                <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="readFlagCheck"
-                    checked={readFlag}
-                    onChange={(e) => setReadFlag(e.target.checked)}
-                />
-                <label className="form-check-label" htmlFor="readFlagCheck">
-                    Read Flag
-                </label>
-            </div>
-
-            <button className="btn btn-primary" onClick={saveHandler}>SAVE</button>
+                    Cancel
+                </button>
+            </form>
         </div>
     );
 }

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
@@ -41,49 +42,71 @@ export default function DeleteNotification() {
 =======
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router';
+=======
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+>>>>>>> Stashed changes
 
 export default function DeleteNotification() {
-    const { nid } = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
+    const [notification, setNotification] = useState(null);
 
-    const deleteHandler = () => {
+    useEffect(() => {
         const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/api/fetchNotificationById/${id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then((res) => setNotification(res.data))
+        .catch((error) => console.error("Error:", error));
+    }, [id]);
 
-        // ✅ Send full object to match @RequestBody Notification
-        axios.delete("http://localhost:9011/api/deleteNotification", {
-            headers: { "Authorization": `Bearer ${token}` },
-            data: {
-                notificationId: parseInt(nid),
-                userId: null,
-                message: null,
-                category: null,
-                status: null,
-                createdDate: null,
-                readFlag: false
-            }
+    const handleDelete = () => {
+        const token = localStorage.getItem("token");
+        axios.delete(`http://localhost:9011/api/deleteNotification/${id}`, {
+            headers: { Authorization: `Bearer ${token}` }
         })
-        .then((response) => {
-            alert(response.data);
-            navigate("/Notification/findAllNotification");
-        })
-        .catch((error) => {
-            if (error.response) {
-                alert("Delete failed: " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
-            } else if (error.request) {
-                alert("No response from server. Make sure the backend is running on port 9011.");
-            } else {
-                alert("Error: " + error.message);
-            }
-        });
+        .then(() => navigate("/Notification/findNotification"))
+        .catch((error) => console.error("Error:", error));
     };
 
     return (
         <div className="container mt-4">
+<<<<<<< Updated upstream
             <h2>Delete Notification</h2>
             <p>Are you sure you want to delete Notification ID: <strong>{nid}</strong>?</p>
             <button className="btn btn-danger me-2" onClick={deleteHandler}>Delete</button>
             <button className="btn btn-secondary" onClick={() => navigate("/Notification/findNotification")}>Cancel</button>
 >>>>>>> Rakesh
+=======
+            <h2 className="mb-4">Delete Notification</h2>
+
+            {notification ? (
+                <div className="card border-danger">
+                    <div className="card-header bg-danger text-white">
+                        <strong>Confirm Deletion</strong>
+                    </div>
+                    <div className="card-body">
+                        <p>Are you sure you want to delete this notification?</p>
+                        <table className="table table-bordered mb-3">
+                            <tbody>
+                                <tr><th>Notification ID</th><td>{notification.notificationId}</td></tr>
+                                <tr><th>User ID</th><td>{notification.userId}</td></tr>
+                                <tr><th>Message</th><td>{notification.message}</td></tr>
+                                <tr><th>Category</th><td><span className="badge bg-primary">{notification.category}</span></td></tr>
+                                <tr><th>Delivery Channel</th><td><span className="badge bg-secondary">{notification.deliveryChannel}</span></td></tr>
+                                <tr><th>Status</th><td><span className={`badge ${notification.status === "READ" ? "bg-success" : notification.status === "UNREAD" ? "bg-danger" : "bg-secondary"}`}>{notification.status}</span></td></tr>
+                            </tbody>
+                        </table>
+                        <button className="btn btn-danger me-2" onClick={handleDelete}>Yes, Delete</button>
+                        <button className="btn btn-secondary" onClick={() => navigate("/Notification/findNotification")}>Cancel</button>
+                    </div>
+                </div>
+            ) : (
+                <p>Loading...</p>
+            )}
+>>>>>>> Stashed changes
         </div>
     );
 }

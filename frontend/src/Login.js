@@ -4,8 +4,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 =======
 import { Link, useNavigate } from 'react-router-dom';
+<<<<<<< Updated upstream
 import { jwtDecode} from 'jwt-decode';
 >>>>>>> Rakesh
+=======
+import { jwtDecode } from 'jwt-decode';
+>>>>>>> Stashed changes
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -85,39 +89,36 @@ export default function Login() {
             localStorage.setItem("role",     res.data.role);
             localStorage.setItem("username", res.data.username);
 
+            // ✅ Decode JWT and store userId
+            const decoded = jwtDecode(res.data.token);
+            console.log("Decoded token:", decoded);
+            localStorage.setItem("userId", decoded.userId || decoded.id || decoded.sub);
+
             setSuccess("Login successful! Welcome " + res.data.username + " 🎉");
 
             setTimeout(() => {
                 navigate("/dashboard");
             }, 1500);
         })
-        
         .catch((err) => {
-        console.error(err);
+            console.error(err);
 
-        if (err.response && err.response.data) {
-
-            if (typeof err.response.data === "string") {
-                setError(err.response.data);
-            } 
-            else if (err.response.data.error) {
-                setError(err.response.data.error);   // ✅ FIX HERE
-            } 
-            else if (err.response.data.message) {
-                setError(err.response.data.message);
-            } 
-            else {
+            if (err.response && err.response.data) {
+                if (typeof err.response.data === "string") {
+                    setError(err.response.data);
+                } else if (err.response.data.error) {
+                    setError(err.response.data.error);
+                } else if (err.response.data.message) {
+                    setError(err.response.data.message);
+                } else {
+                    setError("Login failed");
+                }
+            } else {
                 setError("Login failed");
             }
 
-        } else {
-            setError("Login failed");
-        }
-
-        setLoading(false);
-    });
-
-
+            setLoading(false);
+        });
     }
 
     return (
@@ -263,14 +264,13 @@ export default function Login() {
                                 onMouseLeave={e => e.currentTarget.style.opacity = '1'}
                             >
                                 {loading
-                                    ? <><span className="spinner-border spinner-border-sm me-2">
-                                        </span>Signing in...</>
+                                    ? <><span className="spinner-border spinner-border-sm me-2"></span>Signing in...</>
                                     : <><i className="bi bi-box-arrow-in-right me-2"></i>Sign In</>
                                 }
                             </button>
                         </div>
 
-                        {/* ✅ Register link */}
+                        {/* Register link */}
                         <p className="text-center text-muted small mb-0 mt-2">
                             Don't have an account?{" "}
                             <Link to="/register"
