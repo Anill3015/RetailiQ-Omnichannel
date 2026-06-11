@@ -20,147 +20,28 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private final UserRepository     repository;
-    private final RoleRepository     roleRepository;
+    private final UserRepository repository;
+    private final RoleRepository roleRepository;
     private final AuditLogRepository auditLogRepository;
 
     public UserService(UserRepository repository,
                        RoleRepository roleRepository,
                        AuditLogRepository auditLogRepository) {
-        this.repository         = repository;
-        this.roleRepository     = roleRepository;
+        this.repository = repository;
+        this.roleRepository = roleRepository;
         this.auditLogRepository = auditLogRepository;
     }
 
+    // ✅ REGISTER USER
     @Transactional
     public User register(User user) {
 
-        // 1. Duplicate username check
-        if (repository.findByUsername(user.getUsername()).isPresent()) {
-            throw new RuntimeException("USERNAME_EXISTS");
-        }
-
-        // 2. Resolve role — frontend sends { "role": { "name": "INVENTORY_PLANNER" } }
-        if (user.getRole() != null) {
-            Role managedRole = null;
-
-            if (user.getRole().getRoleId() != null) {
-                // resolve by ID if provided
-                managedRole = roleRepository.findById(user.getRole().getRoleId())
-                        .orElseThrow(() -> new RuntimeException(
-                                "Role not found with id: " + user.getRole().getRoleId()));
-
-            } else if (user.getRole().getName() != null
-                    && !user.getRole().getName().isBlank()) {
-                // resolve by name (normal registration flow)
-                managedRole = roleRepository.findByName(user.getRole().getName())
-                        .orElseThrow(() -> new RuntimeException(
-                                "Role not found: " + user.getRole().getName()));
-            }
-
-            if (managedRole != null) {
-                user.setRole(managedRole);
-            }
-        }
-
-        // 3. Save — no audit log for self-registration
-        return repository.save(user);
-    }
-
-    @Transactional
-    public User save(User user) {
-        boolean isNew = (user.getUserId() == null);
-
-        if (user.getRole() != null) {
-            Role managedRole = null;
-
-            if (user.getRole().getRoleId() != null) {
-                managedRole = roleRepository.findById(user.getRole().getRoleId())
-                        .orElseThrow(() -> new RuntimeException(
-                                "Role not found with id: " + user.getRole().getRoleId()));
-
-            } else if (user.getRole().getName() != null
-                    && !user.getRole().getName().isBlank()) {
-                managedRole = roleRepository.findByName(user.getRole().getName())
-                        .orElseThrow(() -> new RuntimeException(
-                                "Role not found: " + user.getRole().getName()));
-            }
-
-            if (managedRole != null) {
-                user.setRole(managedRole);
-            }
-        }
-
-        User saved  = repository.save(user);
-        String action = isNew ? "USER_CREATED" : "USER_UPDATED";
-        logAction(action, saved);
-        return saved;
-    }
-
-    @Transactional
-    public User update(Long userId, Long roleId, String name, String email, String phone) {
-        User existingUser = getById(userId);
-
-        Role managedRole = roleRepository.findById(roleId)
-                .orElseThrow(() -> new RuntimeException(
-                        "Role not found with id: " + roleId));
-
-        existingUser.setName(name);
-        existingUser.setEmail(email);
-        existingUser.setPhone(phone);
-        existingUser.setRole(managedRole);
-
-        logAction("USER_UPDATED", existingUser);
-        return existingUser;
-    }
-
-    public User getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(
-                        "User not found with id " + id));
-    }
-
-    // ✅ Added
-
-	public User findByUsername(String username) {
-	    return repository.findByUsername(username)
-	            .orElseThrow(() ->
-	                    new RuntimeException("User not found"));
-	}
-
-
-    @Transactional
-    public void delete(Long id) {
-        User user = getById(id);
-        auditLogRepository.deleteByUser(user);
-        repository.delete(user);
-    }
-
-    public List<User> getAllUsers() {
-        List<User> users = repository.findAll();
-        if (users.isEmpty()) {
-            throw new ListEmptyException("User list is empty");
-        }
-        return users;
-    }
-
-    public Page<User> getAll(Pageable pageable) {
-        Page<User> page = repository.findAll(pageable);
-        if (page.isEmpty()) {
-            throw new ListEmptyException("User list is empty");
-        }
-        return page;
-    }
-
-    @Transactional
-    public User register(User user) {
-
-        // ✅ Check duplicate username
+        // ✅ Username check
         if (repository.findByUsername(user.getUsername()).isPresent()) {
             throw new RuntimeException("Username already exists");
         }
 
-        // ✅ Check duplicate email
+        // ✅ Email check
         if (repository.findByEmail(user.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
@@ -170,7 +51,7 @@ public class UserService {
             Role role = roleRepository.findById(user.getRole().getRoleId())
                     .orElseThrow(() -> new RuntimeException("Role not found"));
 
-            // ❌ Block admin self-register
+            // ❌ Prevent admin self-registration
             if ("ADMIN".equalsIgnoreCase(role.getName())) {
                 throw new RuntimeException("You cannot register as ADMIN");
             }
@@ -178,30 +59,144 @@ public class UserService {
             user.setRole(role);
         }
 
-        // ✅ Set status
+        // ✅ IMPORTANT: Set default status
         user.setStatus("PENDING");
 
         return repository.save(user);
     }
-    
 
-    public List<User> getPendingUsers() {
-        return repository.findByStatus("PENDING");
+
+    // ✅ SAVE (Admin create/update)
+    @Transactional
+    public User save(User user) {
+        boolean isNew = (user.getUserId() == null);
+
+        if (user.getRole() != null) {
+            Role role = roleRepository.findById(user.getRole().getRoleId())
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+
+            user.setRole(role);
+        }
+
+        User saved = repository.save(user);
+
+        logAction(isNew ? "USER_CREATED" : "USER_UPDATED", saved);
+
+        return saved;
     }
 
+
+    // ✅ UPDATE USER
+    @Transactional
+    public User update(Long userId, Long roleId, String name, String email, String phone) {
+
+        User existingUser = getById(userId);
+
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+
+        existingUser.setName(name);
+        existingUser.setEmail(email);
+        existingUser.setPhone(phone);
+        existingUser.setRole(role);
+
+        logAction("USER_UPDATED", existingUser);
+
+        return existingUser;
+    }
+
+
+    // ✅ FIND BY USERNAME
+    public User findByUsername(String username) {
+        return repository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+
+    // ✅ LOGIN VALIDATION METHOD (IMPORTANT ✅)
+    public User validateLoginUser(String username) {
+        User user = findByUsername(username);
+
+        if ("PENDING".equalsIgnoreCase(user.getStatus())) {
+            throw new RuntimeException("Your account is not approved yet");
+        }
+
+        if ("REJECTED".equalsIgnoreCase(user.getStatus())) {
+            throw new RuntimeException("Your account has been rejected");
+        }
+
+        return user;
+    }
+
+
+    // ✅ APPROVE USER
     @Transactional
     public void approveUser(Long id) {
         User user = getById(id);
         user.setStatus("APPROVED");
     }
 
+
+    // ✅ REJECT USER
     @Transactional
     public void rejectUser(Long id) {
         User user = getById(id);
         user.setStatus("REJECTED");
     }
 
-    
+
+    // ✅ GET PENDING USERS
+    public List<User> getPendingUsers() {
+        List<User> users = repository.findByStatus("PENDING");
+
+        if (users.isEmpty()) {
+            throw new ListEmptyException("No pending users found");
+        }
+
+        return users;
+    }
+
+
+    // ✅ GET USER BY ID
+    public User getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
+    }
+
+
+    // ✅ DELETE USER
+    @Transactional
+    public void delete(Long id) {
+        User user = getById(id);
+        auditLogRepository.deleteByUser(user);
+        repository.delete(user);
+    }
+
+
+    // ✅ GET ALL USERS
+    public List<User> getAllUsers() {
+        List<User> users = repository.findAll();
+
+        if (users.isEmpty()) {
+            throw new ListEmptyException("User list is empty");
+        }
+
+        return users;
+    }
+
+
+    public Page<User> getAll(Pageable pageable) {
+        Page<User> page = repository.findAll(pageable);
+
+        if (page.isEmpty()) {
+            throw new ListEmptyException("User list is empty");
+        }
+
+        return page;
+    }
+
+
+    // ✅ AUDIT LOG
     private void logAction(String action, User user) {
         AuditLog log = new AuditLog();
         log.setAction(action);

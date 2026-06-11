@@ -14,10 +14,16 @@ export default function ReplenishmentHome() {
             <nav className="navbar bg-dark px-3">
 
                 <Link className="navbar-brand text-white text-decoration-none" to="/dashboard">
-                    RetailIQ
+                    Replenishment Orders
                 </Link>
 
                 <ul className="nav">
+
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="/dashboard">
+                            Home
+                        </Link>
+                    </li>
 
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="createReplenishment">
@@ -34,6 +40,13 @@ export default function ReplenishmentHome() {
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findReplenishmentById">
                             Find By ID
+                        </Link>
+                    </li>
+
+                    {/* ✅ New Feature Link */}
+                    <li className="nav-item">
+                        <Link className="nav-link text-warning" to="generateReplenishment">
+                            Generate from Forecast
                         </Link>
                     </li>
 

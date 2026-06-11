@@ -14,10 +14,16 @@ export default function ForecastHome() {
             <nav className="navbar bg-dark px-3">
 
                 <Link className="navbar-brand text-white text-decoration-none" to="/dashboard">
-                    RetailIQ
+                    Forecast
                 </Link>
 
                 <ul className="nav">
+
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="/dashboard">
+                            Home
+                        </Link>
+                    </li>
 
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="createForecast">
@@ -34,6 +40,13 @@ export default function ForecastHome() {
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findForecastById">
                             Find By ID
+                        </Link>
+                    </li>
+
+                    {/* ✅ New Feature Link */}
+                    <li className="nav-item">
+                        <Link className="nav-link text-warning" to="safetyStock">
+                            Safety Stock
                         </Link>
                     </li>
 

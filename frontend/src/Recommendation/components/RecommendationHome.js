@@ -14,10 +14,17 @@ export default function RecommendationHome() {
             <nav className="navbar bg-dark px-3">
 
                 <Link className="navbar-brand text-white text-decoration-none" to="/dashboard">
-                    RetailIQ
+                    Recommendation
                 </Link>
 
                 <ul className="nav">
+
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="/dashboard">
+                             Home
+                        </Link>
+                    </li>
+
 
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="createRecommendation">

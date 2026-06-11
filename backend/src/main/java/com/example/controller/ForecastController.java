@@ -24,7 +24,7 @@ public class ForecastController {
     private ForecastService service;
 
     @Operation(summary = "Create demand forecast")
-    @PostMapping("/add")
+    @PostMapping("/add") 
     public ResponseEntity<ForecastResponseDTO> addForecast(
             @RequestBody ForecastDTO forecastDTO) {
 

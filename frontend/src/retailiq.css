@@ -1,0 +1,489 @@
+/* retailiq.css — RetailIQ Design System */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --riq-bg: #f4f3ef;
+  --riq-surface: #ffffff;
+  --riq-surface-2: #f9f8f5;
+  --riq-border: #e4e2db;
+  --riq-border-strong: #ccc9be;
+
+  --riq-text-primary: #1a1916;
+  --riq-text-secondary: #5c5a54;
+  --riq-text-tertiary: #98968f;
+
+  --riq-accent: #2a5bd7;
+  --riq-accent-light: #eaeffc;
+  --riq-accent-text: #1a3f9e;
+
+  --riq-success: #1a6b45;
+  --riq-success-light: #e4f5ec;
+  --riq-warning: #8a5000;
+  --riq-warning-light: #fff4e0;
+  --riq-danger: #991b1b;
+  --riq-danger-light: #fef2f2;
+  --riq-info: #0e4f7a;
+  --riq-info-light: #e8f4fd;
+
+  --riq-radius-sm: 6px;
+  --riq-radius: 10px;
+  --riq-radius-lg: 16px;
+  --riq-radius-xl: 24px;
+
+  --riq-shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --riq-shadow: 0 4px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
+  --riq-shadow-lg: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* ── Layout wrappers ─────────────────────────────── */
+.riq-page {
+  min-height: 100vh;
+  background: var(--riq-bg);
+  font-family: var(--font-sans);
+  color: var(--riq-text-primary);
+}
+
+.riq-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Top Navbar ──────────────────────────────────── */
+.riq-navbar {
+  background: var(--riq-surface);
+  border-bottom: 1px solid var(--riq-border);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.riq-navbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.riq-brand {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--riq-text-primary);
+  text-decoration: none;
+  letter-spacing: -0.3px;
+  margin-right: 12px;
+}
+
+.riq-brand span {
+  color: var(--riq-accent);
+}
+
+.riq-nav-link {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--riq-text-secondary);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--riq-radius-sm);
+  transition: background 0.15s, color 0.15s;
+}
+
+.riq-nav-link:hover,
+.riq-nav-link.active {
+  background: var(--riq-accent-light);
+  color: var(--riq-accent-text);
+}
+
+.riq-nav-spacer { flex: 1; }
+
+/* ── Page header ─────────────────────────────────── */
+.riq-page-header {
+  padding: 32px 0 20px;
+}
+
+.riq-page-title {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: var(--riq-text-primary);
+  margin: 0 0 4px;
+}
+
+.riq-page-subtitle {
+  font-size: 14px;
+  color: var(--riq-text-secondary);
+  margin: 0;
+}
+
+/* ── Cards ───────────────────────────────────────── */
+.riq-card {
+  background: var(--riq-surface);
+  border: 1px solid var(--riq-border);
+  border-radius: var(--riq-radius-lg);
+  padding: 24px;
+  box-shadow: var(--riq-shadow-sm);
+}
+
+.riq-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--riq-text-primary);
+  margin: 0 0 16px;
+}
+
+/* ── Stat cards ──────────────────────────────────── */
+.riq-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.riq-stat {
+  background: var(--riq-surface);
+  border: 1px solid var(--riq-border);
+  border-radius: var(--riq-radius);
+  padding: 18px 20px;
+}
+
+.riq-stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--riq-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.riq-stat-value {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  color: var(--riq-text-primary);
+}
+
+.riq-stat-delta {
+  font-size: 12px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.riq-stat-delta.up { color: var(--riq-success); }
+.riq-stat-delta.down { color: var(--riq-danger); }
+
+/* ── Form elements ───────────────────────────────── */
+.riq-form-group {
+  margin-bottom: 18px;
+}
+
+.riq-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--riq-text-secondary);
+  margin-bottom: 6px;
+}
+
+.riq-label .req {
+  color: var(--riq-danger);
+  margin-left: 2px;
+}
+
+.riq-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--riq-border-strong);
+  border-radius: var(--riq-radius-sm);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  color: var(--riq-text-primary);
+  background: var(--riq-surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.riq-input:focus {
+  outline: none;
+  border-color: var(--riq-accent);
+  box-shadow: 0 0 0 3px rgba(42, 91, 215, 0.10);
+}
+
+.riq-input.error { border-color: #dc2626; }
+
+.riq-input-error {
+  font-size: 12px;
+  color: var(--riq-danger);
+  margin-top: 4px;
+}
+
+.riq-input[readonly] {
+  background: var(--riq-surface-2);
+  color: var(--riq-text-tertiary);
+  cursor: not-allowed;
+}
+
+/* ── Buttons ─────────────────────────────────────── */
+.riq-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 18px;
+  border-radius: var(--riq-radius-sm);
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, opacity 0.15s, transform 0.1s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.riq-btn:active { transform: scale(0.98); }
+
+.riq-btn-primary {
+  background: var(--riq-accent);
+  color: #fff;
+  border-color: var(--riq-accent);
+}
+.riq-btn-primary:hover { background: var(--riq-accent-text); border-color: var(--riq-accent-text); }
+
+.riq-btn-secondary {
+  background: var(--riq-surface);
+  color: var(--riq-text-secondary);
+  border-color: var(--riq-border-strong);
+}
+.riq-btn-secondary:hover { background: var(--riq-surface-2); }
+
+.riq-btn-danger {
+  background: var(--riq-danger-light);
+  color: var(--riq-danger);
+  border-color: #fca5a5;
+}
+.riq-btn-danger:hover { background: #fee2e2; }
+
+.riq-btn-success {
+  background: var(--riq-success-light);
+  color: var(--riq-success);
+  border-color: #6ee7b7;
+}
+
+.riq-btn-sm {
+  height: 30px;
+  padding: 0 12px;
+  font-size: 12.5px;
+  border-radius: var(--riq-radius-sm);
+}
+
+/* ── Badges ──────────────────────────────────────── */
+.riq-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 9px;
+  font-size: 11.5px;
+  font-weight: 500;
+  border-radius: 20px;
+}
+
+.riq-badge-success { background: var(--riq-success-light); color: var(--riq-success); }
+.riq-badge-warning { background: var(--riq-warning-light); color: var(--riq-warning); }
+.riq-badge-danger  { background: var(--riq-danger-light);  color: var(--riq-danger); }
+.riq-badge-info    { background: var(--riq-info-light);    color: var(--riq-info); }
+.riq-badge-gray    { background: #f1f0ec; color: var(--riq-text-secondary); }
+
+.riq-badge-platinum { background: #f0f0f0; color: #1a1916; }
+.riq-badge-gold     { background: #fff8e1; color: #7a5800; }
+.riq-badge-silver   { background: #f4f4f4; color: #4a4a4a; }
+.riq-badge-bronze   { background: #fdf0e5; color: #7a3800; }
+
+/* ── Table ───────────────────────────────────────── */
+.riq-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--riq-border);
+  border-radius: var(--riq-radius);
+}
+
+.riq-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.riq-table thead tr {
+  background: var(--riq-surface-2);
+  border-bottom: 1px solid var(--riq-border);
+}
+
+.riq-table th {
+  padding: 10px 16px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--riq-text-tertiary);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.riq-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--riq-border);
+  color: var(--riq-text-primary);
+  vertical-align: middle;
+}
+
+.riq-table tbody tr:last-child td { border-bottom: none; }
+.riq-table tbody tr:hover { background: var(--riq-surface-2); }
+
+/* ── Alerts ──────────────────────────────────────── */
+.riq-alert {
+  padding: 12px 16px;
+  border-radius: var(--riq-radius-sm);
+  font-size: 13.5px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.riq-alert-success { background: var(--riq-success-light); color: var(--riq-success); border: 1px solid #6ee7b7; }
+.riq-alert-danger  { background: var(--riq-danger-light); color: var(--riq-danger); border: 1px solid #fca5a5; }
+.riq-alert-warning { background: var(--riq-warning-light); color: var(--riq-warning); border: 1px solid #fcd34d; }
+.riq-alert-info    { background: var(--riq-info-light); color: var(--riq-info); border: 1px solid #93c5fd; }
+
+/* ── Search bar ──────────────────────────────────── */
+.riq-search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.riq-search-bar input {
+  padding-left: 36px;
+  height: 36px;
+  border-radius: var(--riq-radius);
+  font-size: 13.5px;
+  min-width: 240px;
+}
+
+.riq-search-icon {
+  position: absolute;
+  left: 11px;
+  color: var(--riq-text-tertiary);
+  font-size: 15px;
+  pointer-events: none;
+}
+
+/* ── Empty state ─────────────────────────────────── */
+.riq-empty {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.riq-empty-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  color: var(--riq-text-tertiary);
+}
+
+.riq-empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--riq-text-secondary);
+  margin-bottom: 6px;
+}
+
+.riq-empty-text {
+  font-size: 13px;
+  color: var(--riq-text-tertiary);
+}
+
+/* ── Dividers / utils ────────────────────────────── */
+.riq-divider {
+  height: 1px;
+  background: var(--riq-border);
+  margin: 20px 0;
+}
+
+.riq-monospace {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: var(--riq-surface-2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--riq-text-secondary);
+}
+
+/* ── Loading spinner ─────────────────────────────── */
+.riq-spinner {
+  display: inline-block;
+  width: 20px; height: 20px;
+  border: 2px solid var(--riq-border);
+  border-top-color: var(--riq-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Dashboard section grid ─────────────────────── */
+.riq-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.riq-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+@media (max-width: 768px) {
+  .riq-grid-2, .riq-grid-3 { grid-template-columns: 1fr; }
+  .riq-stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Priority dots ───────────────────────────────── */
+.riq-priority-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.riq-priority-dot.urgent { background: #dc2626; }
+.riq-priority-dot.normal { background: #f59e0b; }
+.riq-priority-dot.low    { background: #22c55e; }
+
+/* ── Loyalty tier tag ────────────────────────────── */
+.riq-tier {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.riq-tier.platinum { background: #f1f0ec; color: #1a1916; }
+.riq-tier.gold     { background: #fefce8; color: #854d0e; }
+.riq-tier.silver   { background: #f8fafc; color: #475569; }
+.riq-tier.bronze   { background: #fff7ed; color: #9a3412; }
+
+/* ── Forecast confidence ─────────────────────────── */
+.riq-confidence {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 500;
+}
+.riq-confidence.high   { color: var(--riq-success); }
+.riq-confidence.medium { color: var(--riq-warning); }
+.riq-confidence.low    { color: var(--riq-danger); }
+
+/* ── Status flow indicator ───────────────────────── */
+.riq-status-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 12px; font-weight: 500;
+}
+.riq-status-created    { background: #f1f0ec; color: #5c5a54; }
+.riq-status-approved   { background: var(--riq-info-light); color: var(--riq-info); }
+.riq-status-intransit  { background: #fff4e0; color: #7a5000; }
+.riq-status-completed  { background: var(--riq-success-light); color: var(--riq-success); }
+.riq-status-rejected   { background: var(--riq-danger-light); color: var(--riq-danger); }

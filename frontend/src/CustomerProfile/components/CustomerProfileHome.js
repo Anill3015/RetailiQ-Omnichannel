@@ -12,12 +12,17 @@ export default function CustomerProfileHome() {
         <div>
             <nav className="navbar bg-dark px-3">
 
-                {/* ✅ Clickable Title */}
                 <Link className="navbar-brand text-white text-decoration-none" to="/dashboard">
-                    RetailIQ
+                    CustomerProfile
                 </Link>
 
                 <ul className="nav">
+
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="/dashboard">
+                            Home
+                        </Link>
+                    </li>
 
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="createCustomerProfile">
@@ -37,7 +42,19 @@ export default function CustomerProfileHome() {
                         </Link>
                     </li>
 
-                    {/* ✅ Logout styled same as ExceptionEvent */}
+                    {/* ✅ New Feature Links */}
+                    <li className="nav-item">
+                        <Link className="nav-link text-warning" to="loyaltyTier">
+                            Loyalty Tier
+                        </Link>
+                    </li>
+
+                    <li className="nav-item">
+                        <Link className="nav-link text-warning" to="customerHistory">
+                            History
+                        </Link>
+                    </li>
+
                     <li className="nav-item">
                         <button
                             className="btn btn-danger btn-sm ms-2"

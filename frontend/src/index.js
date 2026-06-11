@@ -33,10 +33,6 @@ axios.interceptors.response.use(
     }
 );
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a96fc58e1c6a8dbc7a82a878f27473a8aa95c9ed
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <App />

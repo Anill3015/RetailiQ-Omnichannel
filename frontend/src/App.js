@@ -23,6 +23,8 @@ import DeleteCustomerProfile from './CustomerProfile/components/DeleteCustomerPr
 import UpdateCustomerProfile from './CustomerProfile/components/UpdateCustomerProfile';
 import FindCustomerProfile from './CustomerProfile/components/FindCustomerProfile';
 import FindCustomerProfileById from './CustomerProfile/components/FindCustomerProfileById';
+import LoyaltyTierCalculator from './CustomerProfile/components/LoyaltyTierCalculator';
+import CustomerHistory from './CustomerProfile/components/CustomerHistory';
 
 import ExceptionEventHome from './ExceptionEvent/components/ExceptionEventHome';
 import CreateExceptionEvent from './ExceptionEvent/components/CreateExceptionEvent';
@@ -145,7 +147,8 @@ import FindProductById from './Product/components/FindProductById';
 import UpdateProduct from './Product/components/UpdateProduct';
 import DeleteProduct from './Product/components/DeleteProduct';
 import Register from './Register';
-import PendingUsers from './PendingUsers';
+import SafetyStockCalculator from './Forecast/components/SafetyStockCalculator';
+import GenerateReplenishment from './Replenishment/components/GenerateReplenishment';
 
 function App() {
   return (
@@ -164,11 +167,6 @@ function App() {
         <Route path="/dashboard" element={
             <ProtectedRoute><Dashboard /></ProtectedRoute>
         } />
-        
-        <Route path="/pendingUsers" element={
-          <ProtectedRoute><PendingUsers /></ProtectedRoute>
-        } />
-
 
         {/* ✅ Forecast */}
         <Route path="Forecast" element={<ProtectedRoute><ForecastHome /></ProtectedRoute>}>
@@ -177,6 +175,7 @@ function App() {
             <Route path="FindForecastById"     element={<FindForecastById />} />
             <Route path="findForecast"         element={<FindForecast />} />
             <Route path="updateForecast/:fcid" element={<UpdateForecast />} />
+            <Route path="safetyStock"          element={<SafetyStockCalculator />} />
         </Route>
 
         {/* ✅ AuditLog */}
@@ -191,6 +190,8 @@ function App() {
             <Route path="findCustomerProfile"           element={<FindCustomerProfile />} />
             <Route path="updateCustomerProfile/:cpid"   element={<UpdateCustomerProfile />} />
             <Route path="findCustomerProfileById" element={<FindCustomerProfileById />} />
+            <Route path="loyaltyTier"             element={<LoyaltyTierCalculator />} />
+            <Route path="customerHistory"          element={<CustomerHistory />} />
         </Route>
 
         {/* ✅ ExceptionEvent */}
@@ -332,6 +333,7 @@ function App() {
             <Route path="findReplenishmentById"    element={<FindReplenishmentById />} />
             <Route path="updateReplenishment/:rid" element={<UpdateReplenishment />} />
             <Route path="deleteReplenishment/:rid" element={<DeleteReplenishment />} />
+             <Route path="generateReplenishment"    element={<GenerateReplenishment />} />
         </Route>
 
         {/* ✅ ReturnAuthorization */}
