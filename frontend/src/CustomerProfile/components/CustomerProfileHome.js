@@ -32,7 +32,7 @@ export default function CustomerProfileHome() {
 
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findCustomerProfile">
-                            Find
+                            Find All
                         </Link>
                     </li>
 

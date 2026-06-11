@@ -33,7 +33,7 @@ export default function ReplenishmentHome() {
 
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findReplenishment">
-                            Find
+                            Find All
                         </Link>
                     </li>
 

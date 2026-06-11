@@ -34,7 +34,7 @@ export default function RecommendationHome() {
 
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findRecommendation">
-                            Find
+                            FindAll
                         </Link>
                     </li>
 
