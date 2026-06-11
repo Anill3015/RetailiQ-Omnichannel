@@ -12,9 +12,8 @@ export default function FindReturnAuthorizationById() {
         setErrorMsg("");
         setData(null);
 
-        // ✅ Validation
         if (!id) {
-            setErrorMsg("⚠️ Please enter RMA ID");
+            setErrorMsg("Please enter RMA ID");
             return;
         }
 
@@ -33,17 +32,16 @@ export default function FindReturnAuthorizationById() {
             console.error(error);
             setData(null);
 
-            // ✅ Proper backend error handling
             if (error.response && error.response.data) {
                 if (error.response.data.message) {
-                    setErrorMsg("❌ " + error.response.data.message);
+                    setErrorMsg(error.response.data.message);
                 } else if (typeof error.response.data === "string") {
-                    setErrorMsg("❌ " + error.response.data);
+                    setErrorMsg(error.response.data);
                 } else {
-                    setErrorMsg("❌ Record not found");
+                    setErrorMsg("Record not found");
                 }
             } else {
-                setErrorMsg("❌ Record not found");
+                setErrorMsg("Record not found");
             }
         });
     };
@@ -52,7 +50,6 @@ export default function FindReturnAuthorizationById() {
         <div className="container mt-4">
             <h2>Find Return Authorization By ID</h2>
 
-            {/* ✅ Error Message */}
             {errorMsg && (
                 <div className="alert alert-danger">{errorMsg}</div>
             )}
@@ -82,7 +79,6 @@ export default function FindReturnAuthorizationById() {
                 Search
             </button>
 
-            {/* ✅ Result Table */}
             {data && (
                 <table className="table table-bordered table-striped mt-3">
                     <tbody>

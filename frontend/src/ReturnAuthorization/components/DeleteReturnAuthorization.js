@@ -22,20 +22,18 @@ export default function DeleteReturnAuthorization() {
             }
         })
                 .then(() => {
-                    setStatus("✅ Return Authorization deleted successfully");
+                    setStatus("Return Authorization deleted successfully");
 
-                    // ✅ redirect back to list
                     setTimeout(() => {
                         navigate("/ReturnAuthorization/findAllReturnAuthorization");
                     }, 1000);
                 })
                 .catch((error) => {
                     console.error("Delete error:", error);
-                    setStatus("❌ Delete failed");
+                    setStatus("Delete failed");
                 });
 
         } else {
-            // ✅ user cancels → go back
             navigate("/ReturnAuthorization/findAllReturnAuthorization");
         }
 

@@ -20,21 +20,18 @@ export default function KPIReportHome() {
 
                 <ul className="nav">
 
-                    {/* ✅ BACK TO MAIN DASHBOARD */}
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="/dashboard">
                             Home
                         </Link>
                     </li>
 
-                    {/* ✅ KPI DASHBOARD PAGE */}
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="dashboard">
                             KPI Dashboard
                         </Link>
                     </li>
 
-                    {/* ✅ LOGOUT */}
                     <button
                         className="btn btn-danger btn-sm ms-3"
                         onClick={logout}

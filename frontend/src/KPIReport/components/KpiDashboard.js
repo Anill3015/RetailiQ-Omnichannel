@@ -13,10 +13,9 @@ export default function KpiDashboard() {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => setData(res.data))
-        .catch(() => alert("❌ Failed to load KPI"));
+        .catch(() => alert("Failed to load KPI"));
     }, []);
 
-    // ✅ CARD COMPONENT
     const Card = ({ title, value, color }) => (
         <div className="col-md-3 mb-3">
             <div className={`card text-white bg-${color}`}>
@@ -28,7 +27,6 @@ export default function KpiDashboard() {
         </div>
     );
 
-    // ✅ BAR CHART (RETURNS)
     const returnChartData = {
         labels: ["Approved", "Rejected", "Completed"],
         datasets: [
@@ -44,7 +42,6 @@ export default function KpiDashboard() {
         ]
     };
 
-    // ✅ PIE CHART (SMALL SIZE ✅)
     const inventoryChartData = {
         labels: ["Stockouts", "Low Stock"],
         datasets: [
@@ -58,7 +55,6 @@ export default function KpiDashboard() {
         ]
     };
 
-    // ✅ LINE CHART (TREND - SIMULATED)
     const trendData = {
         labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
         datasets: [
@@ -94,7 +90,6 @@ export default function KpiDashboard() {
 
             <h2 className="mb-4">KPI Dashboard</h2>
 
-            {/* ✅ KPI CARDS */}
             <div className="row">
 
                 <Card title="Total Orders" value={data.totalOrders} color="primary" />
@@ -110,16 +105,13 @@ export default function KpiDashboard() {
 
             </div>
 
-            {/* ✅ CHARTS SECTION */}
             <div className="row mt-5">
 
-                {/* ✅ BAR CHART */}
                 <div className="col-md-6">
                     <h5>Return Status</h5>
                     <Bar data={returnChartData} />
                 </div>
 
-                {/* ✅ SMALL PIE CHART 🔥 */}
                 <div className="col-md-6 text-center">
                     <h5>Inventory Alerts</h5>
                     <div style={{ width: "250px", margin: "auto" }}>
@@ -129,7 +121,6 @@ export default function KpiDashboard() {
 
             </div>
 
-            {/* ✅ LINE CHART (ADVANCED 🔥) */}
             <div className="row mt-5">
                 <div className="col-md-12">
                     <h5>Weekly Trends</h5>

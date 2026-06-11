@@ -16,7 +16,6 @@ export default function UpdateReturnAuthorization() {
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
 
-    // ✅ Load existing data
     useEffect(() => {
 
         axios.get(`http://localhost:9011/api/findReturnAuthorization/${id}`, {
@@ -38,14 +37,13 @@ export default function UpdateReturnAuthorization() {
 
     }, [id]);
 
-    // ✅ Update handler
     const handleUpdate = () => {
 
         setErrorMsg("");
         setSuccessMsg("");
 
         if (!reason || !sku || !status || !orderId) {
-            setErrorMsg("⚠️ All fields are required");
+            setErrorMsg("All fields are required");
             return;
         }
 
@@ -67,7 +65,7 @@ export default function UpdateReturnAuthorization() {
         })
         .then(() => {
 
-            setSuccessMsg("✅ Updated successfully");
+            setSuccessMsg("Updated successfully");
 
             setTimeout(() => {
                 navigate("/ReturnAuthorization/findAllReturnAuthorization");
@@ -114,7 +112,6 @@ export default function UpdateReturnAuthorization() {
                 />
             </div>
 
-            {/* ✅ Controlled Dropdown */}
             <div className="mb-3">
                 <label>Status</label>
                 <select

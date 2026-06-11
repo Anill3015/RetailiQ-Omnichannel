@@ -12,7 +12,7 @@ export default function AddExceptionEvent() {
     const saveHandler = () => {
 
         if (!type || !referenceId || !severity) {
-            setErrorMsg("⚠️ All fields are required");
+            setErrorMsg("All fields are required");
             return;
         }
 
@@ -33,14 +33,14 @@ export default function AddExceptionEvent() {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(() => {
-            alert("✅ Exception Event added successfully");
+            alert("Exception Event added successfully");
 
             setType("");
             setReferenceId("");
             setSeverity("");
         })
         .catch(() => {
-            setErrorMsg("❌ Error adding event");
+            setErrorMsg("Error adding event");
         });
     };
 
@@ -48,12 +48,10 @@ export default function AddExceptionEvent() {
         <div className="container mt-4">
             <h2>Add Exception Event</h2>
 
-            {/* ✅ Global Error */}
             {errorMsg && (
                 <div className="alert alert-danger">{errorMsg}</div>
             )}
 
-            {/* ✅ TYPE */}
             <div className="mb-3">
                 <label className="form-label">
                     Type <span style={{ color: "red" }}>*</span>
@@ -69,7 +67,6 @@ export default function AddExceptionEvent() {
                 )}
             </div>
 
-            {/* ✅ REFERENCE ID */}
             <div className="mb-3">
                 <label className="form-label">
                     Reference ID <span style={{ color: "red" }}>*</span>
@@ -85,7 +82,6 @@ export default function AddExceptionEvent() {
                 )}
             </div>
 
-            {/* ✅ SEVERITY */}
             <div className="mb-3">
                 <label className="form-label">
                     Severity <span style={{ color: "red" }}>*</span>
@@ -105,7 +101,6 @@ export default function AddExceptionEvent() {
                 )}
             </div>
 
-            {/* ✅ BUTTON */}
             <button className="btn btn-primary" onClick={saveHandler}>
                 Save
             </button>

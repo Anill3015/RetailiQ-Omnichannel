@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 export default function FindAllReturnAuthorization() {
 
     const [rmaList, setRmaList] = useState([]);
+    const [message, setMessage] = useState("");
+    const [isError, setIsError] = useState(false);
+
     const token = localStorage.getItem("token");
 
     const fetchData = () => {
@@ -52,6 +55,13 @@ export default function FindAllReturnAuthorization() {
     return (
         <div className="container mt-4">
             <h2>Return Authorizations</h2>
+
+            {/* ✅ CLEAN MESSAGE DISPLAY (NO ALERTS) */}
+            {message && (
+                <div className={`alert ${isError ? "alert-danger" : "alert-success"}`}>
+                    {message}
+                </div>
+            )}
 
             <table className="table table-bordered table-hover mt-3">
                 <thead className="table-dark">
