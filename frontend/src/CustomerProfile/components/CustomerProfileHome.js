@@ -14,13 +14,6 @@ export default function CustomerProfileHome() {
                             Add
                         </Link>
                     </li>
-<<<<<<< HEAD
-                    <li>
-                        <Link to="findCustomerProfile">Find CustomerProfile</Link>
-                    </li>
-                    <li>
-                        <Link to="findCustomerProfileById">Find CustomerProfile by ID</Link>
-=======
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findCustomerProfile">
                             Find
@@ -30,7 +23,6 @@ export default function CustomerProfileHome() {
                         <Link className="nav-link text-white" to="findCustomerProfileById">
                             Find By ID
                         </Link>
->>>>>>> Rakesh
                     </li>
                 </ul>
             </nav>

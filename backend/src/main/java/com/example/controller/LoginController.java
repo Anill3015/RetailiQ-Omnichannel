@@ -27,10 +27,6 @@ public class LoginController {
     public Map<String, String> login(@RequestBody User loginRequest) {
         // ✅ Find user by username
         User user = userService.findByUsername(loginRequest.getUsername());
-<<<<<<< HEAD
-
-        // ✅ Check password
-=======
         
 
 		if (!"APPROVED".equalsIgnoreCase(user.getStatus())) {
@@ -38,20 +34,12 @@ public class LoginController {
 		}
 
 
->>>>>>> Rakesh
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
-<<<<<<< HEAD
-        // ✅ Get role name from Role entity
         String roleName = user.getRole() != null ? user.getRole().getName() : "USER";
 
-        // ✅ Generate token
-=======
-        String roleName = user.getRole() != null ? user.getRole().getName() : "USER";
-
->>>>>>> Rakesh
         String token = jwtUtil.generateToken(user.getUsername(), roleName);
 
         Map<String, String> response = new HashMap<>();

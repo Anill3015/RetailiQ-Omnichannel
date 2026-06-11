@@ -19,15 +19,10 @@ export default function ReplenishmentHome() {
                             Find
                         </Link>
                     </li>
-<<<<<<< HEAD
-                     <li>
-                        <Link to="findReplenishmentById">Find Replenishment by ID</Link>
-=======
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findReplenishmentById">
                             Find By ID
                         </Link>
->>>>>>> Rakesh
                     </li>
                 </ul>
             </nav>

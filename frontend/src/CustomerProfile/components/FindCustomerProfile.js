@@ -6,12 +6,8 @@ export default function FindCustomerProfile() {
     const [customers, setCustomers] = useState([]);
 
     useEffect(() => {
-<<<<<<< HEAD
-        axios.get("http://localhost:9011/api/customer/fetchAll")
-=======
         const token = localStorage.getItem("token");
         axios.get("http://localhost:9011/api/customer/fetchAll",{headers: { "Authorization": `Bearer ${token}` }})
->>>>>>> Rakesh
             .then((response) => {
                 setCustomers(response.data);
             })
@@ -21,39 +17,6 @@ export default function FindCustomerProfile() {
     }, []);
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>All Customer Profiles</h2>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Loyalty Tier</th>
-                        <th>Preferences</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {customers.map((c) => (
-                        <tr key={c.customerId}>
-                            <td>{c.customerId}</td>
-                            <td>{c.name}</td>
-                            <td>{c.email}</td>
-                            <td>{c.loyaltyTier}</td>
-                            <td>{c.preferences}</td>
-                            <td>
-                                {/* ✅ Use absolute paths starting with / */}
-                                <Link to={`/CustomerProfile/deleteCustomerProfile/${c.customerId}`}>Delete</Link>
-                                {" | "}
-                                <Link to={`/CustomerProfile/updateCustomerProfile/${c.customerId}`}>Edit</Link>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-=======
         <div className="container mt-4">
             <h2 className="mb-3">All Customer Profiles</h2>
             <div className="table-responsive">
@@ -95,7 +58,6 @@ export default function FindCustomerProfile() {
                     </tbody>
                 </table>
             </div>
->>>>>>> Rakesh
         </div>
     );
 }

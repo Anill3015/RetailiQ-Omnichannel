@@ -10,23 +10,6 @@ export default function UpdateKPIReport() {
     const [scope, setScope] = useState("");
     const [metrics, setMetrics] = useState("");
 
-<<<<<<< HEAD
-    // ✅ LOAD EXISTING DATA
-    useEffect(() => {
-
-        axios.get(`http://localhost:9011/api/findKPIReport/${id}`)
-            .then((response) => {
-
-                let r = response.data.kpiReport;   // ✅ important
-
-                setScope(r.scope);
-                setMetrics(r.metrics);
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("Error loading KPI Report ❌");
-            });
-=======
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
 
@@ -49,55 +32,12 @@ export default function UpdateKPIReport() {
             console.error(error);
             setErrorMsg("Error loading KPI Report");
         });
->>>>>>> Rakesh
 
     }, [id]);
 
     // ✅ UPDATE FUNCTION
     const handleUpdate = () => {
 
-<<<<<<< HEAD
-        let url = `http://localhost:9011/api/updateKPIReport/${id}`;
-
-        let data = {
-            kpiReport: {
-                scope: scope,
-                metrics: metrics
-                // generatedDate handled by backend
-            }
-        };
-
-        axios.put(url, data)
-            .then(() => {
-                alert("✅ KPI Report updated successfully");
-
-                // ✅ redirect back to list
-                navigate("/KPIReport/findAllKPIReport");
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("❌ Update failed");
-            });
-    };
-
-    return (
-        <div>
-            <h2>Update KPI Report</h2>
-
-            <label>ID</label>
-            <input value={id} readOnly />
-            <br />
-
-            <label>Scope</label>
-            <input value={scope} onChange={(e) => setScope(e.target.value)} />
-            <br />
-
-            <label>Metrics</label>
-            <input value={metrics} onChange={(e) => setMetrics(e.target.value)} />
-            <br />
-
-            <button onClick={handleUpdate}>UPDATE</button>
-=======
         setErrorMsg("");
         setSuccessMsg("");
 
@@ -204,7 +144,6 @@ export default function UpdateKPIReport() {
             <button className="btn btn-success" onClick={handleUpdate}>
                 Update
             </button>
->>>>>>> Rakesh
         </div>
     );
 }

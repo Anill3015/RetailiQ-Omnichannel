@@ -7,13 +7,6 @@ export default function CreateReturnAuthorization() {
     const [sku, setSku] = useState("");
     const [status, setStatus] = useState("");
     const [orderId, setOrderId] = useState("");
-<<<<<<< HEAD
-
-    const handleCreate = () => {
-
-        if (!orderId) {
-            alert("❌ Order ID is required");
-=======
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
 
@@ -25,28 +18,12 @@ export default function CreateReturnAuthorization() {
         // ✅ Validation
         if (!reason || !sku || !status || !orderId) {
             setErrorMsg("⚠️ Please fill all fields");
->>>>>>> Rakesh
             return;
         }
 
         const numericOrderId = Number(orderId);
 
         if (isNaN(numericOrderId)) {
-<<<<<<< HEAD
-            alert("❌ Enter valid numeric Order ID");
-            return;
-        }
-
-        let url = "http://localhost:9011/api/addReturnAuthorization";
-
-        let data = {
-            returnAuthorization: {
-                reason: reason,
-                sku: sku,
-                status: status,
-                order: {
-                    orderID: numericOrderId   // ✅ FIXED (IMPORTANT)
-=======
             setErrorMsg("❌ Order ID must be a number");
             return;
         }
@@ -61,57 +38,10 @@ export default function CreateReturnAuthorization() {
                 status,
                 order: {
                     orderID: numericOrderId
->>>>>>> Rakesh
                 }
             }
         };
 
-<<<<<<< HEAD
-        console.log("Sending data:", data); // ✅ Debug
-
-        axios.post(url, data)
-            .then(() => {
-                alert("✅ Return Authorization created successfully");
-
-                setReason("");
-                setSku("");
-                setStatus("");
-                setOrderId("");
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-                alert("❌ Error creating Return Authorization");
-            });
-    };
-
-    return (
-        <div>
-            <h2>Create Return Authorization</h2>
-
-            <label>Reason</label>
-            <input value={reason} onChange={(e) => setReason(e.target.value)} />
-            <br />
-
-            <label>SKU</label>
-            <input value={sku} onChange={(e) => setSku(e.target.value)} />
-            <br />
-
-            <label>Status</label>
-            <input value={status} onChange={(e) => setStatus(e.target.value)} />
-            <br />
-
-            <label>Order ID</label>
-            <input
-                value={orderId}
-                onChange={(e) => setOrderId(e.target.value)}
-            />
-            <br />
-
-            <button onClick={handleCreate}>CREATE</button>
-        </div>
-    );
-}
-=======
         axios.post(url, data, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -234,4 +164,3 @@ export default function CreateReturnAuthorization() {
         </div>
     );
 }
->>>>>>> Rakesh

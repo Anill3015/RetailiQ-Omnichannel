@@ -6,21 +6,10 @@ export default function CreatePromotionType() {
 
     let save = (event) => {
         event.preventDefault();
-<<<<<<< HEAD
-
-        if (!name) {
-            alert("Please enter a promotion type name");
-            return;
-        }
-
-        axios.post("http://localhost:9011/promotionType/add", { "name": name })
-            .then((res) => {
-=======
         if (!name) { alert("Please enter a promotion type name"); return; }
 
         axios.post("http://localhost:9011/promotionType/add", { "name": name })
             .then(() => {
->>>>>>> Rakesh
                 alert("Promotion Type created successfully!");
                 setName("");
             })
@@ -34,18 +23,6 @@ export default function CreatePromotionType() {
     }
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Create Promotion Type</h2>
-            <form onSubmit={save}>
-                <label>Name</label>
-                <input
-                    placeholder="enter promotion type name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                /><br />
-                <button type="submit">Add Promotion Type</button>
-=======
         <div className="container mt-4">
             <h2>Create Promotion Type</h2>
             <form onSubmit={save}>
@@ -55,7 +32,6 @@ export default function CreatePromotionType() {
                         value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
                 <button type="submit" className="btn btn-primary">Add Promotion Type</button>
->>>>>>> Rakesh
             </form>
         </div>
     );

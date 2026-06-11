@@ -4,24 +4,6 @@ import { Link } from "react-router-dom";
 
 export default function FindAllExceptionEvent() {
 
-<<<<<<< HEAD
-    let [eventArr, setEventData] = useState([]);
-
-    // ✅ FETCH ALL DATA
-    const fetchData = () => {
-        let url = "http://localhost:9011/api/fetchAllExceptionEvents";
-
-        axios.get(url)
-            .then((response) => {
-                setEventData(response.data);
-            })
-            .catch((error) => {
-                console.error("Fetch error:", error);
-            });
-    };
-
-    // ✅ LOAD DATA ONCE
-=======
     const [eventArr, setEventData] = useState([]);
 
     const fetchData = () => {
@@ -41,59 +23,11 @@ export default function FindAllExceptionEvent() {
         });
     };
 
->>>>>>> Rakesh
     useEffect(() => {
         fetchData();
     }, []);
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Exception Events</h2>
-
-            <table border="1">
-                <thead>
-                    <tr>
-                        <td>ID</td>
-                        <td>Type</td>
-                        <td>Reference ID</td>
-                        <td>Severity</td>
-                        <td>Status</td>
-                        <td>Detected Date</td>
-                        <td>Action</td>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {
-                        eventArr.map((e) => (
-                            <tr key={e.exceptionId}>
-                                <td>{e.exceptionId}</td>
-                                <td>{e.type}</td>
-                                <td>{e.referenceId}</td>
-                                <td>{e.severity}</td>
-                                <td>{e.status}</td>
-                                <td>{e.detectedDate}</td>
-
-                                <td>
-                                    {/* ✅ ROUTE-BASED DELETE */}
-                                    <Link to={`/ExceptionEvent/deleteExceptionEvent/${e.exceptionId}`}>
-                                        Delete
-                                    </Link>
-
-                                    {" | "}
-
-                                    {/* ✅ EDIT */}
-                                    <Link to={`/ExceptionEvent/updateExceptionEvent/${e.exceptionId}`}>
-                                        Edit
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
-=======
         <div className="container mt-4">
             <h2 className="mb-3">Exception Events</h2>
 
@@ -149,7 +83,6 @@ export default function FindAllExceptionEvent() {
                     </tbody>
                 </table>
             </div>
->>>>>>> Rakesh
         </div>
     );
 }

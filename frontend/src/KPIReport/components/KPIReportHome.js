@@ -25,19 +25,6 @@ export default function KPIReportHome() {
                             Add
                         </Link>
                     </li>
-<<<<<<< HEAD
-                    <li>
-                        <Link to="findKPIReportById">Find KPIReport By Id</Link>
-                    </li>
-                    <li>
-                        <Link to="findAllKPIReport">Find All KPIReport</Link>
-                    </li>
-                    <li>
-                        <Link to="updateKPIReport">Update KPIReport</Link>
- 
-                    </li>
-                   
-=======
                     
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findKPIReportById">
@@ -50,7 +37,6 @@ export default function KPIReportHome() {
                         </Link>
                     </li>
                     <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
->>>>>>> Rakesh
                 </ul>
             </nav>
 

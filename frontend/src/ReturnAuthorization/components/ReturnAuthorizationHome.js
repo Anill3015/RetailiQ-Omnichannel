@@ -20,15 +20,10 @@ export default function ReturnAuthorizationHome() {
                             Home
                         </Link>
                     </li>
-<<<<<<< HEAD
-                    <li>
-                        <Link to="findReturnAuthorizationById">Find ReturnAuthorization By Id</Link>
-=======
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="createReturnAuthorization">
                             Add 
                         </Link>
->>>>>>> Rakesh
                     </li>
                    
                     <li className="nav-item">
@@ -41,13 +36,7 @@ export default function ReturnAuthorizationHome() {
                             Find All
                         </Link>
                     </li>
-<<<<<<< HEAD
-                    <li>
-                        <Link to="findAllReturnAuthorization">Find All ReturnAuthorization</Link>
-                    </li>
-=======
                     <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
->>>>>>> Rakesh
                 </ul>
             </nav>
 

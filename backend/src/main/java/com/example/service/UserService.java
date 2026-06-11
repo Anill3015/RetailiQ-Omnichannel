@@ -84,13 +84,6 @@ public class UserService {
     }
 
     // ✅ Added
-<<<<<<< HEAD
-    public User findByUsername(String username) {
-        return repository.findByUsername(username)
-                .orElseThrow(() ->
-                        new RuntimeException("User not found with username: " + username));
-    }
-=======
 
 	public User findByUsername(String username) {
 	    return repository.findByUsername(username)
@@ -98,7 +91,6 @@ public class UserService {
 	                    new RuntimeException("User not found"));
 	}
 
->>>>>>> Rakesh
 
     @Transactional
     public void delete(Long id) {
@@ -122,9 +114,6 @@ public class UserService {
         }
         return page;
     }
-<<<<<<< HEAD
-
-=======
     @Transactional
     public User register(User user) {
 
@@ -175,7 +164,6 @@ public class UserService {
     }
 
     
->>>>>>> Rakesh
     private void logAction(String action, User user) {
         AuditLog log = new AuditLog();
         log.setAction(action);

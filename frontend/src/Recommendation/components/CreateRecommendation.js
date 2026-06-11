@@ -5,12 +5,9 @@ export default function CreateRecommendation() {
     const [customerId, setCustomerId] = useState("");
     const [skuList, setSkuList] = useState("");
 
-<<<<<<< HEAD
-=======
     const customerIdHandler = (e) => setCustomerId(e.target.value);
     const skuListHandler = (e) => setSkuList(e.target.value);
 
->>>>>>> Rakesh
     const saveHandler = () => {
         if (!customerId) {
             alert("Customer ID is required");
@@ -34,9 +31,6 @@ export default function CreateRecommendation() {
             alert("Recommendation Saved! " + response.data.message);
         })
         .catch((error) => {
-<<<<<<< HEAD
-            alert("Error: " + (error.response?.data?.message || error.message));
-=======
             if (error.response) {
                 alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
             } else if (error.request) {
@@ -44,25 +38,10 @@ export default function CreateRecommendation() {
             } else {
                 alert("Error: " + error.message);
             }
->>>>>>> Rakesh
         });
     };
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Create Recommendation</h2>
-
-            <label>Customer ID</label>
-            <input type="number" onChange={(e) => setCustomerId(e.target.value)} />
-            <br />
-
-            <label>SKU List (comma separated)</label>
-            <input type="text" placeholder="SKU001, SKU002" onChange={(e) => setSkuList(e.target.value)} />
-            <br />
-
-            <button onClick={saveHandler}>SAVE</button>
-=======
         <div className="container mt-4">
             <h2>Create Recommendation</h2>
 
@@ -77,7 +56,6 @@ export default function CreateRecommendation() {
             </div>
 
             <button className="btn btn-primary" onClick={saveHandler}>Save</button>
->>>>>>> Rakesh
         </div>
     );
 }

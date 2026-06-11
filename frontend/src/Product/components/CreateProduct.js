@@ -6,28 +6,6 @@ export default function CreateProduct() {
     const [name, setName] = useState("");
     const [category, setCategory] = useState("");
 
-<<<<<<< HEAD
-    let saveProduct = (event) => {
-        event.preventDefault();
-
-        if (!sku || !name || !category) {
-            alert("Please fill all fields");
-            return;
-        }
-
-        let data = {
-            "sku": sku,
-            "name": name,
-            "category": category
-        }
-
-        axios.post("http://localhost:9011/product/add", data)
-            .then((res) => {
-                alert("Product created successfully!");
-                setSku("");
-                setName("");
-                setCategory("");
-=======
     let save = (event) => {
         event.preventDefault();
         if (!sku || !name || !category) { alert("Please fill all fields"); return; }
@@ -41,7 +19,6 @@ export default function CreateProduct() {
             .then(() => {
                 alert("Product created successfully!");
                 setSku(""); setName(""); setCategory("");
->>>>>>> Rakesh
             })
             .catch((err) => {
                 if (err.response) {
@@ -53,33 +30,6 @@ export default function CreateProduct() {
     }
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Create Product</h2>
-            <form onSubmit={saveProduct}>
-                <label>SKU</label>
-                <input
-                    placeholder="enter SKU"
-                    value={sku}
-                    onChange={(e) => setSku(e.target.value)}
-                /><br />
-
-                <label>Name</label>
-                <input
-                    placeholder="enter product name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                /><br />
-
-                <label>Category</label>
-                <input
-                    placeholder="enter category"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                /><br />
-
-                <button type="submit">Add Product</button>
-=======
         <div className="container mt-4">
             <h2>Create Product</h2>
             <form onSubmit={save}>
@@ -99,7 +49,6 @@ export default function CreateProduct() {
                         value={category} onChange={(e) => setCategory(e.target.value)} />
                 </div>
                 <button type="submit" className="btn btn-primary">Add Product</button>
->>>>>>> Rakesh
             </form>
         </div>
     );

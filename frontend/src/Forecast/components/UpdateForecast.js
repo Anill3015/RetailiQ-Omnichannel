@@ -11,11 +11,6 @@ export default function UpdateForecast() {
     const [period, setPeriod] = useState("");
     const [forecastQty, setForecastQty] = useState("");
 
-<<<<<<< HEAD
-    useEffect(() => {
-        if (!fcid) return;
-        axios.get(`http://localhost:9011/api/forecast/find/${fcid}`)
-=======
     const skuHandler = (e) => setSku(e.target.value);
     const locationIdHandler = (e) => setLocationId(e.target.value);
     const periodHandler = (e) => setPeriod(e.target.value);
@@ -27,7 +22,6 @@ export default function UpdateForecast() {
         axios.get(`http://localhost:9011/api/forecast/find/${fcid}`, {
             headers: { "Authorization": `Bearer ${token}` }
         }   )
->>>>>>> Rakesh
             .then((response) => {
                 const f = response.data;
                 setSku(f.product?.sku || "");
@@ -36,9 +30,6 @@ export default function UpdateForecast() {
                 setForecastQty(f.forecastQty || "");
             })
             .catch((error) => {
-<<<<<<< HEAD
-                alert("Error fetching forecast: " + (error.response?.data?.message || error.message));
-=======
                 if (error.response) {
                     alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
                 } else if (error.request) {
@@ -46,7 +37,6 @@ export default function UpdateForecast() {
                 } else {
                     alert("Error: " + error.message);
                 }
->>>>>>> Rakesh
             });
     }, [fcid]);
 
@@ -75,9 +65,6 @@ export default function UpdateForecast() {
             navigate("/Forecast/findForecast");
         })
         .catch((error) => {
-<<<<<<< HEAD
-            alert("Update Failed: " + (error.response?.data?.message || error.message));
-=======
             if (error.response) {
                 alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
             } else if (error.request) {
@@ -85,38 +72,10 @@ export default function UpdateForecast() {
             } else {
                 alert("Error: " + error.message);
             }
->>>>>>> Rakesh
         });
     };
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Update Forecast</h2>
-
-            <label>Forecast ID</label>
-            <input type="text" value={fcid} readOnly />
-            <br />
-
-            <label>Product SKU</label>
-            <input type="text" value={sku} onChange={(e) => setSku(e.target.value)} />
-            <br />
-
-            <label>Location ID</label>
-            <input type="number" value={locationId} onChange={(e) => setLocationId(e.target.value)} />
-            <br />
-
-            <label>Period</label>
-            <input type="text" value={period} onChange={(e) => setPeriod(e.target.value)} />
-            <br />
-
-            <label>Forecast Quantity</label>
-            <input type="number" value={forecastQty} onChange={(e) => setForecastQty(e.target.value)} />
-            <br />
-
-            <button onClick={updateHandler}>UPDATE</button>
-            <button onClick={() => navigate("/Forecast/findForecast")}>Cancel</button>
-=======
         <div className="container mt-4">
             <h2>Update Forecast</h2>
 
@@ -147,7 +106,6 @@ export default function UpdateForecast() {
 
             <button className="btn btn-primary me-2" onClick={updateHandler}>Update</button>
             <button className="btn btn-secondary" onClick={() => navigate("/Forecast/findForecast")}>Cancel</button>
->>>>>>> Rakesh
         </div>
     );
 }

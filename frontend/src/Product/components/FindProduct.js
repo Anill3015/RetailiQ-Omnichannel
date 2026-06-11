@@ -6,14 +6,9 @@ export default function FindProduct() {
     const [productArr, setProductArr] = useState([]);
     const [pgno, setPgno] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
-<<<<<<< HEAD
-
-    const size = 2;
-=======
     const [error, setError] = useState("");
 
     const size = 10;
->>>>>>> Rakesh
     const sorting = "productId";
     const asc = true;
 
@@ -23,28 +18,6 @@ export default function FindProduct() {
                 setProductArr(res.data.content);
                 setTotalPages(res.data.totalPages);
             })
-<<<<<<< HEAD
-            .catch((err) => alert(err.message));
-    }, [pgno]);
-
-    return (
-        <div>
-            <h2>All Products</h2>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>SKU</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        productArr.map((p) => {
-                            return (
-=======
             .catch((err) => {
                 if (err.response) {
                     setError("Error: " + err.response.data?.error || err.response.status);
@@ -80,28 +53,12 @@ export default function FindProduct() {
                             </tr>
                         ) : (
                             productArr.map((p) => (
->>>>>>> Rakesh
                                 <tr key={p.productId}>
                                     <td>{p.productId}</td>
                                     <td>{p.sku}</td>
                                     <td>{p.name}</td>
                                     <td>{p.category}</td>
                                     <td>
-<<<<<<< HEAD
-                                        <Link to={`/Product/editProduct/${p.productId}`}>Edit</Link>
-                                        &nbsp;&nbsp;
-                                        <Link to={`/Product/deleteProduct/${p.productId}`}>Delete</Link>
-                                    </td>
-                                </tr>
-                            );
-                        })
-                    }
-                </tbody>
-            </table>
-
-            <div>
-                <button
-=======
                                         <Link to={`/Product/editProduct/${p.productId}`}
                                             className="btn btn-warning btn-sm me-2">Edit</Link>
                                         <Link to={`/Product/deleteProduct/${p.productId}`}
@@ -118,21 +75,13 @@ export default function FindProduct() {
             <div className="d-flex align-items-center gap-2 mt-2">
                 <button
                     className="btn btn-outline-primary btn-sm"
->>>>>>> Rakesh
                     onClick={() => setPgno(pgno - 1)}
                     disabled={pgno === 0}>
                     Previous
                 </button>
-<<<<<<< HEAD
-                &nbsp;
-                <span>Page {pgno + 1} of {totalPages}</span>
-                &nbsp;
-                <button
-=======
                 <span>Page {pgno + 1} of {totalPages}</span>
                 <button
                     className="btn btn-outline-primary btn-sm"
->>>>>>> Rakesh
                     onClick={() => setPgno(pgno + 1)}
                     disabled={pgno + 1 >= totalPages}>
                     Next

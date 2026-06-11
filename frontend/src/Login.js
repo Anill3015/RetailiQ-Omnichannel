@@ -1,75 +1,19 @@
 import axios from 'axios';
 import { useState } from 'react';
-<<<<<<< HEAD
-import { useNavigate } from 'react-router-dom';
-=======
 import { Link, useNavigate } from 'react-router-dom';
-<<<<<<< Updated upstream
-import { jwtDecode} from 'jwt-decode';
->>>>>>> Rakesh
-=======
 import { jwtDecode } from 'jwt-decode';
->>>>>>> Stashed changes
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-<<<<<<< HEAD
-=======
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
->>>>>>> Rakesh
     const navigate = useNavigate();
 
     let login = (event) => {
         event.preventDefault();
-<<<<<<< HEAD
-
-        if (!username || !password) {
-            alert("Please enter username and password");
-            return;
-        }
-
-        axios.post("http://localhost:9011/loginapi/login", {
-            username: username,
-            password: password
-        })
-        .then((res) => {
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("role", res.data.role);
-            localStorage.setItem("username", res.data.username);
-            alert("Login successful! Welcome " + res.data.username);
-            navigate("/User/findUser");
-        })
-        .catch((err) => {
-            alert("Login failed: " + (err.response?.data?.message || err.message));
-        });
-    }
-
-    return (
-        <div>
-            <h2>RetailIQ Login</h2>
-            <form onSubmit={login}>
-                <label>Username</label>
-                <input
-                    placeholder="enter username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                /><br />
-
-                <label>Password</label>
-                <input
-                    type="password"
-                    placeholder="enter password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                /><br />
-
-                <button type="submit">Login</button>
-            </form>
-=======
         setError("");
         setSuccess("");
 
@@ -89,7 +33,7 @@ export default function Login() {
             localStorage.setItem("role",     res.data.role);
             localStorage.setItem("username", res.data.username);
 
-            // ✅ Decode JWT and store userId
+            // Decode JWT and store userId
             const decoded = jwtDecode(res.data.token);
             console.log("Decoded token:", decoded);
             localStorage.setItem("userId", decoded.userId || decoded.id || decoded.sub);
@@ -292,7 +236,6 @@ export default function Login() {
                 </div>
 
             </div>
->>>>>>> Rakesh
         </div>
     );
 }

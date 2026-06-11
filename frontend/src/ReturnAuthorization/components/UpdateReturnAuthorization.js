@@ -12,30 +12,6 @@ export default function UpdateReturnAuthorization() {
     const [status, setStatus] = useState("");
     const [orderId, setOrderId] = useState("");
 
-<<<<<<< HEAD
-    // ✅ LOAD EXISTING DATA
-    useEffect(() => {
-
-        axios.get(`http://localhost:9011/api/findReturnAuthorization/${id}`)
-            .then((response) => {
-
-                let r = response.data.returnAuthorization;   // ✅ important
-
-                setReason(r.reason);
-                setSku(r.sku);
-                setStatus(r.status);
-
-                // ✅ extract from ManyToOne order
-                if (r.order) {
-                    setOrderId(r.order.orderID);
-                }
-
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("❌ Error loading data");
-            });
-=======
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
 
@@ -65,48 +41,28 @@ export default function UpdateReturnAuthorization() {
             console.error(error);
             setErrorMsg("Error loading data");
         });
->>>>>>> Rakesh
 
     }, [id]);
 
     // ✅ UPDATE FUNCTION
     const handleUpdate = () => {
 
-<<<<<<< HEAD
-        if (!orderId) {
-            alert("❌ Order ID required");
-=======
         setErrorMsg("");
         setSuccessMsg("");
 
         if (!reason || !sku || !status || !orderId) {
             setErrorMsg("⚠️ Please fill all fields");
->>>>>>> Rakesh
             return;
         }
 
         const numericOrderId = Number(orderId);
 
         if (isNaN(numericOrderId)) {
-<<<<<<< HEAD
-            alert("❌ Invalid Order ID");
-=======
             setErrorMsg("Order ID must be a number");
->>>>>>> Rakesh
             return;
         }
 
         let url = `http://localhost:9011/api/updateReturnAuthorization/${id}`;
-<<<<<<< HEAD
-
-        let data = {
-            returnAuthorization: {
-                reason: reason,
-                sku: sku,
-                status: status,
-                order: {
-                    orderID: numericOrderId   // ✅ IMPORTANT
-=======
         const token = localStorage.getItem("token");
 
         let data = {
@@ -116,57 +72,10 @@ export default function UpdateReturnAuthorization() {
                 status,
                 order: {
                     orderID: numericOrderId
->>>>>>> Rakesh
                 }
             }
         };
 
-<<<<<<< HEAD
-        axios.put(url, data)
-            .then(() => {
-                alert("✅ Return Authorization updated successfully");
-
-                // ✅ redirect to list
-                navigate("/ReturnAuthorization/findAllReturnAuthorization");
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("❌ Update failed");
-            });
-    };
-
-    return (
-        <div>
-            <h2>Update Return Authorization</h2>
-
-            <label>ID</label>
-            <input value={id} readOnly />
-            <br />
-
-            <label>Order ID</label>
-            <input
-                value={orderId}
-                onChange={(e) => setOrderId(e.target.value)}
-            />
-            <br />
-
-            <label>SKU</label>
-            <input value={sku} onChange={(e) => setSku(e.target.value)} />
-            <br />
-
-            <label>Reason</label>
-            <input value={reason} onChange={(e) => setReason(e.target.value)} />
-            <br />
-
-            <label>Status</label>
-            <input value={status} onChange={(e) => setStatus(e.target.value)} />
-            <br />
-
-            <button onClick={handleUpdate}>UPDATE</button>
-        </div>
-    );
-}
-=======
         axios.put(url, data, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -282,4 +191,3 @@ export default function UpdateReturnAuthorization() {
         </div>
     );
 }
->>>>>>> Rakesh

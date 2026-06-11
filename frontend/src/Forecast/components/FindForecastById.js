@@ -6,34 +6,21 @@ export default function FindForecastById() {
     const [forecast, setForecast] = useState(null);
     const [error, setError] = useState("");
 
-<<<<<<< HEAD
-=======
     const forecastIdHandler = (e) => setForecastId(e.target.value);
 
->>>>>>> Rakesh
     const searchHandler = () => {
         if (!forecastId) {
             alert("Please enter a Forecast ID");
             return;
         }
-<<<<<<< HEAD
-
-        axios.get(`http://localhost:9011/api/forecast/find/${forecastId}`)
-=======
        const token = localStorage.getItem("token");
         axios.get(`http://localhost:9011/api/forecast/find/${forecastId}`, {
             headers: { "Authorization": `Bearer ${token}` }
         })
->>>>>>> Rakesh
             .then((response) => {
                 setForecast(response.data);
                 setError("");
             })
-<<<<<<< HEAD
-            .catch(() => {
-                setForecast(null);
-                setError("Forecast not found with ID: " + forecastId);
-=======
             .catch((error) => {
                 setForecast(null);
                 if (error.response) {
@@ -43,28 +30,10 @@ export default function FindForecastById() {
                 } else {
                     setError("Error: " + error.message);
                 }
->>>>>>> Rakesh
             });
     };
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Find Forecast By ID</h2>
-
-            <label>Forecast ID</label>
-            <input
-                type="number"
-                placeholder="Enter Forecast ID"
-                onChange={(e) => setForecastId(e.target.value)}
-            />
-            <button onClick={searchHandler}>SEARCH</button>
-
-            {error && <p style={{ color: "red" }}>{error}</p>}
-
-            {forecast && (
-                <table border="1">
-=======
         <div className="container mt-4">
             <h2>Find Forecast By ID</h2>
 
@@ -85,7 +54,6 @@ export default function FindForecastById() {
 
             {forecast && (
                 <table className="table table-bordered table-striped mt-3">
->>>>>>> Rakesh
                     <tbody>
                         <tr><th>Forecast ID</th><td>{forecast.forecastId}</td></tr>
                         <tr><th>Product SKU</th><td>{forecast.product?.sku}</td></tr>

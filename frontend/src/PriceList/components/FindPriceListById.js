@@ -6,22 +6,6 @@ export default function FindPriceListById() {
     const [priceList, setPriceList] = useState(null);
     const [error, setError] = useState("");
 
-<<<<<<< HEAD
-    let searchPriceList = (event) => {
-        event.preventDefault();
-        setError("");
-        setPriceList(null);
-
-        if (!id) {
-            setError("Please enter a PriceList ID");
-            return;
-        }
-
-        axios.get(`http://localhost:9011/pricelist/find/${id}`)
-            .then((res) => {
-                setPriceList(res.data);
-            })
-=======
     let search = (event) => {
         event.preventDefault();
         setError(""); setPriceList(null);
@@ -33,7 +17,6 @@ export default function FindPriceListById() {
             }
         })
             .then((res) => setPriceList(res.data))
->>>>>>> Rakesh
             .catch((err) => {
                 if (err.response && err.response.status === 404) {
                     setError("PriceList not found with ID: " + id);
@@ -44,36 +27,6 @@ export default function FindPriceListById() {
     }
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Find PriceList By ID</h2>
-            <form onSubmit={searchPriceList}>
-                <label>Enter PriceList ID</label>
-                <input
-                    type="number"
-                    placeholder="enter pricelist id"
-                    value={id}
-                    onChange={(e) => setId(e.target.value)}
-                />
-                &nbsp;
-                <button type="submit">Search</button>
-            </form>
-
-            <br />
-
-            {error && <p style={{ color: "red" }}>{error}</p>}
-
-            {priceList && (
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Currency</th>
-                            <th>Price</th>
-                            <th>Effective From</th>
-                            <th>Effective To</th>
-                            <th>Product</th>
-=======
         <div className="container mt-4">
             <h2>Find PriceList By ID</h2>
             <form onSubmit={search} className="d-flex gap-2 mb-3">
@@ -91,7 +44,6 @@ export default function FindPriceListById() {
                         <tr>
                             <th>ID</th><th>Currency</th><th>Price</th>
                             <th>Effective From</th><th>Effective To</th><th>Product</th>
->>>>>>> Rakesh
                         </tr>
                     </thead>
                     <tbody>

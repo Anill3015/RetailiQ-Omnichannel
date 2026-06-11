@@ -21,15 +21,6 @@ export default function IntegrationEndpointHome() {
                             Home
                         </Link>
                     </li>
-<<<<<<< HEAD
-                    <li>
-                        <Link to="findIntegrationEndpoint">Find IntegrationEndpointById</Link>
-                    </li>
-                    <li>
-                        <Link to="findAllIntegrationEndpoint">FindAll IntegrationEndpoint</Link>
- 
-                    </li>
-=======
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="createIntegrationEndpoint">
                             Add
@@ -46,7 +37,6 @@ export default function IntegrationEndpointHome() {
                         </Link>
                     </li>
                     <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
->>>>>>> Rakesh
                 </ul>
             </nav>
 

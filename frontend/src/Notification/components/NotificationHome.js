@@ -8,7 +8,7 @@ export default function NotificationHome() {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        const userId = localStorage.getItem("userId"); // make sure userId is stored on login
+        const userId = localStorage.getItem("userId");
         if (userId) {
             axios.get(`http://localhost:9011/api/countUnread/${userId}`, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -49,34 +49,10 @@ export default function NotificationHome() {
                             )}
                         </Link>
                     </li>
-<<<<<<< HEAD
-                    <li>
-                        <Link to="findNotificationById">Find NotificationById</Link>
-                    </li>
-                    <li>
-                        <Link to="findAllNotification">FindAll Notification</Link>
- 
-                    </li>
-=======
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="sendNotification">Send</Link>
                     </li>
-<<<<<<< Updated upstream
-                    <li className="nav-item">
-                        <Link className="nav-link text-white" to="findNotificationById">
-                            Find By ID
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link text-white" to="findAllNotification">
-                            Find All
-                        </Link>
-                    </li>
-                    <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
->>>>>>> Rakesh
-=======
                     <button className="btn btn-danger btn-sm ms-2" onClick={logout}>Logout</button>
->>>>>>> Stashed changes
                 </ul>
             </nav>
 

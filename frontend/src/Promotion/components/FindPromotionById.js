@@ -8,18 +8,8 @@ export default function FindPromotionById() {
 
     let search = (event) => {
         event.preventDefault();
-<<<<<<< HEAD
-        setError("");
-        setPromotion(null);
-
-        if (!id) {
-            setError("Please enter a Promotion ID");
-            return;
-        }
-=======
         setError(""); setPromotion(null);
         if (!id) { setError("Please enter a Promotion ID"); return; }
->>>>>>> Rakesh
 
         axios.get(`http://localhost:9011/promotion/find/${id}`)
             .then((res) => setPromotion(res.data))
@@ -33,35 +23,6 @@ export default function FindPromotionById() {
     }
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Find Promotion By ID</h2>
-            <form onSubmit={search}>
-                <label>Enter Promotion ID</label>
-                <input
-                    type="number"
-                    placeholder="enter promotion id"
-                    value={id}
-                    onChange={(e) => setId(e.target.value)}
-                />
-                &nbsp;
-                <button type="submit">Search</button>
-            </form>
-
-            <br />
-
-            {error && <p style={{ color: "red" }}>{error}</p>}
-
-            {promotion && (
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Rules</th>
-                            <th>Validity</th>
-                            <th>Promotion Type</th>
-=======
         <div className="container mt-4">
             <h2>Find Promotion By ID</h2>
             <form onSubmit={search} className="d-flex gap-2 mb-3">
@@ -79,7 +40,6 @@ export default function FindPromotionById() {
                         <tr>
                             <th>ID</th><th>Name</th><th>Rules</th>
                             <th>Validity</th><th>Promotion Type</th>
->>>>>>> Rakesh
                         </tr>
                     </thead>
                     <tbody>

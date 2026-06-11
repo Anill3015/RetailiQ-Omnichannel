@@ -6,43 +6,6 @@ export default function CreateCustomerProfile() {
     const [email, setEmail] = useState("");
     const [preferences, setPreferences] = useState("");
 
-<<<<<<< HEAD
-    const saveHandler = () => {
-        const url = "http://localhost:9011/api/customer/add";
-        const data = {
-            customerProfile: {
-                name: name,
-                email: email,
-                preferences: preferences
-            }
-        };
-        axios.post(url, data)
-            .then((response) => {
-                alert("Customer Profile Saved! " + response.data.message);
-            })
-            .catch((error) => {
-                alert("Error: " + error.message);
-            });
-    };
-
-    return (
-        <div>
-            <h2>Create Customer Profile</h2>
-
-            <label>Name</label>
-            <input type="text" onChange={(e) => setName(e.target.value)} />
-            <br />
-
-            <label>Email</label>
-            <input type="email" onChange={(e) => setEmail(e.target.value)} />
-            <br />
-
-            <label>Preferences</label>
-            <input type="text" onChange={(e) => setPreferences(e.target.value)} />
-            <br />
-
-            <button onClick={saveHandler}>SAVE</button>
-=======
     const nameHandler = (e) => setName(e.target.value);
     const emailHandler = (e) => setEmail(e.target.value);
     const preferencesHandler = (e) => setPreferences(e.target.value);
@@ -98,7 +61,6 @@ export default function CreateCustomerProfile() {
             </div>
 
             <button className="btn btn-primary" onClick={saveHandler}>Save</button>
->>>>>>> Rakesh
         </div>
     );
 }

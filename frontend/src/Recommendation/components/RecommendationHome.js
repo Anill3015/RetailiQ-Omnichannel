@@ -19,15 +19,10 @@ export default function RecommendationHome() {
                             Find
                         </Link>
                     </li>
-<<<<<<< HEAD
-                    <li>
-                        <Link to="findRecommendationById">Find Recommendation by ID</Link>
-=======
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findRecommendationById">
                             Find By ID
                         </Link>
->>>>>>> Rakesh
                     </li>
                 </ul>
             </nav>

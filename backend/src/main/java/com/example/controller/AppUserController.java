@@ -20,10 +20,6 @@ public class AppUserController {
     public User register(@RequestBody User user) {
         // ✅ Encode password before saving
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-<<<<<<< HEAD
-        return userService.save(user);
-=======
         return userService.register(user);
->>>>>>> Rakesh
     }
 }

@@ -6,26 +6,6 @@ export default function FindUserById() {
     const [user, setUser] = useState(null);
     const [error, setError] = useState("");
 
-<<<<<<< HEAD
-    let idHandler = (event) => {
-        setId(event.target.value);
-    }
-
-    let searchUser = (event) => {
-        event.preventDefault();
-        setError("");
-        setUser(null);
-
-        if (!id) {
-            setError("Please enter a User ID");
-            return;
-        }
-
-        axios.get(`http://localhost:9011/user/find/${id}`)
-            .then((res) => {
-                setUser(res.data);
-            })
-=======
     let searchUser = (event) => {
         event.preventDefault();
         setError(""); setUser(null);
@@ -37,7 +17,6 @@ export default function FindUserById() {
             }
         })
             .then((res) => setUser(res.data))
->>>>>>> Rakesh
             .catch((err) => {
                 if (err.response && err.response.status === 404) {
                     setError("User not found with ID: " + id);
@@ -48,38 +27,6 @@ export default function FindUserById() {
     }
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Find User By ID</h2>
-
-            <form onSubmit={searchUser}>
-                <label>Enter User ID</label>
-                <input
-                    type="number"
-                    placeholder="enter user id"
-                    value={id}
-                    onChange={idHandler}
-                />
-                &nbsp;
-                <button type="submit">Search</button>
-            </form>
-
-            <br />
-
-            {error && (
-                <p style={{ color: "red" }}>{error}</p>
-            )}
-
-            {user && (
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Role</th>
-=======
         <div className="container mt-4">
             <h2>Find User By ID</h2>
             <form onSubmit={searchUser} className="d-flex gap-2 mb-3">
@@ -101,7 +48,6 @@ export default function FindUserById() {
                         <tr>
                             <th>ID</th><th>Name</th><th>Email</th>
                             <th>Phone</th><th>Role</th>
->>>>>>> Rakesh
                         </tr>
                     </thead>
                     <tbody>

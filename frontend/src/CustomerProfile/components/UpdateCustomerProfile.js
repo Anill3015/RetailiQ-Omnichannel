@@ -10,10 +10,6 @@ export default function UpdateCustomerProfile() {
     const [email, setEmail] = useState("");
     const [preferences, setPreferences] = useState("");
 
-<<<<<<< HEAD
-    useEffect(() => {
-        axios.get(`http://localhost:9011/api/customer/find/${cpid}`)
-=======
     const nameHandler = (e) => setName(e.target.value);
     const emailHandler = (e) => setEmail(e.target.value);
     const preferencesHandler = (e) => setPreferences(e.target.value);
@@ -23,7 +19,6 @@ export default function UpdateCustomerProfile() {
         axios.get(`http://localhost:9011/api/customer/find/${cpid}`, {
             headers: { "Authorization": `Bearer ${token}` }
         })
->>>>>>> Rakesh
             .then((response) => {
                 const c = response.data;
                 setName(c.name || "");
@@ -31,10 +26,6 @@ export default function UpdateCustomerProfile() {
                 setPreferences(c.preferences || "");
             })
             .catch((error) => {
-<<<<<<< HEAD
-                console.error("Fetch Error:", error);
-                alert("Error fetching customer data");
-=======
                 if (error.response) {
                     alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
                 } else if (error.request) {
@@ -42,7 +33,6 @@ export default function UpdateCustomerProfile() {
                 } else {
                     alert("Error: " + error.message);
                 }
->>>>>>> Rakesh
             });
     }, [cpid]);
 
@@ -63,23 +53,13 @@ export default function UpdateCustomerProfile() {
         };
 
         axios.put(url, data, {
-<<<<<<< HEAD
-            headers: {
-                "Content-Type": "application/json"
-            }
-=======
             headers: { "Content-Type": "application/json" }
->>>>>>> Rakesh
         })
         .then((response) => {
             alert("Customer Updated! " + response.data.message);
             navigate("/CustomerProfile/findCustomerProfile");
         })
         .catch((error) => {
-<<<<<<< HEAD
-            console.error("Update Error:", error.response?.data || error.message);
-            alert("Update Failed: " + (error.response?.data?.message || error.message));
-=======
             if (error.response) {
                 alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
             } else if (error.request) {
@@ -87,34 +67,10 @@ export default function UpdateCustomerProfile() {
             } else {
                 alert("Error: " + error.message);
             }
->>>>>>> Rakesh
         });
     };
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Update Customer Profile</h2>
-
-            <label>ID</label>
-            <input type="text" value={cpid} readOnly />
-            <br />
-
-            <label>Name</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-            <br />
-
-            <label>Email</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <br />
-
-            <label>Preferences</label>
-            <input type="text" value={preferences} onChange={(e) => setPreferences(e.target.value)} />
-            <br />
-
-            <button onClick={updateHandler}>UPDATE</button>
-            <button onClick={() => navigate("/CustomerProfile/findCustomerProfile")}>Cancel</button>
-=======
         <div className="container mt-4">
             <h2>Update Customer Profile</h2>
 
@@ -140,7 +96,6 @@ export default function UpdateCustomerProfile() {
 
             <button className="btn btn-primary me-2" onClick={updateHandler}>Update</button>
             <button className="btn btn-secondary" onClick={() => navigate("/CustomerProfile/findCustomerProfile")}>Cancel</button>
->>>>>>> Rakesh
         </div>
     );
 }

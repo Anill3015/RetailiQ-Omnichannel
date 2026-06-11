@@ -9,14 +9,11 @@ export default function CreateForecast() {
     const [forecastQty, setForecastQty] = useState("");
     const navigate = useNavigate();
 
-<<<<<<< HEAD
-=======
     const skuHandler = (e) => setSku(e.target.value);
     const locationIdHandler = (e) => setLocationId(e.target.value);
     const periodHandler = (e) => setPeriod(e.target.value);
     const forecastQtyHandler = (e) => setForecastQty(e.target.value);
 
->>>>>>> Rakesh
     const saveHandler = () => {
         if (!sku || !locationId || !period || !forecastQty) {
             alert("All fields are required");
@@ -24,11 +21,6 @@ export default function CreateForecast() {
         }
 
         const url = "http://localhost:9011/api/forecast/add";
-<<<<<<< HEAD
-
-        // ✅ Wrap in forecast: {} because controller expects ForecastDTO
-=======
->>>>>>> Rakesh
         const data = {
             "forecast": {
                 "product": { "sku": sku },
@@ -41,10 +33,6 @@ export default function CreateForecast() {
 
         axios.post(url, data)
             .then((response) => {
-<<<<<<< HEAD
-                // ✅ response.data is ForecastResponseDTO
-=======
->>>>>>> Rakesh
                 alert(response.data.message);
                 setSku("");
                 setLocationId("");
@@ -53,9 +41,6 @@ export default function CreateForecast() {
                 navigate("/Forecast/findForecast");
             })
             .catch((error) => {
-<<<<<<< HEAD
-                alert("Error: " + (error.response?.data?.message || error.message));
-=======
                 if (error.response) {
                     alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
                 } else if (error.request) {
@@ -63,49 +48,10 @@ export default function CreateForecast() {
                 } else {
                     alert("Error: " + error.message);
                 }
->>>>>>> Rakesh
             });
     };
 
     return (
-<<<<<<< HEAD
-        <div>
-            <h2>Create Forecast</h2>
-
-            <label>Product SKU</label>
-            <input
-                type="text"
-                placeholder="e.g. NIKE-TS-RED-M"
-                value={sku}
-                onChange={(e) => setSku(e.target.value)}
-            /><br />
-
-            <label>Location ID</label>
-            <input
-                type="number"
-                placeholder="e.g. 1"
-                value={locationId}
-                onChange={(e) => setLocationId(e.target.value)}
-            /><br />
-
-            <label>Period</label>
-            <input
-                type="text"
-                placeholder="e.g. 2026-05"
-                value={period}
-                onChange={(e) => setPeriod(e.target.value)}
-            /><br />
-
-            <label>Forecast Quantity</label>
-            <input
-                type="number"
-                placeholder="e.g. 150"
-                value={forecastQty}
-                onChange={(e) => setForecastQty(e.target.value)}
-            /><br />
-
-            <button onClick={saveHandler}>SAVE</button>
-=======
         <div className="container mt-4">
             <h2>Create Forecast</h2>
 
@@ -130,7 +76,6 @@ export default function CreateForecast() {
             </div>
 
             <button className="btn btn-primary" onClick={saveHandler}>Save</button>
->>>>>>> Rakesh
         </div>
     );
 }

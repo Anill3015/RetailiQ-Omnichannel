@@ -29,16 +29,11 @@ export default function ExceptionEventHome() {
                             Add
                         </Link>
                     </li>
-<<<<<<< HEAD
-                    <li>
-                        <Link to="findExceptionEventById">Find ExceptionEvent By ID</Link>
-=======
 
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findExceptionEventById">
                             Find By ID
                         </Link>
->>>>>>> Rakesh
                     </li>
 
                     <li className="nav-item">
@@ -46,16 +41,11 @@ export default function ExceptionEventHome() {
                             Find All
                         </Link>
                     </li>
-<<<<<<< HEAD
-                    <li>
-                        <Link to="findAllExceptionEvent">FindAll ExceptionEvent</Link>
-=======
 
                     <li className="nav-item ms-3">
                         <button className="btn btn-danger btn-sm" onClick={logout}>
                             Logout
                         </button>
->>>>>>> Rakesh
                     </li>
                 </ul>
             </nav>

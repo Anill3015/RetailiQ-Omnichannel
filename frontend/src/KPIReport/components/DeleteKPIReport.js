@@ -12,12 +12,6 @@ export default function DeleteKPIReport() {
     useEffect(() => {
 
         const confirmDelete = window.confirm("Are you sure you want to delete this KPI report?");
-<<<<<<< HEAD
-
-        if (confirmDelete) {
-
-            axios.delete(`http://localhost:9011/api/deleteKPIReport/${id}`)
-=======
         const token = localStorage.getItem("token");
 
         if (confirmDelete) {
@@ -27,7 +21,6 @@ export default function DeleteKPIReport() {
                 Authorization:`Bearer ${token}`
             }
         })
->>>>>>> Rakesh
                 .then(() => {
                     setStatus("✅ KPI Report deleted successfully");
 
