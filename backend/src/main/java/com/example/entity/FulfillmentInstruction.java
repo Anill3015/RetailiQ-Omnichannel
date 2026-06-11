@@ -2,6 +2,9 @@ package com.example.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "FulfillmentInstruction")
 public class FulfillmentInstruction {
@@ -22,9 +25,12 @@ public class FulfillmentInstruction {
     @Column(nullable = false)
     private String status;
 
-    // Store items as plain JSON string
-    @Column(columnDefinition = "TEXT")
-    private String items;
+    @OneToMany(mappedBy = "instruction", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FulfillmentItem> items = new ArrayList<>();
+
+    // Getter and Setter
+    public List<FulfillmentItem> getItems() { return items; }
+    public void setItems(List<FulfillmentItem> items) { this.items = items; }
 
     public int getInstructionID() {
         return instructionID;
@@ -62,11 +68,5 @@ public class FulfillmentInstruction {
         this.status = status;
     }
 
-    public String getItems() {
-        return items;
-    }
 
-    public void setItems(String items) {
-        this.items = items;
-    }
 }
