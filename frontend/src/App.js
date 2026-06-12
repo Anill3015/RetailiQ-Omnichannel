@@ -143,6 +143,7 @@ import FindAllUser from './User/components/FindAllUser';
 import UpdateUser from './User/components/UpdateUser';
 import DeleteUser from './User/components/DeleteUser';
 import FindUserById from './User/components/FindUserById';
+import KpiDashboard from './KPIReport/components/KpiDashboard';
 
 function App() {
     return (
@@ -213,13 +214,7 @@ function App() {
                     <Route path="updateIntegrationEndpoint/:eid" element={<UpdateIntegrationEndpoint />} />
                 </Route>
 
-                {/* ✅ Inventory */}
-                <Route path="Inventory" element={<ProtectedRoute><InventoryHome /></ProtectedRoute>}>
-                    <Route path="createInventory" element={<CreateInventory />} />
-                    <Route path="deleteInventory" element={<DeleteInventory />} />
-                    <Route path="findInventory" element={<FindInventory />} />
-                    <Route path="updateInventory/:eid" element={<UpdateInventory />} />
-                </Route>
+                
 
                 {/* ✅ InventoryAvailability */}
                 <Route path="InventoryAvailability" element={<ProtectedRoute><InventoryAvailabilityHome /></ProtectedRoute>}>
@@ -242,6 +237,7 @@ function App() {
                     <Route path="findKPIReportById" element={<FindKPIReportById />} />
                     <Route path="findAllKPIReport" element={<FindAllKPIReport />} />
                     <Route path="updateKPIReport/:id" element={<UpdateKPIReport />} />
+                    <Route path="dashboard" element={<KpiDashboard/>} />
                 </Route>
 
                 {/* ✅ Location */}

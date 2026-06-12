@@ -211,7 +211,7 @@ public class SecurityConfig {
                         .requestMatchers("/kpireport/**").hasAnyRole(
                                 "ADMIN", "ECOMMERCE_MANAGER", "INVENTORY_PLANNER",
                                 "MARKETING_MANAGER"
-                        )
+                        ).requestMatchers("/api/kpi/**").permitAll()
 
                         // ── Recommendation — Controller: /api/recommendation ───────────
                         .requestMatchers("/api/recommendation/**").hasAnyRole(
