@@ -15,7 +15,7 @@ public class FulfillmentItem {
     private FulfillmentInstruction instruction;
 
     @Column(nullable = false)
-    private int sku;
+    private String sku;   // FIXED: was int, must be String to match Order.sku and InventoryPosition.sku
 
     @Column(nullable = false)
     private int quantity;
@@ -28,8 +28,8 @@ public class FulfillmentItem {
         this.instruction = instruction;
     }
 
-    public int getSku() { return sku; }
-    public void setSku(int sku) { this.sku = sku; }
+    public String getSku() { return sku; }
+    public void setSku(String sku) { this.sku = sku; }
 
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }

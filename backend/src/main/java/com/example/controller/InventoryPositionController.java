@@ -13,22 +13,20 @@ import java.util.List;
 @RequestMapping("/inventory")
 public class InventoryPositionController {
 
-    private InventoryPositionService service;
+    // FIX: field should be final — it is set once via constructor and never reassigned
+    private final InventoryPositionService service;
 
     public InventoryPositionController(InventoryPositionService service) {
-
         this.service = service;
     }
 
     @PostMapping("/create")
-    public InventoryPositionResponseDTO create(@RequestBody InventoryPositionRequestDTO dto){
+    public InventoryPositionResponseDTO create(@RequestBody InventoryPositionRequestDTO dto) {
         return service.create(dto);
     }
 
-
-    @GetMapping("find/{id}")
+    @GetMapping("/find/{id}")
     public InventoryPositionResponseDTO getById(@PathVariable int id) {
-
         return service.getById(id);
     }
 
@@ -40,22 +38,19 @@ public class InventoryPositionController {
     }
 
     @GetMapping("/fetchAll")
-    public List<InventoryPosition> fetchALL(){
+    public List<InventoryPosition> fetchAll() {
         return service.fetchAll();
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/update/{id}")
     public InventoryPositionResponseDTO update(
             @PathVariable int id,
             @RequestBody InventoryPositionRequestDTO dto) {
         return service.update(id, dto);
     }
 
-
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable int id) {
         service.delete(id);
     }
-
-
 }

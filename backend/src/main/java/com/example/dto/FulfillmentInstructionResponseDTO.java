@@ -7,7 +7,7 @@ public class FulfillmentInstructionResponseDTO {
     private int instructionID;
     private int orderID;
     private int sourceLocationID;
-    private int destination;
+    private String destination;
     private String status;
     private List<Item> items;
 
@@ -35,11 +35,11 @@ public class FulfillmentInstructionResponseDTO {
         this.sourceLocationID = sourceLocationID;
     }
 
-    public int getDestination() {
+    public String getDestination() {
         return destination;
     }
 
-    public void setDestination(int destination) {
+    public void setDestination(String destination) {
         this.destination = destination;
     }
 
@@ -60,14 +60,14 @@ public class FulfillmentInstructionResponseDTO {
     }
 
     public static class Item {
-        private int sku;
+        private String sku;   // FIXED: was int, changed to String
         private int quantity;
 
-        public int getSku() {
+        public String getSku() {
             return sku;
         }
 
-        public void setSku(int sku) {
+        public void setSku(String sku) {
             this.sku = sku;
         }
 

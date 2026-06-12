@@ -12,28 +12,28 @@ public class InventoryPositionResponseDTO {
         this.inventoryId = inventoryId;
     }
 
-    private  int locationID;
-    private int sku;
+    private  Long locationID;
+    private String sku;
     private int quantityOnHand;
     private int quantityReserved;
     private int safetyStock;
 
-    public int getLocationID() {
+    public Long getLocationID() {
 
         return locationID;
     }
 
-    public void setLocationID(int locationID) {
+    public void setLocationID(Long locationID) {
 
         this.locationID = locationID;
     }
 
-    public int getSku() {
+    public String getSku() {
 
         return sku;
     }
 
-    public void setSku(int sku) {
+    public void setSku(String sku) {
 
         this.sku = sku;
     }

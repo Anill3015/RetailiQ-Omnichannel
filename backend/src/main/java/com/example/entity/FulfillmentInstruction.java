@@ -20,7 +20,7 @@ public class FulfillmentInstruction {
     private int sourceLocationID;
 
     @Column(nullable = false)
-    private int destination;
+    private String destination;
 
     @Column(nullable = false)
     private String status;
@@ -52,11 +52,11 @@ public class FulfillmentInstruction {
         this.sourceLocationID = sourceLocationID;
     }
 
-    public int getDestination() {
+    public String getDestination() {
         return destination;
     }
 
-    public void setDestination(int destination) {
+    public void setDestination(String destination) {
         this.destination = destination;
     }
 

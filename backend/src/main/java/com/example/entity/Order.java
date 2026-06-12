@@ -15,7 +15,7 @@ public class Order {
 
 
     @Column(name = "CustomerID", nullable = false)
-    private int customerID;
+    private Long customerID;
 
     @Column(name = "Channel", nullable = false)
     private String channel;   // from where the user is buying the product
@@ -29,15 +29,63 @@ public class Order {
     @Column(name = "TotalAmount", nullable = false)
     private int totalAmount;
 
+    @Column(name = "sku", nullable = false)
+    private String sku;
+
+    @Column(name= "quantity", nullable = false)
+    private int quantity;
+
+    @Column(name = "inventoryId", nullable = false)
+    private int inventoryId;
+
+    @Column(name="destination", nullable = false)
+    private String destination;
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public int getInventoryId() {
+        return inventoryId;
+    }
+
+    public void setInventoryId(int inventoryId) {
+        this.inventoryId = inventoryId;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public Order() {
     }
 
-    public Order(int customerID, String channel, LocalDateTime orderDate, String status, int totalAmount) {
+    public Order(Long customerID, String channel, LocalDateTime orderDate, String status, int totalAmount, String sku, int quantity, String destination) {
         this.customerID = customerID;
         this.channel = channel;
         this.orderDate = orderDate;
         this.status = status;
         this.totalAmount = totalAmount;
+        this.quantity= quantity;
+        this.sku = sku;
+        this.destination = destination;
+
     }
 
     public int getOrderID() {
@@ -45,12 +93,12 @@ public class Order {
         return orderID;
     }
 
-    public int getCustomerID() {
+    public Long getCustomerID() {
 
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(Long customerID) {
 
         this.customerID = customerID;
     }

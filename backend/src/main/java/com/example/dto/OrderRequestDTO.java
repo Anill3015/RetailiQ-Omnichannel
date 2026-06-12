@@ -1,29 +1,36 @@
 package com.example.dto;
 
-import java.time.LocalDateTime;
-
 public class OrderRequestDTO {
 
-    private int orderID;
-    private int customerID;
+    private Long customerID;
     private String channel;
-    private LocalDateTime orderDate;
-    private String status;
     private int totalAmount;
+    private int quantity;
+    private String sku;
+    private int inventoryId;
+    private String destination;   // NEW — where the order should be shipped/delivered to
 
-    public int getOrderID() {
-        return orderID;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
-    public int getCustomerID() {
+    public int getInventoryId() {
+        return inventoryId;
+    }
+
+    public void setInventoryId(int inventoryId) {
+        this.inventoryId = inventoryId;
+    }
+
+    public Long getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(Long customerID) {
         this.customerID = customerID;
     }
 
@@ -35,27 +42,27 @@ public class OrderRequestDTO {
         this.channel = channel;
     }
 
-    public LocalDateTime getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public int getTotalAmount() {
         return totalAmount;
     }
 
     public void setTotalAmount(int totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 }

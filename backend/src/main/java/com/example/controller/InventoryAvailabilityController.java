@@ -19,8 +19,8 @@ public class InventoryAvailabilityController {
 
     @GetMapping
     public int getAvailableQuantity(
-            @RequestParam int locationID,
-            @RequestParam int sku) {
+            @RequestParam Long locationID,
+            @RequestParam String sku) {
 
         return availabilityService.getAvailableQuantity(locationID, sku);
     }

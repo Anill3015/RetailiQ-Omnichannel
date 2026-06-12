@@ -16,7 +16,7 @@ public class OrderValidationService {
 
 
     public String validateInventoryAvailability(
-            int locationID, int sku, int quantity) {
+            Long locationID, String sku, int quantity) {
 
         int availableQty =
                 availabilityService.getAvailableQuantity(locationID, sku);

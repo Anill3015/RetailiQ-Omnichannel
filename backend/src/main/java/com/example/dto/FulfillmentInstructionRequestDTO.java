@@ -6,7 +6,7 @@ public class FulfillmentInstructionRequestDTO {
 
     private int orderID;
     private int sourceLocationID;
-    private int destination;
+    private String destination;
     private List<Item> items;
 
     public int getOrderID() {
@@ -25,11 +25,11 @@ public class FulfillmentInstructionRequestDTO {
         this.sourceLocationID = sourceLocationID;
     }
 
-    public int getDestination() {
+    public String getDestination() {
         return destination;
     }
 
-    public void setDestination(int destination) {
+    public void setDestination(String destination) {
         this.destination = destination;
     }
 
@@ -42,14 +42,14 @@ public class FulfillmentInstructionRequestDTO {
     }
 
     public static class Item {
-        private int sku;
+        private String sku;   // FIXED: was int, must be String to match Order.sku and InventoryPosition.sku
         private int quantity;
 
-        public int getSku() {
+        public String getSku() {
             return sku;
         }
 
-        public void setSku(int sku) {
+        public void setSku(String sku) {
             this.sku = sku;
         }
 

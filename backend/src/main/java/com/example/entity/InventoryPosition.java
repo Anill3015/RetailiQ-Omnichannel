@@ -14,10 +14,10 @@ public class InventoryPosition {
     private int inventoryID;
 
     @Column(name = "LocationID", nullable = false)
-    private int locationID;
+    private Long locationID;
 
     @Column(name = "SKU", nullable = false)
-    private int sku;
+    private String sku;
 
     @Column(name = "QuantityOnHand", nullable = false)
     private int quantityOnHand;
@@ -31,7 +31,7 @@ public class InventoryPosition {
     public InventoryPosition() {
     }
 
-    public InventoryPosition(int locationID, int sku,
+    public InventoryPosition(Long locationID, String sku,
                              int quantityOnHand,
                              int quantityReserved,
                              int safetyStock) {
@@ -47,22 +47,22 @@ public class InventoryPosition {
         return inventoryID;
     }
 
-    public int getLocationID() {
+    public Long getLocationID() {
 
         return locationID;
     }
 
-    public void setLocationID(int locationID) {
+    public void setLocationID(Long locationID) {
 
         this.locationID = locationID;
     }
 
-    public int getSku() {
+    public String getSku() {
 
         return sku;
     }
 
-    public void setSku(int sku) {
+    public void setSku(String sku) {
 
         this.sku = sku;
     }

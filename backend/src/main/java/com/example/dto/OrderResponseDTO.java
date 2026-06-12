@@ -4,11 +4,49 @@ import java.time.LocalDateTime;
 
 public class OrderResponseDTO {
     private int orderID;
-    private int customerID;
+    private Long customerID;
     private String channel;
     private LocalDateTime orderDate;
     private String status;
     private int totalAmount;
+    private String destination;
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    private String sku;
+    private int quantity;
+
+    private  int inventoryId;
+
+    public int getInventoryId() {
+        return inventoryId;
+    }
+
+    public void setInventoryId(int inventoryId) {
+        this.inventoryId = inventoryId;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public int getOrderID() {
         return orderID;
@@ -18,11 +56,11 @@ public class OrderResponseDTO {
         this.orderID = orderID;
     }
 
-    public int getCustomerID() {
+    public Long getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(Long customerID) {
         this.customerID = customerID;
     }
 

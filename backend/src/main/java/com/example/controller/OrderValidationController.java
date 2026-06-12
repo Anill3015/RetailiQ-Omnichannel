@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/order/validation")
 public class OrderValidationController {
-    int quantity;
 
     private final OrderValidationService orderValidationService;
 
@@ -18,7 +17,7 @@ public class OrderValidationController {
     }
 
     @GetMapping
-    public String validatation(@RequestParam int locationID , @RequestParam int sku, @RequestParam int quantity ){
+    public String validation(@RequestParam Long locationID , @RequestParam String sku, @RequestParam int quantity ){
         return this.orderValidationService.validateInventoryAvailability(locationID,sku, quantity);
      }
 }
