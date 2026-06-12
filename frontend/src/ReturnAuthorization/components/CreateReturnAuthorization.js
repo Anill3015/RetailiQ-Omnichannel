@@ -1,36 +1,35 @@
 import axios from "axios";
 import { useState } from "react";
-
+ 
 export default function CreateReturnAuthorization() {
-
+ 
     const [reason, setReason] = useState("");
     const [sku, setSku] = useState("");
     const [orderId, setOrderId] = useState("");
-
+ 
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
-
+ 
     const handleCreate = () => {
-
+ 
         setErrorMsg("");
         setSuccessMsg("");
-
-        // ✅ Validation
+ 
         if (!reason || !sku || !orderId) {
-            setErrorMsg("⚠️ All fields are required");
+            setErrorMsg("All fields are required");
             return;
         }
-
+ 
         const numericOrderId = Number(orderId);
-
+ 
         if (isNaN(numericOrderId)) {
-            setErrorMsg("❌ Order ID must be a number");
+            setErrorMsg("Order ID must be a number");
             return;
         }
-
+ 
         const url = "http://localhost:9011/api/addReturnAuthorization";
         const token = localStorage.getItem("token");
-
+ 
         const data = {
             returnAuthorization: {
                 reason,
@@ -40,45 +39,45 @@ export default function CreateReturnAuthorization() {
                 }
             }
         };
-
+ 
         axios.post(url, data, {
             headers: { Authorization: `Bearer ${token}` }
         })
-            .then(() => {
-
-            setSuccessMsg("✅ Return Authorization created successfully");
-
-            // ✅ Clear fields
+        .then(() => {
+ 
+            setSuccessMsg("Return Authorization created successfully");
+ 
             setReason("");
             setSku("");
             setOrderId("");
         })
-        .catch((error) => {
-
-            console.error(error);
-
-            if (error.response) {
-                if (typeof error.response.data === "string") {
-                    setErrorMsg("❌ " + error.response.data);
-                } else if (error.response.data.message) {
-                    setErrorMsg("❌ " + error.response.data.message);
+        .catch((err) => {
+ 
+            if (err.response && err.response.data) {
+ 
+                if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else if (err.response.data.message) {
+                    setErrorMsg(err.response.data.message);
                 } else {
-                    setErrorMsg("❌ Error creating return");
+                    setErrorMsg("Error creating return");
                 }
+ 
             } else {
-                setErrorMsg("❌ Server error");
+                setErrorMsg("Server not reachable");
             }
         });
     };
-
+ 
     return (
         <div className="container mt-4">
             <h2>Create Return Authorization</h2>
-
+ 
             {successMsg && <div className="alert alert-success">{successMsg}</div>}
             {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
-
-            {/* Order ID */}
+ 
             <div className="mb-3">
                 <label className="form-label">
                     Order ID <span style={{ color: "red" }}>*</span>
@@ -90,8 +89,7 @@ export default function CreateReturnAuthorization() {
                     placeholder="Enter order ID"
                 />
             </div>
-
-            {/* SKU */}
+ 
             <div className="mb-3">
                 <label className="form-label">
                     SKU <span style={{ color: "red" }}>*</span>
@@ -103,8 +101,7 @@ export default function CreateReturnAuthorization() {
                     placeholder="Enter SKU"
                 />
             </div>
-
-            {/* Reason */}
+ 
             <div className="mb-3">
                 <label className="form-label">
                     Reason <span style={{ color: "red" }}>*</span>
@@ -116,10 +113,12 @@ export default function CreateReturnAuthorization() {
                     placeholder="Enter reason"
                 />
             </div>
-
+ 
             <button className="btn btn-primary" onClick={handleCreate}>
                 Create
             </button>
         </div>
     );
 }
+ 
+ 
