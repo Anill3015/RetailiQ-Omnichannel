@@ -29,53 +29,63 @@ public class KpiController {
     @Autowired
     private InventoryPositionRepository inventoryRepository;
 
-    // ✅ MAIN KPI API
     @GetMapping("/summary")
     public Map<String, Object> getKpiSummary() {
 
         Map<String, Object> kpi = new HashMap<>();
 
-        // ✅ ORDERS
-        kpi.put("totalOrders", orderRepository.count());
+        long totalOrders = orderRepository.count();
+        kpi.put("totalOrders", totalOrders);
 
-        // ✅ EXCEPTIONS
         List<ExceptionEvent> exceptions = exceptionRepository.findAll();
 
-        kpi.put("totalExceptions", exceptions.size());
-
+        long totalExceptions = exceptions.size();
         long openExceptions = exceptions.stream()
                 .filter(e -> "OPEN".equalsIgnoreCase(e.getStatus()))
                 .count();
 
+        kpi.put("totalExceptions", totalExceptions);
         kpi.put("openExceptions", openExceptions);
 
-        // ✅ RETURNS
         List<ReturnAuthorization> returns = returnRepository.findAll();
 
-        kpi.put("totalReturns", returns.size());
+        long totalReturns = returns.size();
+        long approvedReturns = returns.stream()
+                .filter(r -> "APPROVED".equalsIgnoreCase(r.getStatus()))
+                .count();
+        long rejectedReturns = returns.stream()
+                .filter(r -> "REJECTED".equalsIgnoreCase(r.getStatus()))
+                .count();
+        long completedReturns = returns.stream()
+                .filter(r -> "COMPLETED".equalsIgnoreCase(r.getStatus()))
+                .count();
 
-        kpi.put("approvedReturns",
-                returns.stream().filter(r -> "APPROVED".equalsIgnoreCase(r.getStatus())).count());
+        kpi.put("totalReturns", totalReturns);
+        kpi.put("approvedReturns", approvedReturns);
+        kpi.put("rejectedReturns", rejectedReturns);
+        kpi.put("completedReturns", completedReturns);
 
-        kpi.put("rejectedReturns",
-                returns.stream().filter(r -> "REJECTED".equalsIgnoreCase(r.getStatus())).count());
-
-        kpi.put("completedReturns",
-                returns.stream().filter(r -> "COMPLETED".equalsIgnoreCase(r.getStatus())).count());
-
-        // ✅ INVENTORY
         List<InventoryPosition> inventoryList = inventoryRepository.findAll();
+
+        long totalInventory = inventoryList.size();
 
         long stockoutCount = inventoryList.stream()
                 .filter(i -> i.getQuantityOnHand() == 0)
                 .count();
 
         long lowStockCount = inventoryList.stream()
-                .filter(i -> i.getQuantityOnHand() < i.getSafetyStock())
+                .filter(i -> i.getQuantityOnHand() > 0 && i.getQuantityOnHand() < i.getSafetyStock())
                 .count();
+
+        long normalStock = totalInventory - stockoutCount - lowStockCount;
+
+        if (normalStock < 0) {
+            normalStock = 0;
+        }
 
         kpi.put("stockouts", stockoutCount);
         kpi.put("lowStock", lowStockCount);
+        kpi.put("normalStock", normalStock);
 
         return kpi;
     }

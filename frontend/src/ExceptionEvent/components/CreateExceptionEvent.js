@@ -39,8 +39,18 @@ export default function AddExceptionEvent() {
             setReferenceId("");
             setSeverity("");
         })
-        .catch(() => {
-            setErrorMsg("Error adding event");
+        .catch((err) => {
+            if (err.response && err.response.data) {
+                if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else {
+                    setErrorMsg("Error adding event");
+                }
+            } else {
+                setErrorMsg("Server not reachable");
+            }
         });
     };
 

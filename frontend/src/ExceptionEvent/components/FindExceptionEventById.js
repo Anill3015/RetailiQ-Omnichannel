@@ -12,9 +12,8 @@ export default function FindExceptionEventById() {
         setErrorMsg("");
         setEvent(null);
 
-        // ✅ Validation
         if (!id) {
-            setErrorMsg("⚠️ Please enter Exception Event ID");
+            setErrorMsg("Please enter Exception Event ID");
             return;
         }
 
@@ -30,20 +29,20 @@ export default function FindExceptionEventById() {
             setEvent(e);
         })
         .catch((err) => {
-            console.error(err);
             setEvent(null);
 
-            // ✅ Proper backend error handling
             if (err.response && err.response.data) {
-                if (err.response.data.message) {
-                    setErrorMsg(err.response.data.message);
-                } else if (typeof err.response.data === "string") {
+                if (typeof err.response.data === "string") {
                     setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else if (err.response.data.message) {
+                    setErrorMsg(err.response.data.message);
                 } else {
                     setErrorMsg("Record not found");
                 }
             } else {
-                setErrorMsg("Record not found");
+                setErrorMsg("Server not reachable");
             }
         });
     };
@@ -52,7 +51,6 @@ export default function FindExceptionEventById() {
         <div className="container mt-4">
             <h2>Find Exception Event By ID</h2>
 
-            {/* ✅ Error Message */}
             {errorMsg && (
                 <div className="alert alert-danger">{errorMsg}</div>
             )}
@@ -81,7 +79,6 @@ export default function FindExceptionEventById() {
                 Search
             </button>
 
-            {/* ✅ Result Table */}
             {event && (
                 <table className="table table-bordered table-striped mt-3">
                     <tbody>
@@ -89,27 +86,22 @@ export default function FindExceptionEventById() {
                             <th>ID</th>
                             <td>{event.exceptionId}</td>
                         </tr>
-
                         <tr>
                             <th>Type</th>
                             <td>{event.type}</td>
                         </tr>
-
                         <tr>
                             <th>Reference ID</th>
                             <td>{event.referenceId}</td>
                         </tr>
-
                         <tr>
                             <th>Severity</th>
                             <td>{event.severity}</td>
                         </tr>
-
                         <tr>
                             <th>Status</th>
                             <td>{event.status}</td>
                         </tr>
-
                         <tr>
                             <th>Detected Date</th>
                             <td>{event.detectedDate}</td>

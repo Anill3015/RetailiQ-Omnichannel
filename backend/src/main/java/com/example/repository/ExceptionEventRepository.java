@@ -1,16 +1,16 @@
 package com.example.repository;
 
 import com.example.entity.ExceptionEvent;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+public interface ExceptionEventRepository extends JpaRepository<ExceptionEvent, Long> {
 
-public interface ExceptionEventRepository
-        extends JpaRepository<ExceptionEvent, Long> {
+    // ✅ Filter by status (OPEN, IN_PROGRESS, RESOLVED)
+    List<ExceptionEvent> findByStatusIgnoreCase(String status);
 
-	List<ExceptionEvent> findByStatus(String status);
-
-    List<ExceptionEvent> findBySeverity(String severity);
+    // ✅ Filter by severity (LOW, MEDIUM, HIGH)
+    List<ExceptionEvent> findBySeverityIgnoreCase(String severity);
 
 }

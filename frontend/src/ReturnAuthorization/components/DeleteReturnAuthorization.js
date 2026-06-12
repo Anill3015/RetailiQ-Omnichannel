@@ -16,22 +16,36 @@ export default function DeleteReturnAuthorization() {
 
         if (confirmDelete) {
 
-            axios.delete(`http://localhost:9011/api/deleteReturnAuthorization/${id}`,{
-            headers:{
-                Authorization:`Bearer ${token}`
-            }
-        })
-                .then(() => {
-                    setStatus("Return Authorization deleted successfully");
+            axios.delete(`http://localhost:9011/api/deleteReturnAuthorization/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(() => {
+                setStatus("Return Authorization deleted successfully");
 
-                    setTimeout(() => {
-                        navigate("/ReturnAuthorization/findAllReturnAuthorization");
-                    }, 1000);
-                })
-                .catch((error) => {
-                    console.error("Delete error:", error);
-                    setStatus("Delete failed");
-                });
+                setTimeout(() => {
+                    navigate("/ReturnAuthorization/findAllReturnAuthorization");
+                }, 1000);
+            })
+            .catch((err) => {
+
+                if (err.response && err.response.data) {
+
+                    if (typeof err.response.data === "string") {
+                        setStatus(err.response.data);
+                    } else if (err.response.data.error) {
+                        setStatus(err.response.data.error);
+                    } else if (err.response.data.message) {
+                        setStatus(err.response.data.message);
+                    } else {
+                        setStatus("Delete failed");
+                    }
+
+                } else {
+                    setStatus("Server not reachable");
+                }
+            });
 
         } else {
             navigate("/ReturnAuthorization/findAllReturnAuthorization");

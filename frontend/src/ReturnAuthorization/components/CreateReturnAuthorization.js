@@ -15,16 +15,15 @@ export default function CreateReturnAuthorization() {
         setErrorMsg("");
         setSuccessMsg("");
 
-        // ✅ Validation
         if (!reason || !sku || !orderId) {
-            setErrorMsg("⚠️ All fields are required");
+            setErrorMsg("All fields are required");
             return;
         }
 
         const numericOrderId = Number(orderId);
 
         if (isNaN(numericOrderId)) {
-            setErrorMsg("❌ Order ID must be a number");
+            setErrorMsg("Order ID must be a number");
             return;
         }
 
@@ -44,29 +43,30 @@ export default function CreateReturnAuthorization() {
         axios.post(url, data, {
             headers: { Authorization: `Bearer ${token}` }
         })
-            .then(() => {
+        .then(() => {
 
-            setSuccessMsg("✅ Return Authorization created successfully");
+            setSuccessMsg("Return Authorization created successfully");
 
-            // ✅ Clear fields
             setReason("");
             setSku("");
             setOrderId("");
         })
-        .catch((error) => {
+        .catch((err) => {
 
-            console.error(error);
+            if (err.response && err.response.data) {
 
-            if (error.response) {
-                if (typeof error.response.data === "string") {
-                    setErrorMsg("❌ " + error.response.data);
-                } else if (error.response.data.message) {
-                    setErrorMsg("❌ " + error.response.data.message);
+                if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else if (err.response.data.message) {
+                    setErrorMsg(err.response.data.message);
                 } else {
-                    setErrorMsg("❌ Error creating return");
+                    setErrorMsg("Error creating return");
                 }
+
             } else {
-                setErrorMsg("❌ Server error");
+                setErrorMsg("Server not reachable");
             }
         });
     };
@@ -78,7 +78,6 @@ export default function CreateReturnAuthorization() {
             {successMsg && <div className="alert alert-success">{successMsg}</div>}
             {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
 
-            {/* Order ID */}
             <div className="mb-3">
                 <label className="form-label">
                     Order ID <span style={{ color: "red" }}>*</span>
@@ -91,7 +90,6 @@ export default function CreateReturnAuthorization() {
                 />
             </div>
 
-            {/* SKU */}
             <div className="mb-3">
                 <label className="form-label">
                     SKU <span style={{ color: "red" }}>*</span>
@@ -104,7 +102,6 @@ export default function CreateReturnAuthorization() {
                 />
             </div>
 
-            {/* Reason */}
             <div className="mb-3">
                 <label className="form-label">
                     Reason <span style={{ color: "red" }}>*</span>

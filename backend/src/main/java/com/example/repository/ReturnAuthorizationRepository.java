@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReturnAuthorizationRepository
         extends JpaRepository<ReturnAuthorization, Long> {
-	boolean existsByOrderAndSku(Order order, String sku);
 
+    boolean existsByOrderAndSku(Order order, String sku);
 }

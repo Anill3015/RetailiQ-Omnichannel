@@ -14,8 +14,8 @@ export default function UpdateExceptionEvent() {
 
     const [errorMsg, setErrorMsg] = useState("");
 
-    // ✅ LOAD EXISTING DATA
     useEffect(() => {
+
         const token = localStorage.getItem("token");
 
         axios.get(`http://localhost:9011/api/findExceptionEvent/${id}`, {
@@ -32,17 +32,25 @@ export default function UpdateExceptionEvent() {
             setStatus(e.status);
         })
         .catch((err) => {
-            console.error(err);
-            setErrorMsg("❌ Error loading data");
+            if (err.response && err.response.data) {
+                if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else {
+                    setErrorMsg("Error loading data");
+                }
+            } else {
+                setErrorMsg("Server not reachable");
+            }
         });
 
     }, [id]);
 
-    // ✅ UPDATE FUNCTION
     const updateHandler = () => {
 
         if (!type || !referenceId || !severity || !status) {
-            setErrorMsg("⚠️ Please fill all fields");
+            setErrorMsg("Please fill all fields");
             return;
         }
 
@@ -70,8 +78,17 @@ export default function UpdateExceptionEvent() {
             navigate("/ExceptionEvent/findAllExceptionEvent");
         })
         .catch((err) => {
-            console.error(err);
-            setErrorMsg("Update failed");
+            if (err.response && err.response.data) {
+                if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else {
+                    setErrorMsg("Update failed");
+                }
+            } else {
+                setErrorMsg("Server not reachable");
+            }
         });
     };
 
@@ -79,7 +96,6 @@ export default function UpdateExceptionEvent() {
         <div className="container mt-4">
             <h2>Edit Exception Event</h2>
 
-            {/* ✅ Global Error */}
             {errorMsg && (
                 <div className="alert alert-danger">{errorMsg}</div>
             )}
@@ -118,12 +134,16 @@ export default function UpdateExceptionEvent() {
 
             <div className="mb-3">
                 <label className="form-label">Severity</label>
-                <input
+                <select
                     className="form-control"
                     value={severity}
                     onChange={(e) => setSeverity(e.target.value)}
-                    placeholder="Enter severity"
-                />
+                >
+                    <option value="">Select Severity</option>
+                    <option>LOW</option>
+                    <option>MEDIUM</option>
+                    <option>HIGH</option>
+                </select>
             </div>
 
             <div className="mb-3">

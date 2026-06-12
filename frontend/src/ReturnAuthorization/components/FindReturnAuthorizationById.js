@@ -28,20 +28,24 @@ export default function FindReturnAuthorizationById() {
             const rma = response.data.returnAuthorization;
             setData(rma);
         })
-        .catch((error) => {
-            console.error(error);
+        .catch((err) => {
+
             setData(null);
 
-            if (error.response && error.response.data) {
-                if (error.response.data.message) {
-                    setErrorMsg(error.response.data.message);
-                } else if (typeof error.response.data === "string") {
-                    setErrorMsg(error.response.data);
+            if (err.response && err.response.data) {
+
+                if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else if (err.response.data.message) {
+                    setErrorMsg(err.response.data.message);
                 } else {
                     setErrorMsg("Record not found");
                 }
+
             } else {
-                setErrorMsg("Record not found");
+                setErrorMsg("Server not reachable");
             }
         });
     };

@@ -33,7 +33,20 @@ export default function UpdateReturnAuthorization() {
                 setOrderId(r.order.orderID);
             }
         })
-        .catch(() => setErrorMsg("Error loading data"));
+        .catch((err) => {
+
+            if (err.response && err.response.data) {
+                if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else {
+                    setErrorMsg("Error loading data");
+                }
+            } else {
+                setErrorMsg("Server not reachable");
+            }
+        });
 
     }, [id]);
 
@@ -71,12 +84,22 @@ export default function UpdateReturnAuthorization() {
                 navigate("/ReturnAuthorization/findAllReturnAuthorization");
             }, 1200);
         })
-        .catch((error) => {
+        .catch((err) => {
 
-            if (error.response) {
-                setErrorMsg(error.response.data.message || "Update failed");
+            if (err.response && err.response.data) {
+
+                if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else if (err.response.data.message) {
+                    setErrorMsg(err.response.data.message);
+                } else {
+                    setErrorMsg("Update failed");
+                }
+
             } else {
-                setErrorMsg("Server error");
+                setErrorMsg("Server not reachable");
             }
         });
     };

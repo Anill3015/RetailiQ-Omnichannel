@@ -6,6 +6,7 @@ export default function FindAllExceptionEvent() {
 
     const [eventArr, setEventData] = useState([]);
     const [filter, setFilter] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
 
     const token = localStorage.getItem("token");
 
@@ -24,9 +25,20 @@ export default function FindAllExceptionEvent() {
         })
         .then((response) => {
             setEventData(response.data);
+            setErrorMsg("");
         })
-        .catch((error) => {
-            console.error("Fetch error:", error);
+        .catch((err) => {
+            if (err.response && err.response.data) {
+                if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else {
+                    setErrorMsg("Error fetching data");
+                }
+            } else {
+                setErrorMsg("Server not reachable");
+            }
         });
     };
 
@@ -34,14 +46,12 @@ export default function FindAllExceptionEvent() {
         fetchData();
     }, [filter]);
 
-    // ✅ Status color
     const getColor = (status) => {
         if (status === "OPEN") return "danger";
         if (status === "IN_PROGRESS") return "warning";
         if (status === "RESOLVED") return "success";
     };
 
-    // ✅ Quick update
     const updateStatus = (e, status) => {
 
         const data = {
@@ -59,14 +69,29 @@ export default function FindAllExceptionEvent() {
             }
         })
         .then(() => fetchData())
-        .catch(err => console.error(err));
+        .catch((err) => {
+            if (err.response && err.response.data) {
+                if (typeof err.response.data === "string") {
+                    setErrorMsg(err.response.data);
+                } else if (err.response.data.error) {
+                    setErrorMsg(err.response.data.error);
+                } else {
+                    setErrorMsg("Update failed");
+                }
+            } else {
+                setErrorMsg("Server not reachable");
+            }
+        });
     };
 
     return (
         <div className="container mt-4">
             <h2 className="mb-3">Exception Events</h2>
 
-            {/* ✅ FILTER */}
+            {errorMsg && (
+                <div className="alert alert-danger">{errorMsg}</div>
+            )}
+
             <select
                 className="form-select mb-3"
                 onChange={(e) => setFilter(e.target.value)}
@@ -100,7 +125,6 @@ export default function FindAllExceptionEvent() {
                                     <td>{e.referenceId}</td>
                                     <td>{e.severity}</td>
 
-                                    {/* ✅ STATUS BADGE */}
                                     <td>
                                         <span className={`badge bg-${getColor(e.status)}`}>
                                             {e.status}
@@ -110,8 +134,6 @@ export default function FindAllExceptionEvent() {
                                     <td>{e.detectedDate}</td>
 
                                     <td>
-
-                                        {/* ✅ QUICK ACTION */}
                                         {e.status !== "RESOLVED" && (
                                             <>
                                                 <button
