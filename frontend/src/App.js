@@ -14,6 +14,7 @@ import DeleteForecast from './Forecast/components/DeleteForecast';
 import FindForecast from './Forecast/components/FindForecast';
 import UpdateForecast from './Forecast/components/UpdateForecast';
 import FindForecastById from './Forecast/components/FindForecastById';
+import SafetyStockCalculator from './Forecast/components/SafetyStockCalculator';
 
 import AuditLogHome from './AuditLog/components/AuditLogHome';
 import FindAuditLog from './AuditLog/components/FindAuditLog';
@@ -125,6 +126,7 @@ import FindReplenishment from './Replenishment/components/FindReplenishment';
 import UpdateReplenishment from './Replenishment/components/UpdateReplenishment';
 import DeleteReplenishment from './Replenishment/components/DeleteReplenishment';
 import FindReplenishmentById from './Replenishment/components/FindReplenishmentById';
+import GenerateReplenishment from './Replenishment/components/GenerateReplenishment';
 
 import ReturnAuthorizationHome from './ReturnAuthorization/components/ReturnAuthorizationHome';
 import CreateReturnAuthorization from './ReturnAuthorization/components/CreateReturnAuthorization';
@@ -174,6 +176,7 @@ function App() {
                     <Route path="FindForecastById" element={<FindForecastById />} />
                     <Route path="findForecast" element={<FindForecast />} />
                     <Route path="updateForecast/:fcid" element={<UpdateForecast />} />
+                    <Route path="safetyStock" element={<SafetyStockCalculator />} />
                 </Route>
 
                 {/* ✅ AuditLog */}
@@ -188,6 +191,8 @@ function App() {
                     <Route path="findCustomerProfile" element={<FindCustomerProfile />} />
                     <Route path="updateCustomerProfile/:cpid" element={<UpdateCustomerProfile />} />
                     <Route path="findCustomerProfileById" element={<FindCustomerProfileById />} />
+                    <Route path="loyaltyTier" element={<LoyaltyTierCalculator />} />
+                    <Route path="customerHistory" element={<CustomerHistory />} />
                 </Route>
 
                 {/* ✅ ExceptionEvent */}
@@ -320,6 +325,7 @@ function App() {
                     <Route path="findReplenishmentById" element={<FindReplenishmentById />} />
                     <Route path="updateReplenishment/:rid" element={<UpdateReplenishment />} />
                     <Route path="deleteReplenishment/:rid" element={<DeleteReplenishment />} />
+                    <Route path="generateReplenishment" element={<GenerateReplenishment/>} />
                 </Route>
 
                 {/* ✅ ReturnAuthorization */}
