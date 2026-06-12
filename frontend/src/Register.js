@@ -4,19 +4,19 @@ import { useNavigate, Link } from "react-router-dom";
 
 export default function Register() {
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [phone, setPhone] = useState("");
-    const [username, setUsername] = useState("");
-    const [role, setRole] = useState("");
+    const [name,         setName]         = useState("");
+    const [email,        setEmail]        = useState("");
+    const [password,     setPassword]     = useState("");
+    const [phone,        setPhone]        = useState("");
+    const [username,     setUsername]     = useState("");
+    const [role,         setRole]         = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [error,        setError]        = useState("");
+    const [success,      setSuccess]      = useState("");
+    const [loading,      setLoading]      = useState(false);
     const navigate = useNavigate();
 
-    let register = (event) => {
+    const register = (event) => {
         event.preventDefault();
         setError("");
         setSuccess("");
@@ -111,18 +111,18 @@ export default function Register() {
 
                     {/* Error Alert */}
                     {error && (
-                        <div className="d-flex align-items-center mb-4 px-3 py-2"
+                        <div className="d-flex align-items-start mb-4 px-3 py-2"
                             style={{
                                 background: '#fffbeb',
                                 border: '1px solid #fcd34d',
                                 borderLeft: '4px solid #f59e0b',
                                 borderRadius: '8px',
-                                fontSize: '14px',
+                                fontSize: '13px',
                                 color: '#92400e'
                             }}>
-                            <i className="bi bi-exclamation-triangle-fill me-2"
-                                style={{ color: '#f59e0b', fontSize: '16px' }}></i>
-                            {error}
+                            <i className="bi bi-exclamation-triangle-fill me-2 mt-1 flex-shrink-0"
+                                style={{ color: '#f59e0b', fontSize: '15px' }}></i>
+                            <span>{error}</span>
                         </div>
                     )}
 
@@ -248,8 +248,7 @@ export default function Register() {
                                 <button
                                     type="button"
                                     className="input-group-text border-start-0"
-                                    style={{ background: '#f8fafc', borderColor: '#e2e8f0',
-                                        cursor: 'pointer' }}
+                                    style={{ background: '#f8fafc', borderColor: '#e2e8f0', cursor: 'pointer' }}
                                     onClick={() => setShowPassword(!showPassword)}>
                                     <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}
                                         style={{ color: '#94a3b8' }}></i>
@@ -273,7 +272,7 @@ export default function Register() {
                                     className="form-select border-start-0"
                                     value={role}
                                     style={{ borderColor: '#e2e8f0', boxShadow: 'none',
-                                        background: '#f8fafc', color: '#1e293b' }}
+                                        background: '#f8fafc', color: role ? '#1e293b' : '#94a3b8' }}
                                     onChange={(e) => { setRole(e.target.value); setError(""); }}>
                                     <option value="">Select role</option>
                                     <option value="2">Store Associate</option>
@@ -287,7 +286,7 @@ export default function Register() {
                             </div>
                         </div>
 
-                        {/* Create Account Button */}
+                        {/* Submit Button */}
                         <div className="d-grid mb-2">
                             <button
                                 type="submit"
@@ -295,18 +294,14 @@ export default function Register() {
                                 disabled={loading}
                                 style={{
                                     background: 'linear-gradient(135deg, #1e3a5f, #0f3460)',
-                                    border: 'none',
-                                    borderRadius: '10px',
-                                    padding: '13px',
-                                    letterSpacing: '0.5px',
+                                    border: 'none', borderRadius: '10px',
+                                    padding: '13px', letterSpacing: '0.5px',
                                     transition: 'opacity 0.2s'
                                 }}
                                 onMouseEnter={e => e.currentTarget.style.opacity = '0.88'}
-                                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                            >
+                                onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
                                 {loading
-                                    ? <><span className="spinner-border spinner-border-sm me-2">
-                                        </span>Creating account...</>
+                                    ? <><span className="spinner-border spinner-border-sm me-2"></span>Creating account...</>
                                     : <><i className="bi bi-person-check me-2"></i>Create Account</>
                                 }
                             </button>

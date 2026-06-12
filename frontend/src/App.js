@@ -24,6 +24,8 @@ import DeleteCustomerProfile from './CustomerProfile/components/DeleteCustomerPr
 import UpdateCustomerProfile from './CustomerProfile/components/UpdateCustomerProfile';
 import FindCustomerProfile from './CustomerProfile/components/FindCustomerProfile';
 import FindCustomerProfileById from './CustomerProfile/components/FindCustomerProfileById';
+import LoyaltyTierCalculator from './CustomerProfile/components/LoyaltyTierCalculator';
+import CustomerHistory from './CustomerProfile/components/CustomerHistory';
 
 import ExceptionEventHome from './ExceptionEvent/components/ExceptionEventHome';
 import CreateExceptionEvent from './ExceptionEvent/components/CreateExceptionEvent';

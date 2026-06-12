@@ -11,7 +11,7 @@ export default function DeleteRecommendation() {
             headers: { "Authorization": `Bearer ${token}` }
         })
             .then((response) => {
-                alert(response.data);
+                //alert(response.data);
                 navigate("/Recommendation/findRecommendation");
             })
             .catch((error) => {

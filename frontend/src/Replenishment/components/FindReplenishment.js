@@ -65,7 +65,7 @@ export default function FindReplenishment() {
                                         </Link>
                                         <Link
                                             to={`/Replenishment/deleteReplenishment/${o.replenishmentId}`}
-                                            className="btn btn-danger btn-sm"
+                                            className="btn btn-danger btn-sm me-2"
                                         >
                                             Delete
                                         </Link>
