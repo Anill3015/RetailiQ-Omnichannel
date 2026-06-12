@@ -21,7 +21,7 @@ export default function FindPriceListById() {
                 if (err.response && err.response.status === 404) {
                     setError("PriceList not found with ID: " + id);
                 } else {
-                    setError("Network error: " + err.message);
+                    setError("PriceList not found with ID: " + id);
                 }
             });
     }
