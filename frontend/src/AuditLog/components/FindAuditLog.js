@@ -5,37 +5,54 @@ export default function FindAuditLog() {
     const [logs, setLogs] = useState([]);
     const [pgno, setPgno] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [error, setError] = useState("");
 
     const size = 10;
     const sorting = "auditId";
-    const asc = false; // latest first
+    const asc = false;
 
     useEffect(() => {
-        axios.get(`http://localhost:9011/auditlog/fetchAllPaginated?pgno=${pgno}&size=${size}&sorting=${sorting}&asc=${asc}`)
+        const token = localStorage.getItem("token");
+        axios.get(`http://localhost:9011/auditlog/fetchAllPaginated?pgno=${pgno}&size=${size}&sorting=${sorting}&asc=${asc}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then((res) => {
                 setLogs(res.data.content);
                 setTotalPages(res.data.totalPages);
             })
-            .catch((err) => alert(err.message));
+            .catch((err) => {
+                setError("Error: " + err.message);
+            });
     }, [pgno]);
 
     return (
-        <div>
-            <h2>Audit Logs</h2>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Action</th>
-                        <th>Timestamp</th>
-                        <th>User ID</th>
-                        <th>User Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        logs.map((log) => {
-                            return (
+        <div className="container mt-4">
+            <h2 className="mb-3">Audit Logs</h2>
+
+            {error && <div className="alert alert-danger">{error}</div>}
+
+            <div className="table-responsive">
+                <table className="table table-bordered table-striped table-hover align-middle">
+                    <thead className="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Action</th>
+                            <th>Timestamp</th>
+                            <th>User ID</th>
+                            <th>User Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {logs.length === 0 ? (
+                            <tr>
+                                <td colSpan="5" className="text-center">
+                                    No audit logs found
+                                </td>
+                            </tr>
+                        ) : (
+                            logs.map((log) => (
                                 <tr key={log.auditId}>
                                     <td>{log.auditId}</td>
                                     <td>{log.action}</td>
@@ -43,23 +60,22 @@ export default function FindAuditLog() {
                                     <td>{log.user ? log.user.userId : "N/A"}</td>
                                     <td>{log.user ? log.user.name : "N/A"}</td>
                                 </tr>
-                            );
-                        })
-                    }
-                </tbody>
-            </table>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            </div>
 
-            {/* Pagination */}
-            <div>
+            <div className="d-flex align-items-center gap-2 mt-2">
                 <button
+                    className="btn btn-outline-primary btn-sm"
                     onClick={() => setPgno(pgno - 1)}
                     disabled={pgno === 0}>
                     Previous
                 </button>
-                &nbsp;
                 <span>Page {pgno + 1} of {totalPages}</span>
-                &nbsp;
                 <button
+                    className="btn btn-outline-primary btn-sm"
                     onClick={() => setPgno(pgno + 1)}
                     disabled={pgno + 1 >= totalPages}>
                     Next

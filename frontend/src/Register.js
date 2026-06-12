@@ -18,8 +18,7 @@ export default function Register() {
 
     const register = (event) => {
         event.preventDefault();
-        setError("");
-        setSuccess("");
+        setError(""); setSuccess("");
 
         if (!name || !email || !password || !role || !phone || !username) {
             setError("Please fill in all fields");
@@ -34,36 +33,23 @@ export default function Register() {
             "password": password,
             "phone": phone,
             "username": username,
-            "role": { "roleId": role } 
+            "role": { "name": role }
         })
         .then(() => {
-            setSuccess("Account created successfully! Redirecting to login...");
-            setTimeout(() => navigate("/login"), 2000);
+            setSuccess("Account created! Waiting for admin approval before you can login.");
+            setTimeout(() => navigate("/login"), 3000);
         })
         .catch((err) => {
-            console.error(err);
-
-            if (err.response && err.response.data) {
-                if (typeof err.response.data === "string") {
-                    setError(err.response.data);
-                } 
-                else if (err.response.data.message) {
-                    setError(err.response.data.message);
-                } 
-                else if (err.response.data.error) {
-                    setError(err.response.data.error);
-                } 
-                else {
-                    setError("Registration failed");
-                }
+            const msg = err.response?.data?.error || err.message;
+            if (msg?.includes("Username")) {
+                setError("Username already exists. Please choose another.");
+            } else if (msg?.includes("Email")) {
+                setError("Email already registered. Please use another.");
             } else {
-                setError("Registration failed");
+                setError("Registration failed. Please try again.");
             }
-
             setLoading(false);
         });
-
-
     }
 
     return (
@@ -92,16 +78,22 @@ export default function Register() {
                 {/* Body */}
                 <div className="card-body px-4 py-4" style={{ background: '#ffffff' }}>
 
+                    {/* Info box */}
+                    <div className="d-flex align-items-start gap-2 mb-4 px-3 py-2 rounded-3"
+                        style={{ background: '#eff6ff', border: '1px solid #bfdbfe', fontSize: 12 }}>
+                        <i className="bi bi-info-circle-fill mt-1" style={{ color: '#3b82f6' }}></i>
+                        <span style={{ color: '#1e40af' }}>
+                            After registration, your account will be reviewed by an admin before you can login.
+                        </span>
+                    </div>
+
                     {/* Success Alert */}
                     {success && (
                         <div className="d-flex align-items-center mb-4 px-3 py-2"
                             style={{
-                                background: '#f0fdf4',
-                                border: '1px solid #86efac',
-                                borderLeft: '4px solid #16a34a',
-                                borderRadius: '8px',
-                                fontSize: '14px',
-                                color: '#15803d'
+                                background: '#f0fdf4', border: '1px solid #86efac',
+                                borderLeft: '4px solid #16a34a', borderRadius: '8px',
+                                fontSize: '14px', color: '#15803d'
                             }}>
                             <i className="bi bi-check-circle-fill me-2"
                                 style={{ color: '#16a34a', fontSize: '16px' }}></i>
@@ -141,15 +133,11 @@ export default function Register() {
                                         style={{ background: '#f8fafc', borderColor: '#e2e8f0' }}>
                                         <i className="bi bi-person" style={{ color: '#94a3b8' }}></i>
                                     </span>
-                                    <input
-                                        type="text"
-                                        className="form-control border-start-0 ps-0"
-                                        placeholder="enter name"
-                                        value={name}
+                                    <input type="text" className="form-control border-start-0 ps-0"
+                                        placeholder="enter name" value={name}
                                         style={{ borderColor: '#e2e8f0', boxShadow: 'none',
                                             background: '#f8fafc', color: '#1e293b' }}
-                                        onChange={(e) => { setName(e.target.value); setError(""); }}
-                                    />
+                                        onChange={(e) => { setName(e.target.value); setError(""); }} />
                                 </div>
                             </div>
                             <div className="col-6">
@@ -163,15 +151,11 @@ export default function Register() {
                                         style={{ background: '#f8fafc', borderColor: '#e2e8f0' }}>
                                         <i className="bi bi-at" style={{ color: '#94a3b8' }}></i>
                                     </span>
-                                    <input
-                                        type="text"
-                                        className="form-control border-start-0 ps-0"
-                                        placeholder="enter username"
-                                        value={username}
+                                    <input type="text" className="form-control border-start-0 ps-0"
+                                        placeholder="enter username" value={username}
                                         style={{ borderColor: '#e2e8f0', boxShadow: 'none',
                                             background: '#f8fafc', color: '#1e293b' }}
-                                        onChange={(e) => { setUsername(e.target.value); setError(""); }}
-                                    />
+                                        onChange={(e) => { setUsername(e.target.value); setError(""); }} />
                                 </div>
                             </div>
                         </div>
@@ -189,15 +173,11 @@ export default function Register() {
                                         style={{ background: '#f8fafc', borderColor: '#e2e8f0' }}>
                                         <i className="bi bi-envelope" style={{ color: '#94a3b8' }}></i>
                                     </span>
-                                    <input
-                                        type="email"
-                                        className="form-control border-start-0 ps-0"
-                                        placeholder="enter email"
-                                        value={email}
+                                    <input type="email" className="form-control border-start-0 ps-0"
+                                        placeholder="enter email" value={email}
                                         style={{ borderColor: '#e2e8f0', boxShadow: 'none',
                                             background: '#f8fafc', color: '#1e293b' }}
-                                        onChange={(e) => { setEmail(e.target.value); setError(""); }}
-                                    />
+                                        onChange={(e) => { setEmail(e.target.value); setError(""); }} />
                                 </div>
                             </div>
                             <div className="col-6">
@@ -211,15 +191,11 @@ export default function Register() {
                                         style={{ background: '#f8fafc', borderColor: '#e2e8f0' }}>
                                         <i className="bi bi-telephone" style={{ color: '#94a3b8' }}></i>
                                     </span>
-                                    <input
-                                        type="text"
-                                        className="form-control border-start-0 ps-0"
-                                        placeholder="enter phone"
-                                        value={phone}
+                                    <input type="text" className="form-control border-start-0 ps-0"
+                                        placeholder="enter phone" value={phone}
                                         style={{ borderColor: '#e2e8f0', boxShadow: 'none',
                                             background: '#f8fafc', color: '#1e293b' }}
-                                        onChange={(e) => { setPhone(e.target.value); setError(""); }}
-                                    />
+                                        onChange={(e) => { setPhone(e.target.value); setError(""); }} />
                                 </div>
                             </div>
                         </div>
@@ -239,8 +215,7 @@ export default function Register() {
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     className="form-control border-start-0 border-end-0 ps-0"
-                                    placeholder="enter password"
-                                    value={password}
+                                    placeholder="enter password" value={password}
                                     style={{ borderColor: '#e2e8f0', boxShadow: 'none',
                                         background: '#f8fafc', color: '#1e293b' }}
                                     onChange={(e) => { setPassword(e.target.value); setError(""); }}
@@ -268,20 +243,17 @@ export default function Register() {
                                     style={{ background: '#f8fafc', borderColor: '#e2e8f0' }}>
                                     <i className="bi bi-shield-lock" style={{ color: '#94a3b8' }}></i>
                                 </span>
-                                <select
-                                    className="form-select border-start-0"
-                                    value={role}
+                                <select className="form-select border-start-0" value={role}
                                     style={{ borderColor: '#e2e8f0', boxShadow: 'none',
                                         background: '#f8fafc', color: role ? '#1e293b' : '#94a3b8' }}
                                     onChange={(e) => { setRole(e.target.value); setError(""); }}>
                                     <option value="">Select role</option>
-                                    <option value="2">Store Associate</option>
-                                    <option value="3">Ecommerce Manager</option>
-                                    <option value="4">Inventory Planner</option>
-                                    <option value="5">Fulfillment Manager</option>
-                                    <option value="6">Customer Service Agent</option>
-                                    <option value="7">Marketing Manager</option>
-
+                                    <option value="STORE_ASSOCIATE">Store Associate</option>
+                                    <option value="ECOMMERCE_MANAGER">Ecommerce Manager</option>
+                                    <option value="INVENTORY_PLANNER">Inventory Planner</option>
+                                    <option value="FULFILLMENT_MANAGER">Fulfillment Manager</option>
+                                    <option value="CUSTOMER_SERVICE_AGENT">Customer Service Agent</option>
+                                    <option value="MARKETING_MANAGER">Marketing Manager</option>
                                 </select>
                             </div>
                         </div>
@@ -307,11 +279,9 @@ export default function Register() {
                             </button>
                         </div>
 
-                        {/* Login link */}
-                        <p className="text-center text-muted small mb-0 mt-2">
+                        <p className="text-center text-muted small mb-0">
                             Already have an account?{" "}
-                            <Link to="/login"
-                                className="fw-medium text-decoration-none"
+                            <Link to="/login" className="fw-medium text-decoration-none"
                                 style={{ color: '#1e3a5f' }}>
                                 Sign in
                             </Link>

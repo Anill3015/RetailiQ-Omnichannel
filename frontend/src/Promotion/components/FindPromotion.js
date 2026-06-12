@@ -40,6 +40,7 @@ export default function FindPromotion() {
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Type</th>
                             <th>Rules</th>
                             <th>Validity</th>
                             <th>Promotion Type</th>
@@ -49,7 +50,7 @@ export default function FindPromotion() {
                     <tbody>
                         {promotionArr.length === 0 ? (
                             <tr>
-                                <td colSpan="6" className="text-center">
+                                <td colSpan="7" className="text-center">
                                     No promotions found
                                 </td>
                             </tr>
@@ -58,6 +59,7 @@ export default function FindPromotion() {
                                 <tr key={p.promotionId}>
                                     <td>{p.promotionId}</td>
                                     <td>{p.name}</td>
+                                    <td>{p.type}</td>
                                     <td>{p.rules}</td>
                                     <td>{p.validity}</td>
                                     <td>{p.promotionType ? p.promotionType.name : "N/A"}</td>

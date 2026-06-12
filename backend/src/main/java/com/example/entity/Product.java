@@ -1,6 +1,12 @@
 package com.example.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(
@@ -19,35 +25,20 @@ public class Product {
     private String name;
     private String category;
 
-    public Long getProductId() {
-        return productId;
-    }
+    private String attributes;
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
+    public Long getProductId()                      { return productId; }
+    public void setProductId(Long productId)        { this.productId = productId; }
 
-    public String getSku() {
-        return sku;
-    }
+    public String getSku()                          { return sku; }
+    public void setSku(String sku)                  { this.sku = sku; }
 
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
+    public String getName()                         { return name; }
+    public void setName(String name)                { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
+    public String getCategory()                     { return category; }
+    public void setCategory(String category)        { this.category = category; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    public String getAttributes()                   { return attributes; }
+    public void setAttributes(String attributes)    { this.attributes = attributes; }
 }

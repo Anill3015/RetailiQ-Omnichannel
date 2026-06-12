@@ -46,10 +46,12 @@ public class UserService {
             throw new RuntimeException("Email already exists");
         }
 
-        // ✅ Resolve role
-        if (user.getRole() != null && user.getRole().getRoleId() != null) {
-            Role role = roleRepository.findById(user.getRole().getRoleId())
-                    .orElseThrow(() -> new RuntimeException("Role not found"));
+        // ✅ Resolve role by name
+        if (user.getRole() != null && user.getRole().getName() != null) {
+            Role role = roleRepository.findByName(user.getRole().getName())
+                    .orElseThrow(() ->
+                            new RuntimeException("Role not found: "
+                                    + user.getRole().getName()));
 
             // ❌ Prevent admin self-registration
             if ("ADMIN".equalsIgnoreCase(role.getName())) {
@@ -62,7 +64,9 @@ public class UserService {
         // ✅ IMPORTANT: Set default status
         user.setStatus("PENDING");
 
-        return repository.save(user);
+        User saved = repository.save(user);
+        logAction("USER_REGISTERED", saved);
+        return saved;
     }
 
 
@@ -134,6 +138,7 @@ public class UserService {
     public void approveUser(Long id) {
         User user = getById(id);
         user.setStatus("APPROVED");
+        logAction("USER_APPROVED", user);
     }
 
 
@@ -142,6 +147,7 @@ public class UserService {
     public void rejectUser(Long id) {
         User user = getById(id);
         user.setStatus("REJECTED");
+        logAction("USER_REJECTED", user);
     }
 
 
