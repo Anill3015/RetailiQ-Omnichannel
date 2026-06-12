@@ -4,11 +4,7 @@ import java.time.LocalDateTime;
 
 public class OrderResponseDTO {
     private int orderID;
-<<<<<<< HEAD
     private Long customerID;
-=======
-    private Integer customerID;
->>>>>>> origin/nari-final
     private String channel;
     private LocalDateTime orderDate;
     private String status;
@@ -60,19 +56,11 @@ public class OrderResponseDTO {
         this.orderID = orderID;
     }
 
-<<<<<<< HEAD
     public Long getCustomerID() {
         return customerID;
     }
 
     public void setCustomerID(Long customerID) {
-=======
-    public Integer getCustomerID() {
-        return customerID;
-    }
-
-    public void setCustomerID(Integer customerID) {
->>>>>>> origin/nari-final
         this.customerID = customerID;
     }
 

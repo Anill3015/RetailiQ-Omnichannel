@@ -15,11 +15,7 @@ public class Order {
 
 
     @Column(name = "CustomerID", nullable = false)
-<<<<<<< HEAD
     private Long customerID;
-=======
-    private Integer customerID;
->>>>>>> origin/nari-final
 
     @Column(name = "Channel", nullable = false)
     private String channel;   // from where the user is buying the product
@@ -80,11 +76,7 @@ public class Order {
     public Order() {
     }
 
-<<<<<<< HEAD
     public Order(Long customerID, String channel, LocalDateTime orderDate, String status, int totalAmount, String sku, int quantity, String destination) {
-=======
-    public Order(Integer customerID, String channel, LocalDateTime orderDate, String status, int totalAmount) {
->>>>>>> origin/nari-final
         this.customerID = customerID;
         this.channel = channel;
         this.orderDate = orderDate;
@@ -101,20 +93,12 @@ public class Order {
         return orderID;
     }
 
-<<<<<<< HEAD
     public Long getCustomerID() {
-=======
-    public Integer getCustomerID() {
->>>>>>> origin/nari-final
 
         return customerID;
     }
 
-<<<<<<< HEAD
     public void setCustomerID(Long customerID) {
-=======
-    public void setCustomerID(Integer customerID) {
->>>>>>> origin/nari-final
 
         this.customerID = customerID;
     }
