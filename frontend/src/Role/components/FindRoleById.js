@@ -21,7 +21,7 @@ export default function FindRoleById() {
                 if (err.response && err.response.status === 404) {
                     setError("Role not found with ID: " + id);
                 } else {
-                    setError("Network error: " + err.message);
+                    setError("Role not found with ID: " + id);
                 }
             });
     }

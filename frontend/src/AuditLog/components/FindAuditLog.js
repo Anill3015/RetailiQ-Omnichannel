@@ -14,17 +14,13 @@ export default function FindAuditLog() {
     useEffect(() => {
         const token = localStorage.getItem("token");
         axios.get(`http://localhost:9011/auditlog/fetchAllPaginated?pgno=${pgno}&size=${size}&sorting=${sorting}&asc=${asc}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+            headers: { Authorization: `Bearer ${token}` }
         })
             .then((res) => {
                 setLogs(res.data.content);
                 setTotalPages(res.data.totalPages);
             })
-            .catch((err) => {
-                setError("Error: " + err.message);
-            });
+            .catch((err) => setError(err.message));
     }, [pgno]);
 
     return (
@@ -47,9 +43,7 @@ export default function FindAuditLog() {
                     <tbody>
                         {logs.length === 0 ? (
                             <tr>
-                                <td colSpan="5" className="text-center">
-                                    No audit logs found
-                                </td>
+                                <td colSpan="5" className="text-center">No audit logs found</td>
                             </tr>
                         ) : (
                             logs.map((log) => (
@@ -58,7 +52,7 @@ export default function FindAuditLog() {
                                     <td>{log.action}</td>
                                     <td>{new Date(log.timestamp).toLocaleString()}</td>
                                     <td>{log.user ? log.user.userId : "N/A"}</td>
-                                    <td>{log.user ? log.user.name : "N/A"}</td>
+                                    <td>{log.user ? log.user.username : "N/A"}</td>
                                 </tr>
                             ))
                         )}
@@ -67,17 +61,13 @@ export default function FindAuditLog() {
             </div>
 
             <div className="d-flex align-items-center gap-2 mt-2">
-                <button
-                    className="btn btn-outline-primary btn-sm"
-                    onClick={() => setPgno(pgno - 1)}
-                    disabled={pgno === 0}>
+                <button className="btn btn-outline-primary btn-sm"
+                    onClick={() => setPgno(pgno - 1)} disabled={pgno === 0}>
                     Previous
                 </button>
                 <span>Page {pgno + 1} of {totalPages}</span>
-                <button
-                    className="btn btn-outline-primary btn-sm"
-                    onClick={() => setPgno(pgno + 1)}
-                    disabled={pgno + 1 >= totalPages}>
+                <button className="btn btn-outline-primary btn-sm"
+                    onClick={() => setPgno(pgno + 1)} disabled={pgno + 1 >= totalPages}>
                     Next
                 </button>
             </div>
