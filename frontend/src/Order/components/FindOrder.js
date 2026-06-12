@@ -16,10 +16,11 @@ export default function FindOrder() {
     }, []);
 
     return (
-        <div>
-            <h2>All Orders</h2>
-            <table border="1">
-                <thead>
+        <div className="container mt-4">
+            <h2 className="mb-3">All Orders</h2>
+            <div className="table-responsive">
+            <table className="table table-bordered table-striped table-hover align-middle">
+                <thead className="table-dark">
                     <tr>
                         <th>Order ID</th>
                         <th>Customer ID</th>
@@ -40,14 +41,15 @@ export default function FindOrder() {
                             <td>{o.status}</td>
                             <td>{o.totalAmount}</td>
                             <td>
-                                <Link to={`/Order/updateOrder/${o.orderID}`}>Edit</Link>
+                                <Link to={`/Order/updateOrder/${o.orderID}` } className="btn btn-danger btn-sm me-2">Edit</Link>
                                 {" | "}
-                                <Link to={`/Order/deleteOrder/${o.orderID}`}>Delete</Link>
+                                <Link to={`/Order/deleteOrder/${o.orderID}`}   className="btn btn-warning btn-sm">Delete</Link>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+        </div>
         </div>
     );
 }

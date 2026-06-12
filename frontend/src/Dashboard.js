@@ -5,14 +5,14 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 const ROLE_ACCESS = {
     ADMIN: [
         'forecast', 'auditlog', 'customerprofile', 'exceptionevent',
-        'fulfillment', 'integration', 'inventory', 'inventoryavailability',
+        'fulfillment', 'integration',  'inventoryavailability',
         'inventoryposition', 'kpi', 'location', 'notification', 'order',
         'pricelist', 'product', 'promotion', 'promotiontype', 'recommendation',
         'replenishment', 'returnauth', 'role', 'user', 'pendingUsers'
     ],
     STORE_ASSOCIATE:        ['customerprofile', 'inventoryavailability', 'notification', 'order', 'product'],
     ECOMMERCE_MANAGER:      ['product', 'promotion', 'promotiontype', 'pricelist', 'recommendation', 'forecast', 'kpi', 'notification'],
-    INVENTORY_PLANNER:      ['inventory', 'inventoryavailability', 'inventoryposition', 'replenishment', 'forecast', 'kpi', 'location', 'notification'],
+    INVENTORY_PLANNER:      [ 'inventoryavailability', 'inventoryposition', 'replenishment', 'forecast', 'kpi', 'location', 'notification'],
     FULFILLMENT_MANAGER:    ['fulfillment', 'order', 'exceptionevent', 'returnauth', 'location', 'notification'],
     CUSTOMER_SERVICE_AGENT: ['customerprofile', 'order', 'exceptionevent', 'returnauth', 'notification'],
     MARKETING_MANAGER:      ['promotion', 'promotiontype', 'pricelist', 'recommendation', 'forecast', 'kpi', 'notification'],

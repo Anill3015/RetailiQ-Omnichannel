@@ -21,20 +21,18 @@ export default function DeleteExceptionEvent() {
             }
         })
                 .then(() => {
-                    setStatus("✅ Deleted successfully");
+                    setStatus("Deleted successfully");
 
-                    // ✅ redirect after 1 second
                     setTimeout(() => {
                         navigate("/ExceptionEvent/findAllExceptionEvent");
                     }, 1000);
                 })
                 .catch((error) => {
                     console.error(error);
-                    setStatus("❌ Delete failed");
+                    setStatus("Delete failed");
                 });
 
         } else {
-            // ✅ if user cancels → go back
             navigate("/ExceptionEvent/findAllExceptionEvent");
         }
 

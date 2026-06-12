@@ -40,10 +40,13 @@ export default function CreateInventoryPosition(){
                 "safetyStock":safteyStock
 
         }
-        console.log(inv);
+        
          axios.post(url,inv)
         .then((response)=>{
             alert("inv created"+response.data)
+        })
+        .catch((error)=>{
+            alert("Error :"+(error.response?.inv?.message || error.message))
         })
     }
     
@@ -51,28 +54,40 @@ export default function CreateInventoryPosition(){
     
     
     return (
-        <div>
-             <label>Location ID</label>
-                <input onChange={locationHandler}></input>
-                <br></br>
+        <div className="container mt-4">
 
-                <label>SKU</label>
-                <input onChange={skuHandler}></input>
+            <div className="mb-3">
+             <label className="form-label">Location ID</label>
+                <input  className="form-control"  onChange={locationHandler}></input>
                 <br></br>
+                </div>
 
-                <label>quantityOnHand</label>
-                <input onChange={quantityOnHandHandler}></input>
+<div className="mb-3">
+                <label className="form-label">SKU</label>
+                <input  className="form-control"  onChange={skuHandler}></input>
                 <br></br>
-                <label>quantityReserved</label>
-                <input onChange={quantityReservedHandler}></input>
+                </div>
+<div className="mb-3">
+                <label className="form-label">quantityOnHand</label>
+                <input   className="form-control" onChange={quantityOnHandHandler}></input>
                 <br></br>
-                <label>safteyStock</label>
-                <input onChange={safteyStockHandler}></input>
+                </div>
+
+                <div className="mb-3">
+                <label className="form-label">quantityReserved</label>
+                <input  className="form-control"  onChange={quantityReservedHandler}></input>
                 <br></br>
+                </div>
+
+                <div className="mb-3">
+                <label className="form-label">safteyStock</label>
+                <input  className="form-control"  onChange={safteyStockHandler}></input>
+                <br></br>
+                </div>
 
 
 
-                <button onClick={saveHandler}>save</button>
+                <button className="btn btn-primary" onClick={saveHandler}>save</button>
 
         </div>
     );

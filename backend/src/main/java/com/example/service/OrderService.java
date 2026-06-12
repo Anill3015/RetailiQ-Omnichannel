@@ -15,24 +15,60 @@ import java.time.LocalDateTime;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    
+    private final ExceptionEventService exceptionEventService;
+    
 
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
+    public OrderService(OrderRepository orderRepository,
+            ExceptionEventService exceptionEventService) {
+		this.orderRepository = orderRepository;
+		this.exceptionEventService = exceptionEventService;
+	}
 
+    
+
+    
     public OrderResponseDTO createOrder(OrderRequestDTO dto) {
+    	System.out.println("👉 customerID value = " + dto.getCustomerID());
 
-        Order order = new Order();
-        order.setCustomerID(dto.getCustomerID());
-        order.setChannel(dto.getChannel());
-        order.setTotalAmount(dto.getTotalAmount());
+        // ✅ VALIDATE FIRST (OUTSIDE TRY ❗)
+    	System.out.println("🔥 VALIDATION HIT");
+        if (dto.getCustomerID() == null || dto.getCustomerID() == 0) {
 
-        // System-controlled fields
-        order.setOrderDate(LocalDateTime.now());
-        order.setStatus("CREATED");
+            exceptionEventService.createException(
+                "ORDER_FAILED",
+                "INVALID_INPUT",
+                "HIGH"
+            );
 
-        Order savedOrder = orderRepository.save(order);
-        return mapToResponseDTO(savedOrder);
+            throw new RuntimeException("Customer ID is required");
+        }
+
+        try {
+
+            Order order = new Order();
+            order.setCustomerID(dto.getCustomerID());
+            order.setChannel(dto.getChannel());
+            order.setTotalAmount(dto.getTotalAmount());
+
+            order.setOrderDate(LocalDateTime.now());
+            order.setStatus("CREATED");
+
+            Order savedOrder = orderRepository.save(order);
+
+            return mapToResponseDTO(savedOrder);
+        }
+
+        catch (Exception e) {
+
+            exceptionEventService.createException(
+                "ORDER_FAILED",
+                "SYSTEM_ERROR",
+                "HIGH"
+            );
+
+            throw new RuntimeException("Order failed: " + e.getMessage());
+        }
     }
 
     public OrderResponseDTO getOrderById(int orderID) {

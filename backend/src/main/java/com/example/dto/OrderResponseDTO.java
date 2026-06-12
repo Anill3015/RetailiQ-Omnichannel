@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class OrderResponseDTO {
     private int orderID;
-    private int customerID;
+    private Integer customerID;
     private String channel;
     private LocalDateTime orderDate;
     private String status;
@@ -18,11 +18,11 @@ public class OrderResponseDTO {
         this.orderID = orderID;
     }
 
-    public int getCustomerID() {
+    public Integer getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(Integer customerID) {
         this.customerID = customerID;
     }
 

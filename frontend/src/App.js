@@ -45,12 +45,6 @@ import DeleteIntegrationEndpoint from './IntegrationEndpoint/components/DeleteIn
 import FindIntegrationEndpointById from './IntegrationEndpoint/components/FindIntegrationEndPointById';
 import FindAllIntegrationEndpoint from './IntegrationEndpoint/components/FindIntegrationEndpoint';
 
-import InventoryHome from './Inventory/components/InventoryHome';
-import CreateInventory from './Inventory/components/CreateInventory';
-import FindInventory from './Inventory/components/FindInventory';
-import UpdateInventory from './Inventory/components/UpdateInventory';
-import DeleteInventory from './Inventory/components/DeleteInventory';
-
 import InventoryAvailabilityHome from './InventoryAvailability/components/InventoryAvailabilityHome';
 import CreateInventoryAvailability from './InventoryAvailability/components/FindInventoryAvailability';
 

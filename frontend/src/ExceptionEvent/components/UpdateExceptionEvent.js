@@ -128,12 +128,15 @@ export default function UpdateExceptionEvent() {
 
             <div className="mb-3">
                 <label className="form-label">Status</label>
-                <input
+                <select
                     className="form-control"
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    placeholder="Enter status"
-                />
+                >
+                    <option>OPEN</option>
+                    <option>IN_PROGRESS</option>
+                    <option>RESOLVED</option>
+                </select>
             </div>
 
             <button className="btn btn-primary" onClick={updateHandler}>

@@ -6,6 +6,7 @@ export default function UpdateReturnAuthorization() {
 
     const { id } = useParams();
     const navigate = useNavigate();
+    const token = localStorage.getItem("token");
 
     const [reason, setReason] = useState("");
     const [sku, setSku] = useState("");
@@ -15,18 +16,14 @@ export default function UpdateReturnAuthorization() {
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
 
-    // ✅ LOAD EXISTING DATA
     useEffect(() => {
-        const token = localStorage.getItem("token");
 
         axios.get(`http://localhost:9011/api/findReturnAuthorization/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+            headers: { Authorization: `Bearer ${token}` }
         })
-        .then((response) => {
+        .then((res) => {
 
-            let r = response.data.returnAuthorization;
+            let r = res.data.returnAuthorization;
 
             setReason(r.reason);
             setSku(r.sku);
@@ -35,35 +32,22 @@ export default function UpdateReturnAuthorization() {
             if (r.order) {
                 setOrderId(r.order.orderID);
             }
-
         })
-        .catch((error) => {
-            console.error(error);
-            setErrorMsg("Error loading data");
-        });
+        .catch(() => setErrorMsg("Error loading data"));
 
     }, [id]);
 
-    // ✅ UPDATE FUNCTION
     const handleUpdate = () => {
 
         setErrorMsg("");
         setSuccessMsg("");
 
         if (!reason || !sku || !status || !orderId) {
-            setErrorMsg("⚠️ Please fill all fields");
-            return;
-        }
-
-        const numericOrderId = Number(orderId);
-
-        if (isNaN(numericOrderId)) {
-            setErrorMsg("Order ID must be a number");
+            setErrorMsg("All fields are required");
             return;
         }
 
         let url = `http://localhost:9011/api/updateReturnAuthorization/${id}`;
-        const token = localStorage.getItem("token");
 
         let data = {
             returnAuthorization: {
@@ -71,39 +55,28 @@ export default function UpdateReturnAuthorization() {
                 sku,
                 status,
                 order: {
-                    orderID: numericOrderId
+                    orderID: Number(orderId)
                 }
             }
         };
 
         axios.put(url, data, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+            headers: { Authorization: `Bearer ${token}` }
         })
         .then(() => {
-            setSuccessMsg("Return Authorization updated successfully");
+
+            setSuccessMsg("Updated successfully");
 
             setTimeout(() => {
                 navigate("/ReturnAuthorization/findAllReturnAuthorization");
-            }, 1500);
+            }, 1200);
         })
         .catch((error) => {
-            console.error(error);
 
-            // ✅ FIX: show proper backend message
             if (error.response) {
-                if (typeof error.response.data === "string") {
-                    setErrorMsg(error.response.data);
-                }
-                else if (error.response.data.message) {
-                    setErrorMsg(error.response.data.message);
-                }
-                else {
-                    setErrorMsg("Order ID is invalid");
-                }
+                setErrorMsg(error.response.data.message || "Update failed");
             } else {
-                setErrorMsg("Update failed");
+                setErrorMsg("Server error");
             }
         });
     };
@@ -112,77 +85,45 @@ export default function UpdateReturnAuthorization() {
         <div className="container mt-4">
             <h2>Update Return Authorization</h2>
 
-            {/* ✅ Success */}
-            {successMsg && (
-                <div className="alert alert-success">{successMsg}</div>
-            )}
-
-            {/* ✅ Error */}
-            {errorMsg && (
-                <div className="alert alert-danger">{errorMsg}</div>
-            )}
+            {successMsg && <div className="alert alert-success">{successMsg}</div>}
+            {errorMsg && <div className="alert alert-danger">{errorMsg}</div>}
 
             <div className="mb-3">
-                <label className="form-label">ID</label>
+                <label>ID</label>
                 <input className="form-control" value={id} readOnly />
             </div>
 
             <div className="mb-3">
-                <label className="form-label">
-                    Order ID <span style={{ color: "red" }}>*</span>
-                </label>
-                <input
-                    className="form-control"
-                    value={orderId}
-                    onChange={(e) => {
-                        setOrderId(e.target.value);
-                        setErrorMsg("");
-                    }}
-                />
-                {!orderId && errorMsg && (
-                    <small className="text-danger">Order ID is required</small>
-                )}
+                <label>Order ID</label>
+                <input className="form-control" value={orderId} readOnly />
             </div>
 
             <div className="mb-3">
-                <label className="form-label">
-                    SKU <span style={{ color: "red" }}>*</span>
-                </label>
-                <input
-                    className="form-control"
-                    value={sku}
-                    onChange={(e) => {
-                        setSku(e.target.value);
-                        setErrorMsg("");
-                    }}
-                />
-                {!sku && errorMsg && (
-                    <small className="text-danger">SKU is required</small>
-                )}
+                <label>SKU</label>
+                <input className="form-control" value={sku} readOnly />
             </div>
 
             <div className="mb-3">
-                <label className="form-label">Reason</label>
+                <label>Reason</label>
                 <input
                     className="form-control"
                     value={reason}
-                    onChange={(e) => {
-                        setReason(e.target.value);
-                        setErrorMsg("");
-                    }}
+                    onChange={(e) => setReason(e.target.value)}
                 />
             </div>
 
             <div className="mb-3">
-                <label className="form-label">Status</label>
-                <input
+                <label>Status</label>
+                <select
                     className="form-control"
                     value={status}
-                    onChange={(e) => {
-                        setStatus(e.target.value);
-                        setErrorMsg("");
-                    }}
-                />
+                    onChange={(e) => setStatus(e.target.value)}
+                >
+                    <option value="REQUESTED">REQUESTED</option>
+                    <option value="APPROVED">APPROVED</option>
+                    <option value="REJECTED">REJECTED</option>
+                    <option value="COMPLETED">COMPLETED</option>
+                </select>
             </div>
 
             <button className="btn btn-warning" onClick={handleUpdate}>

@@ -15,7 +15,7 @@ public class Order {
 
 
     @Column(name = "CustomerID", nullable = false)
-    private int customerID;
+    private Integer customerID;
 
     @Column(name = "Channel", nullable = false)
     private String channel;   // from where the user is buying the product
@@ -32,7 +32,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(int customerID, String channel, LocalDateTime orderDate, String status, int totalAmount) {
+    public Order(Integer customerID, String channel, LocalDateTime orderDate, String status, int totalAmount) {
         this.customerID = customerID;
         this.channel = channel;
         this.orderDate = orderDate;
@@ -45,12 +45,12 @@ public class Order {
         return orderID;
     }
 
-    public int getCustomerID() {
+    public Integer getCustomerID() {
 
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(Integer customerID) {
 
         this.customerID = customerID;
     }

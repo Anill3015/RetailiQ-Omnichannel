@@ -53,37 +53,44 @@ export default function UpdateInventoryPosition(){
         let url="http://localhost:9011/inventory/find/"+eid
         axios.get(url)
         .then((res)=>{
-            console.log(res);
             setLocationId(res.data.locationID)
             setSKU(res.data.sku)
             setQuantityOnHand(res.data.quantityOnHand)
             setQuantityReserved(res.data.quantityReserved)
             setSafteyStock(res.data.safetyStock)
         })
+        .catch((error)=>{
+            alert("Error :" +(error.message))
+        })
     },[eid])
     return(
-        <div>
+        <div className="container mt-4">
             <h1>{eid} to update </h1>
-
+<div className="mb-3">
             <label>Location ID</label>
             <input value={locationId} onChange={locationHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>sku</label>
             <input value={sku} onChange={skuHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>quantityOnHand</label>
             <input value={quantityOnHand} onChange={quantityOnHandHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>quantityReserved</label>
             <input value={quantityReserved} onChange={quantityReservedHandler}></input>
             <br></br>
-
+            </div>
+<div className="mb-3">
             <label>safetyStock</label>
             <input value={safteyStock} onChange={safteyStockHandler}></input>
             <br></br>
+            </div>
 
             <button onClick={updateButtonhandler}>update</button>
         </div>

@@ -14,11 +14,16 @@ import java.util.List;
 public class InventoryPositionService {
 
     private final InventoryPositionRepository repository;
+    private final ExceptionEventService exceptionEventService;
 
-    public InventoryPositionService(InventoryPositionRepository repository) {
+    public InventoryPositionService(
+            InventoryPositionRepository repository,
+            ExceptionEventService exceptionEventService) {
+
         this.repository = repository;
+        this.exceptionEventService = exceptionEventService;
     }
-
+    
     public InventoryPositionResponseDTO create(InventoryPositionRequestDTO dto) {
 
         InventoryPosition inventory = new InventoryPosition(
@@ -28,6 +33,16 @@ public class InventoryPositionService {
                 dto.getQuantityReserved(),
                 dto.getSafetyStock()
         );
+
+        // ✅ STOCKOUT ON CREATE
+        if (dto.getQuantityOnHand() == 0) {
+
+            exceptionEventService.createException(
+                    "STOCKOUT",
+                    String.valueOf(dto.getSku()),
+                    "HIGH"
+            );
+        }
 
         InventoryPosition saved = repository.save(inventory);
         return toResponseDTO(saved);
@@ -58,9 +73,34 @@ public class InventoryPositionService {
         inventory.setQuantityReserved(dto.getQuantityReserved());
         inventory.setSafetyStock(dto.getSafetyStock());
 
+        // 🔥 ✅ STOCKOUT DETECTION
+        if (inventory.getQuantityOnHand() == 0) {
+
+            System.out.println("🔥 STOCKOUT DETECTED");
+
+            exceptionEventService.createException(
+                    "STOCKOUT",
+                    String.valueOf(inventory.getSku()),
+                    "HIGH"
+            );
+        }
+
+        // ✅ LOW STOCK (Optional but good)
+        else if (inventory.getQuantityOnHand() < inventory.getSafetyStock()) {
+
+            System.out.println("⚠️ LOW STOCK DETECTED");
+
+            exceptionEventService.createException(
+                    "LOW_STOCK",
+                    String.valueOf(inventory.getSku()),
+                    "MEDIUM"
+            );
+        }
+
         InventoryPosition saved = repository.save(inventory);
         return toResponseDTO(saved);
     }
+    
 
     public void delete(int id) {
         repository.deleteById(id);

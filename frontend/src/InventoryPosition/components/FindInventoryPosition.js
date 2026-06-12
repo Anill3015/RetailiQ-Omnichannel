@@ -8,6 +8,7 @@ import {BrowserRouter as Router,
 } from 'react-router-dom'
 export default function FindInventoryPosition(){
     let [invArr, setInvData]= useState([])
+    let [searchId, setSearchId]= useState("")
 
     useEffect(()=>{
         let url ="http://localhost:9011/inventory/fetchAll"
@@ -15,11 +16,37 @@ export default function FindInventoryPosition(){
         .then((res)=>{
             setInvData(res.data)
         })
+        .catch((error)=>{
+            alert("Error :" +(error.message))
+        })
     },[])
+
+    useEffect(()=>{
+        if(searchId === ""){
+            axios.get("http://localhost:9011/inventory/fetchAll")
+            .then((res)=> {
+                setInvData(res.data)});
+            return;
+        }
+
+        axios.get("http://localhost:9011/inventory/find/" + searchId)
+        .then((res)=>{
+            console.log(res.data)
+            setInvData([res.data])
+        })
+        .catch(()=>{
+            setInvData([]);
+        })
+    },[searchId])
     return(
-         <div>
-            <table border="1">
-                <thead>
+         <div className="container mt-4">
+            <h2 className="mb-3">Inventory Position</h2>
+            <div className="d-flex justify-content-end mb-3">
+            <input type="text"  placeholder="Enter Inventory ID" className="form-control w-25" value={searchId} onChange={(e)=>{setSearchId(e.target.value)}}></input>
+            </div>
+            <div className="table-responsive">
+            <table className="table table-bordered table-striped table-hover align-middle">
+                <thead className="table-dark">
                     <tr>
                         <td>Inventory ID</td>
                         <td> Location ID</td>
@@ -36,21 +63,22 @@ export default function FindInventoryPosition(){
                         invArr.map((e)=>{
                             return (
                                 <tr>
-                                    <td>{e.inventoryID}</td>
+                                    <td>{e.inventoryId || e.inventoryID}</td>
                                     <td>{e.locationID}</td>
                                     <td>{e.sku}</td>
                                     <td>{e.quantityOnHand}</td>
                                     <td>{e.quantityReserved}</td>
                                     <td>{e.safetyStock}</td>
-                                    <td><Link to={"/InventoryPosition/deleteInventoryPosition/"+e.inventoryID}>Delete</Link>
+                                    <td><Link to={"/InventoryPosition/deleteInventoryPosition/"+e.inventoryID} className="btn btn-danger btn-sm me-2">Delete</Link>
                                     </td>
-                                    <td><Link to={"/InventoryPosition/updateInventoryPosition/"+e.inventoryID}>Edit</Link></td>
+                                    <td><Link to={"/InventoryPosition/updateInventoryPosition/"+e.inventoryID}   className="btn btn-warning btn-sm">Edit</Link></td>
                                 </tr>
                             )
                         })
                     }
                 </tbody>
             </table>
+        </div>
         </div>
     )
 }

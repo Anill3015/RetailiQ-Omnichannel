@@ -1,29 +1,58 @@
-import {Link, Outlet} from 'react-router'
+import {Link, Outlet, useNavigate} from 'react-router'
+
+import { FaHome } from "react-icons/fa";
+
+
 export default function FulfillmentInstructionHome(){
+    let navigate = useNavigate();
+    const logout = () => {
+        localStorage.clear();
+        navigate("/login");
+    }
 
     return (
         <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="createFulfillmentInstruction">Add FulfillmentInstruction</Link>
+           <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+        <div className="container-fluid">
+          
+          <div className="d-flex align-items-center gap-3">
+                    
+<Link to="/Dashboard" style={{ fontSize: "22px" }}>
+        <FaHome />
+      </Link>
+                    <Link to="/FulfillmentInstruction" className="navbar-brand">Fulfillment Instructions</Link>
+                    </div>
+                     <button
+        className="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarContent"
+        aria-controls="navbarContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
+      
+<div className="collapse navbar-collapse justify-content-end" id="navbarContent">
+  <ul className="navbar-nav align-items-center gap-3">
+
+
+                    <li className="nav-item">
+                        <Link className="nav-link" to="createFulfillmentInstruction">Add FulfillmentInstruction</Link>
                     </li>
-                    <li>
-                        <Link to="deleteFulfillmentInstruction">Delete FulfillmentInstruction</Link>
+                    
+                    <li className="nav-item">
+                        <Link className="nav-link" to="findFulfillmentInstruction">Find FulfillmentInstruction</Link>
                     </li>
-                    <li>
-                        <Link to="findFulfillmentInstruction">Find FulfillmentInstruction</Link>
-                    </li>
-                    <li>
-                        <Link to="updateFulfillmentInstruction">Update FulfillmentInstruction</Link>
- 
-                    </li>
-                    <li>
-                        
-                    </li>
+                    
+                    <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
+                   
                 </ul>
+                </div>
+                </div>
             </nav>
-            <Outlet></Outlet>
+                <Outlet />
         </div>
     )
 }
