@@ -1,52 +1,152 @@
-import { Link, Outlet, useNavigate } from 'react-router';
-import { FaHome } from "react-icons/fa";
+import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
+
+const NAV_ITEMS = [
+  {
+    to: "createLocation",
+    label: "Add",
+    desc: "Create Location",
+    icon: "bi-plus-lg",
+    color: "#6366f1",
+    bg: "#eef2ff",
+  },
+  {
+    to: "findLocation",
+    label: "Find All",
+    desc: "View all locations",
+    icon: "bi-list-ul",
+    color: "#10b981",
+    bg: "#ecfdf5",
+  },
+];
 
 export default function LocationHome() {
-    let navigate = useNavigate();
-    const logout = () => {
-        localStorage.clear();
-        navigate("/login");
-    }
-    return (
-        <div>
-                   <nav style={{ display: "flex", gap: "20px", padding: "10px" }} className="navbar navbar-expand-lg navbar-dark bg-dark">
-       
-                       <div className='container-fluid'>
-                           
-<div className="d-flex align-items-center gap-3">
+  const navigate = useNavigate();
+  const location = useLocation();
 
-       <Link to="/Dashboard" style={{ fontSize: "22px" }}>
-               <FaHome />
-             </Link>
+  const userName = localStorage.getItem("username") || "User";
 
-             <Link to="/Location" className="navbar-brand">Location</Link>
+  const isRoot =
+    location.pathname === "/Location" ||
+    location.pathname === "/Location/";
 
-             </div>
-            <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarContent"
-        aria-controls="navbarContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
+  const activeSegment = location.pathname.split("/").pop();
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#f1f5f9" }}>
+
+      {/* ✅ Navbar */}
+      <nav
+        className="sticky-top shadow"
+        style={{
+          background: "linear-gradient(135deg, #0f172a, #1e3a5f)",
+          height: 64,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0 20px",
+        }}
       >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-
-<div className="collapse navbar-collapse justify-content-end"
-  id="navbarContent">
-<ul className="navbar-nav align-items-center gap-3">                    <li className="nav-item"><Link className="nav-link" to="createLocation">Add Location</Link></li>
-                    <li className="nav-item"><Link className="nav-link" to="findLocation">Find All Locations</Link></li>
-                    <li className="nav-item"><Link className="nav-link" to="findLocationById">Find Location By ID</Link></li>
-                    <li className="nav-item"><Link className="nav-link" to="updateLocation">Update Location</Link></li>
-                    <li className="nav-item"><Link className="nav-link" to="deleteLocation">Delete Location</Link></li>
-                     <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
-                </ul>
-                </div>
-                </div>
-            </nav>
-            <Outlet />
+        <div style={{ color: "#fff", fontWeight: 700 }}>
+          Location
         </div>
-    );
+
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <button
+            onClick={() => navigate("/dashboard")}
+            style={{
+              background: "transparent",
+              border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: "50%",
+              width: 36,
+              height: 36,
+              color: "#fff",
+            }}
+          >
+            <i className="bi bi-house-fill"></i>
+          </button>
+
+          <div style={{ color: "#fff", fontSize: 12 }}>
+            {userName}
+          </div>
+
+          <button
+            onClick={logout}
+            style={{
+              background: "#ef4444",
+              border: "none",
+              color: "#fff",
+              padding: "6px 12px",
+              borderRadius: 6,
+            }}
+          >
+            Logout
+          </button>
+        </div>
+      </nav>
+
+      {/* ✅ Body */}
+      <div className="container-fluid px-4 py-4">
+        <h3>Location Management</h3>
+        <p style={{ color: "#64748b" }}>
+          Manage locations
+        </p>
+
+        {/* ✅ Cards */}
+        <div className="row g-3 mb-4">
+          {NAV_ITEMS.map((item) => {
+            const isActive = activeSegment === item.to;
+
+            return (
+              <div key={item.to} className="col-6 col-md-3">
+                <Link to={item.to}>
+                  <div
+                    className="card border"
+                    style={{
+                      borderRadius: 12,
+                      borderColor: isActive ? item.color : "#e2e8f0",
+                      background: isActive ? item.bg : "#fff",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div className="card-body text-center">
+                      <i
+                        className={`bi ${item.icon}`}
+                        style={{ fontSize: 20, color: item.color }}
+                      ></i>
+
+                      <div style={{ fontWeight: 600, marginTop: 8 }}>
+                        {item.label}
+                      </div>
+
+                      <small style={{ color: "#64748b" }}>
+                        {item.desc}
+                      </small>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* ✅ Content */}
+        <div className="card shadow-sm">
+          <div className="card-body">
+            {isRoot ? (
+              <div style={{ textAlign: "center", padding: 30 }}>
+                <p>Select an option above</p>
+              </div>
+            ) : (
+              <Outlet />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

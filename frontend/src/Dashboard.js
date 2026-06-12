@@ -6,14 +6,14 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 const ROLE_ACCESS = {
     ADMIN: [
         'forecast', 'auditlog', 'customerprofile', 'exceptionevent',
-        'fulfillment', 'integration',  'inventoryavailability',
+        'fulfillment', 'integration',
         'inventoryposition', 'kpi', 'location', 'notification', 'order',
         'pricelist', 'product', 'promotion', 'promotiontype', 'recommendation',
         'replenishment', 'returnauth', 'role', 'user','pendingUsers'
     ],
-    STORE_ASSOCIATE:        ['customerprofile', 'inventoryavailability', 'notification', 'order', 'product'],
+    STORE_ASSOCIATE:        ['customerprofile',  'inventoryposition', 'notification', 'order', 'product'],
     ECOMMERCE_MANAGER:      ['product', 'promotion', 'promotiontype', 'pricelist', 'recommendation', 'forecast', 'kpi', 'notification'],
-    INVENTORY_PLANNER:      [ 'inventoryavailability', 'inventoryposition', 'replenishment', 'forecast', 'kpi', 'location', 'notification'],
+    INVENTORY_PLANNER:      [  'inventoryposition', 'replenishment', 'forecast', 'kpi', 'location', 'notification'],
     FULFILLMENT_MANAGER:    ['fulfillment', 'order', 'exceptionevent', 'returnauth', 'location', 'notification'],
     CUSTOMER_SERVICE_AGENT: ['customerprofile', 'order', 'exceptionevent', 'returnauth', 'notification'],
     MARKETING_MANAGER:      ['promotion', 'promotiontype', 'pricelist', 'recommendation', 'forecast', 'kpi', 'notification'],
@@ -24,8 +24,7 @@ const ALL_MODULES = [
     { key: 'kpi',                   label: 'KPI Reports',            desc: 'View KPI analytics',       route: '/KPIReport',              icon: 'bi-bar-chart-line-fill',   color: '#10b981', bg: '#ecfdf5', section: 'Analytics' },
     { key: 'recommendation',        label: 'Recommendations',        desc: 'AI recommendations',       route: '/Recommendation',         icon: 'bi-stars',                 color: '#8b5cf6', bg: '#f5f3ff', section: 'Analytics' },
     { key: 'product',               label: 'Products',               desc: 'Product catalog',          route: '/Product',                icon: 'bi-box-seam-fill',         color: '#3b82f6', bg: '#eff6ff', section: 'Operations' },
-    { key: 'inventoryavailability', label: 'Inv. Availability',      desc: 'Real-time availability',   route: '/InventoryAvailability',  icon: 'bi-check-circle-fill',     color: '#f59e0b', bg: '#fffbeb', section: 'Operations' },
-    { key: 'inventoryposition',     label: 'Inv. Position',          desc: 'Stock positions',          route: '/InventoryPosition',      icon: 'bi-pin-map-fill',          color: '#f59e0b', bg: '#fffbeb', section: 'Operations' },
+    { key: 'inventoryposition',     label: 'Inventory',          desc: 'Stock positions',          route: '/InventoryPosition',      icon: 'bi-pin-map-fill',          color: '#f59e0b', bg: '#fffbeb', section: 'Operations' },
     { key: 'replenishment',         label: 'Replenishment',          desc: 'Replenishment plans',      route: '/Replenishment',          icon: 'bi-arrow-repeat',          color: '#10b981', bg: '#ecfdf5', section: 'Operations' },
     { key: 'order',                 label: 'Orders',                 desc: 'Order tracking',           route: '/Order',                  icon: 'bi-cart-check-fill',       color: '#10b981', bg: '#ecfdf5', section: 'Operations' },
     { key: 'location',              label: 'Locations',              desc: 'Store locations',          route: '/Location',               icon: 'bi-geo-alt-fill',          color: '#3b82f6', bg: '#eff6ff', section: 'Operations' },
