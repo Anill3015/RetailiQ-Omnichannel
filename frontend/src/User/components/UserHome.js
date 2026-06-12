@@ -18,13 +18,13 @@ export default function UserHome() {
                         <Link className="nav-link text-white" to="/dashboard">Home</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link text-white" to="createUser">Add</Link>
+                        <Link className="nav-link text-white" to="createUser">Add User</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link text-white" to="findUserById">Find User</Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link text-white" to="findAllUser">Find All</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link text-white" to="findUserById">Find By ID</Link>
                     </li>
                     <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>
                 </ul>
