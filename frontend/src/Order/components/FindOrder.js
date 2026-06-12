@@ -59,6 +59,6 @@ export default function FindOrder() {
             </table>
             </div>
         </div>
-        </div>
+        
     );
 }
