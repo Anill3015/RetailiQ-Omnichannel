@@ -17,7 +17,7 @@ export default function FindPromotionById() {
                 if (err.response && err.response.status === 404) {
                     setError("Promotion not found with ID: " + id);
                 } else {
-                    setError("Network error: " + err.message);
+                    setError("Promotion not found with ID: " + id);
                 }
             });
     }
