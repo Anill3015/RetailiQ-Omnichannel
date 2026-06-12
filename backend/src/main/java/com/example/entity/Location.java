@@ -63,13 +63,5 @@ public class Location {
         this.region = region;
     }
 
-    @Override
-    public String toString() {
-        return "Location [" +
-                "locationId=" + locationId +
-                ", name=" + name +
-                ", type=" + type +
-                ", region=" + region +
-                "]";
-    }
+
 }

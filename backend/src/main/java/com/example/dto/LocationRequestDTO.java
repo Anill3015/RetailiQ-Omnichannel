@@ -2,18 +2,11 @@ package com.example.dto;
 
 public class LocationRequestDTO {
 
-    private int locationID;
     private String name;
     private String type;
     private String region;
 
-    public int getLocationID() {
-        return locationID;
-    }
 
-    public void setLocationID(int locationID) {
-        this.locationID = locationID;
-    }
 
     public String getName() {
         return name;

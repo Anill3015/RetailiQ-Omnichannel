@@ -1,18 +1,16 @@
 package com.example.service;
 
-import com.example.entity.ReturnAuthorization;
 import com.example.entity.InventoryPosition;
 import com.example.entity.Order;
-import com.example.repository.ReturnAuthorizationRepository;
+import com.example.entity.ReturnAuthorization;
 import com.example.repository.InventoryPositionRepository;
 import com.example.repository.OrderRepository;
+import com.example.repository.ReturnAuthorizationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import com.example.entity.Order;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -24,24 +22,26 @@ public class ReturnAuthorizationService {
 
     @Autowired
     private OrderRepository orderRepository;
-    
-    @Autowired
-    private ExceptionEventService exceptionEventService;
 
     @Autowired
     private InventoryPositionRepository inventoryRepository;
-    
 
-    // ✅ CREATE
+    @Autowired
+    private ExceptionEventService exceptionEventService;
+
     public ReturnAuthorization save(ReturnAuthorization rma) {
 
         int orderId = rma.getOrder().getOrderID();
 
         Order existingOrder = orderRepository.findById(orderId)
-                .orElseThrow(() ->
-                        new RuntimeException("Order not found with ID: " + orderId));
+                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
 
-        // ✅ DUPLICATE CHECK
+        List<InventoryPosition> matchingInventory = inventoryRepository.findBySku(rma.getSku());
+
+        if (matchingInventory == null || matchingInventory.isEmpty()) {
+            throw new RuntimeException("SKU not found in inventory: " + rma.getSku());
+        }
+
         if (returnAuthorizationRepository.existsByOrderAndSku(existingOrder, rma.getSku())) {
 
             exceptionEventService.createException(
@@ -54,57 +54,49 @@ public class ReturnAuthorizationService {
         }
 
         rma.setOrder(existingOrder);
-
-        // ✅ DEFAULT STATUS
         rma.setStatus("REQUESTED");
 
         return returnAuthorizationRepository.save(rma);
     }
 
-    // ✅ UPDATE
     public ReturnAuthorization update(ReturnAuthorization rma) {
 
         int orderId = rma.getOrder().getOrderID();
 
         Order existingOrder = orderRepository.findById(orderId)
-            .orElseThrow(() ->
-                new RuntimeException("Order not found with ID: " + orderId)  // ✅ same handling
-            );
+                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
 
         rma.setOrder(existingOrder);
 
         return returnAuthorizationRepository.save(rma);
     }
 
-    // ✅ FIND BY ID
     public ReturnAuthorization getById(Long id) {
-        return returnAuthorizationRepository.findById(id).orElse(null);
+        return returnAuthorizationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("RMA not found"));
     }
 
-    // ✅ FIND ALL
     public List<ReturnAuthorization> getAll() {
         return returnAuthorizationRepository.findAll();
     }
 
-    // ✅ PAGINATION
     public Page<ReturnAuthorization> getReturnAuthorizationsWithPagination(Pageable pageable) {
         return returnAuthorizationRepository.findAll(pageable);
     }
 
-    // ✅ DELETE
     public void delete(Long id) {
         if (!returnAuthorizationRepository.existsById(id)) {
             throw new RuntimeException("ReturnAuthorization not found with id: " + id);
         }
         returnAuthorizationRepository.deleteById(id);
     }
-    
+
     public ReturnAuthorization approve(Long id) {
 
         ReturnAuthorization rma = returnAuthorizationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("RMA not found"));
 
-        if (!rma.getStatus().equals("REQUESTED")) {
+        if (!"REQUESTED".equalsIgnoreCase(rma.getStatus())) {
             throw new RuntimeException("Only REQUESTED returns can be approved");
         }
 
@@ -112,7 +104,7 @@ public class ReturnAuthorizationService {
 
         return returnAuthorizationRepository.save(rma);
     }
-    
+
     public ReturnAuthorization reject(Long id) {
 
         ReturnAuthorization rma = returnAuthorizationRepository.findById(id)
@@ -122,47 +114,32 @@ public class ReturnAuthorizationService {
 
         return returnAuthorizationRepository.save(rma);
     }
-    
+
     public ReturnAuthorization complete(Long id) {
 
         ReturnAuthorization rma = returnAuthorizationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("RMA not found"));
 
-        if (!rma.getStatus().equals("APPROVED")) {
+        if (!"APPROVED".equalsIgnoreCase(rma.getStatus())) {
             throw new RuntimeException("Only APPROVED returns can be completed");
         }
 
-        // ✅ FIND INVENTORY BY SKU
-        List<InventoryPosition> list = inventoryRepository.findAll();
+        List<InventoryPosition> inventoryList = inventoryRepository.findBySku(rma.getSku());
 
-        InventoryPosition inventory = null;
-
-        for (InventoryPosition inv : list) {
-            if (inv.getSku() == Integer.parseInt(rma.getSku())) {
-                inventory = inv;
-                break;
-            }
-        }
-
-        if (inventory != null) {
-
-            inventory.setQuantityOnHand(
-                    inventory.getQuantityOnHand() + 1
-            );
-
+        if (inventoryList != null && !inventoryList.isEmpty()) {
+            InventoryPosition inventory = inventoryList.get(0);
+            inventory.setQuantityOnHand(inventory.getQuantityOnHand() + 1);
             inventoryRepository.save(inventory);
-
-            System.out.println("✅ Inventory updated!");
-
         } else {
-
-            System.out.println("❌ Inventory not found for SKU: " + rma.getSku());
+            exceptionEventService.createException(
+                    "INVENTORY_NOT_FOUND",
+                    rma.getSku(),
+                    "HIGH"
+            );
         }
 
         rma.setStatus("COMPLETED");
 
         return returnAuthorizationRepository.save(rma);
     }
-    
 }
-

@@ -34,9 +34,7 @@ public class OrderRequestDTO {
         this.customerID = customerID;
     }
 
-	public void setCustomerID(Integer customerID) {
-		this.customerID = customerID;
-	}
+
 
 	public String getChannel() {
         return channel;
