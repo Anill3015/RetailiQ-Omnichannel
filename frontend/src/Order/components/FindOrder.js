@@ -6,9 +6,11 @@ export default function FindOrder() {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:9011/orders/getAll")
+        axios.get("http://localhost:9011/orders/getAll?page=0&size=100")
             .then((response) => {
-                setOrders(response.data.content || response.data);
+                const data = response.data.content || response.data;
+                setOrders(data);
+                console.log(data);  // FIXED: log data directly, not orders (state not updated yet)
             })
             .catch((error) => {
                 console.error("Error fetching orders:", error);
@@ -28,6 +30,9 @@ export default function FindOrder() {
                         <th>Order Date</th>
                         <th>Status</th>
                         <th>Total Amount</th>
+                        <th>sku</th>
+                        <th>quantity</th>
+                        <th>Destination</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -40,16 +45,19 @@ export default function FindOrder() {
                             <td>{o.orderDate}</td>
                             <td>{o.status}</td>
                             <td>{o.totalAmount}</td>
+                            <td>{o.sku}</td>
+                            <td>{o.quantity}</td>
+                            <td>{o.destination}</td>
                             <td>
-                                <Link to={`/Order/updateOrder/${o.orderID}` } className="btn btn-danger btn-sm me-2">Edit</Link>
+                                <Link to={`/Order/updateOrder/${o.orderID}`} className="btn btn-danger btn-sm me-2">Edit</Link>
                                 {" | "}
-                                <Link to={`/Order/deleteOrder/${o.orderID}`}   className="btn btn-warning btn-sm">Delete</Link>
+                                <Link to={`/Order/deleteOrder/${o.orderID}`} className="btn btn-warning btn-sm">Delete</Link>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </div>
+            </div>
         </div>
     );
 }

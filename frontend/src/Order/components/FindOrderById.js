@@ -46,6 +46,9 @@ export default function FindOrderById() {
                         <tr><th>Order Date</th><td>{order.orderDate}</td></tr>
                         <tr><th>Status</th><td>{order.status}</td></tr>
                         <tr><th>Total Amount</th><td>{order.totalAmount}</td></tr>
+                        <tr><th>sku</th><td>{order.sku}</td></tr>
+                        <tr><th>quantity</th><td>{order.quantity}</td></tr>
+                        <tr><th>Destination</th><td>{order.destination}</td></tr>
                     </tbody>
                 </table>
             )}

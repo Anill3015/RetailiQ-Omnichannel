@@ -10,6 +10,9 @@ export default function UpdateOrder() {
     const [channel, setChannel] = useState("");
     const [totalAmount, setTotalAmount] = useState("");
     const [status, setStatus] = useState("");
+    const [sku, setSku] = useState("");
+    const [quantity, setQuantity] = useState(0.0)
+    const [destination, setDestination] = useState("")
 
     useEffect(() => {
         if (!oid) return;
@@ -20,6 +23,9 @@ export default function UpdateOrder() {
                 setChannel(o.channel || "");
                 setTotalAmount(o.totalAmount || "");
                 setStatus(o.status || "");
+                setSku(o.sku || "");
+                setQuantity(o.quantity || "");
+                setDestination(o.destination || "");
             })
             .catch((error) => {
                 alert("Error fetching order: " + (error.response?.data?.message || error.message));
@@ -27,7 +33,7 @@ export default function UpdateOrder() {
     }, [oid]);
 
     const updateHandler = () => {
-        if (!customerID || !channel || !totalAmount) {
+        if (!customerID || !channel || !totalAmount || !quantity || !destination) {
             alert("All fields are required");
             return;
         }
@@ -36,7 +42,11 @@ export default function UpdateOrder() {
         const data = {
             customerID: parseInt(customerID),
             channel: channel,
-            totalAmount: parseInt(totalAmount)
+            totalAmount: parseInt(totalAmount),
+            sku: sku,
+            quantity: parseInt(quantity),
+            destination : destination
+
         };
 
         axios.put(url, data, {
@@ -77,6 +87,21 @@ export default function UpdateOrder() {
 <div className="mb-3">
             <label>Status</label>
             <input type="text" value={status} readOnly />
+            <br />
+            </div>
+            <div className="mb-3">
+            <label>sku</label>
+            <input type="text" value={sku} onChange={(e) => setSku(e.target.value)} />
+            <br />
+            </div>
+            <div className="mb-3">
+            <label>Quantity</label>
+            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+            <br />
+            </div>
+            <div className="mb-3">
+            <label>Destination</label>
+            <input type="text" value={destination} onChange={(e) => setDestination(e.target.value)} />
             <br />
             </div>
 
