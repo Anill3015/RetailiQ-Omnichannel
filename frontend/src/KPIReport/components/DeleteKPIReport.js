@@ -22,20 +22,18 @@ export default function DeleteKPIReport() {
             }
         })
                 .then(() => {
-                    setStatus("✅ KPI Report deleted successfully");
+                    setStatus("KPI Report deleted successfully");
 
-                    // ✅ Redirect back after delete
                     setTimeout(() => {
                         navigate("/KPIReport/findAllKPIReport");
                     }, 1000);
                 })
                 .catch((error) => {
                     console.error("Delete error:", error);
-                    setStatus("❌ Delete failed");
+                    setStatus("Delete failed");
                 });
 
         } else {
-            // ✅ If user cancels → go back to list
             navigate("/KPIReport/findAllKPIReport");
         }
 

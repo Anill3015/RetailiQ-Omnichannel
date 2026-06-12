@@ -6,14 +6,13 @@ export default function AddExceptionEvent() {
     const [type, setType] = useState("");
     const [referenceId, setReferenceId] = useState("");
     const [severity, setSeverity] = useState("");
-    const [status, setStatus] = useState("");
 
     const [errorMsg, setErrorMsg] = useState("");
 
     const saveHandler = () => {
 
-        if (!type || !referenceId || !severity || !status) {
-            setErrorMsg("⚠️ Please fill all fields");
+        if (!type || !referenceId || !severity) {
+            setErrorMsg("All fields are required");
             return;
         }
 
@@ -26,15 +25,12 @@ export default function AddExceptionEvent() {
             exceptionEvent: {
                 type,
                 referenceId,
-                severity,
-                status
+                severity
             }
         };
 
         axios.post(url, data, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+            headers: { Authorization: `Bearer ${token}` }
         })
         .then(() => {
             alert("Exception Event added successfully");
@@ -42,11 +38,9 @@ export default function AddExceptionEvent() {
             setType("");
             setReferenceId("");
             setSeverity("");
-            setStatus("");
         })
-        .catch((error) => {
-            console.error(error);
-            setErrorMsg("Error adding exception event");
+        .catch(() => {
+            setErrorMsg("Error adding event");
         });
     };
 
@@ -54,19 +48,23 @@ export default function AddExceptionEvent() {
         <div className="container mt-4">
             <h2>Add Exception Event</h2>
 
-            {/* ✅ Global error */}
             {errorMsg && (
                 <div className="alert alert-danger">{errorMsg}</div>
             )}
 
             <div className="mb-3">
-                <label className="form-label">Type</label>
+                <label className="form-label">
+                    Type <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     className="form-control"
                     value={type}
                     onChange={(e) => setType(e.target.value)}
-                    placeholder="Enter type"
+                    placeholder="Enter type (e.g., STOCKOUT, ORDER_FAILED)"
                 />
+                {!type && errorMsg && (
+                    <small className="text-danger">Type is required</small>
+                )}
             </div>
 
             <div className="mb-3">
@@ -77,31 +75,30 @@ export default function AddExceptionEvent() {
                     className="form-control"
                     value={referenceId}
                     onChange={(e) => setReferenceId(e.target.value)}
-                    placeholder="Enter reference ID"
+                    placeholder="Enter reference ID (orderId / productId)"
                 />
                 {!referenceId && errorMsg && (
-                    <small className="text-danger">Reference ID is mandatory</small>
+                    <small className="text-danger">Reference ID is required</small>
                 )}
             </div>
 
             <div className="mb-3">
-                <label className="form-label">Severity</label>
-                <input
+                <label className="form-label">
+                    Severity <span style={{ color: "red" }}>*</span>
+                </label>
+                <select
                     className="form-control"
                     value={severity}
                     onChange={(e) => setSeverity(e.target.value)}
-                    placeholder="Enter severity"
-                />
-            </div>
-
-            <div className="mb-3">
-                <label className="form-label">Status</label>
-                <input
-                    className="form-control"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                    placeholder="Enter status"
-                />
+                >
+                    <option value="">Select Severity</option>
+                    <option>LOW</option>
+                    <option>MEDIUM</option>
+                    <option>HIGH</option>
+                </select>
+                {!severity && errorMsg && (
+                    <small className="text-danger">Severity is required</small>
+                )}
             </div>
 
             <button className="btn btn-primary" onClick={saveHandler}>

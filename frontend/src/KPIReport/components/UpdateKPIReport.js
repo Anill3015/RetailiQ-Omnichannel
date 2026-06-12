@@ -13,7 +13,6 @@ export default function UpdateKPIReport() {
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
 
-    // ✅ LOAD EXISTING DATA
     useEffect(() => {
         const token = localStorage.getItem("token");
 
@@ -35,15 +34,13 @@ export default function UpdateKPIReport() {
 
     }, [id]);
 
-    // ✅ UPDATE FUNCTION
     const handleUpdate = () => {
 
         setErrorMsg("");
         setSuccessMsg("");
 
-        // ✅ Validation
         if (!scope || !metrics) {
-            setErrorMsg("⚠️ Please fill all fields");
+            setErrorMsg("Please fill all fields");
             return;
         }
 
@@ -88,12 +85,10 @@ export default function UpdateKPIReport() {
         <div className="container mt-4">
             <h2>Update KPI Report</h2>
 
-            {/* ✅ Success */}
             {successMsg && (
                 <div className="alert alert-success">{successMsg}</div>
             )}
 
-            {/* ✅ Error */}
             {errorMsg && (
                 <div className="alert alert-danger">{errorMsg}</div>
             )}
@@ -103,7 +98,6 @@ export default function UpdateKPIReport() {
                 <input className="form-control" value={id} readOnly />
             </div>
 
-            {/* Scope */}
             <div className="mb-3">
                 <label className="form-label">
                     Scope <span style={{ color: "red" }}>*</span>
@@ -122,7 +116,6 @@ export default function UpdateKPIReport() {
                 )}
             </div>
 
-            {/* Metrics */}
             <div className="mb-3">
                 <label className="form-label">
                     Metrics <span style={{ color: "red" }}>*</span>

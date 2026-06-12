@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-
 const ROLE_ACCESS = {
     ADMIN: [
         'forecast', 'auditlog', 'customerprofile', 'exceptionevent',
         'fulfillment', 'integration',
         'inventoryposition', 'kpi', 'location', 'notification', 'order',
         'pricelist', 'product', 'promotion', 'promotiontype', 'recommendation',
-        'replenishment', 'returnauth', 'role', 'user','pendingUsers'
+        'replenishment', 'returnauth', 'role', 'user', 'pendingUsers'
     ],
     STORE_ASSOCIATE:        ['customerprofile',  'inventoryposition', 'notification', 'order', 'product'],
     ECOMMERCE_MANAGER:      ['product', 'promotion', 'promotiontype', 'pricelist', 'recommendation', 'forecast', 'kpi', 'notification'],
@@ -55,13 +54,13 @@ const ALL_MODULES = [
 const SECTIONS = ['Analytics', 'Operations', 'Customer & Service', 'Marketing', 'Fulfillment', 'Admin', 'System'];
 
 const SECTION_META = {
-    'Analytics':          { icon: 'bi-graph-up',          color: '#6366f1', bg: '#eef2ff' },
-    'Operations':         { icon: 'bi-gear-fill',          color: '#f59e0b', bg: '#fffbeb' },
-    'Customer & Service': { icon: 'bi-headset',            color: '#ef4444', bg: '#fef2f2' },
-    'Marketing':          { icon: 'bi-megaphone-fill',     color: '#ec4899', bg: '#fdf2f8' },
-    'Fulfillment':        { icon: 'bi-truck-fill',         color: '#10b981', bg: '#ecfdf5' },
-    'Admin':              { icon: 'bi-shield-fill-check',  color: '#64748b', bg: '#f8fafc' },
-    'System':             { icon: 'bi-bell-fill',          color: '#3b82f6', bg: '#eff6ff' },
+    'Analytics':          { icon: 'bi-graph-up',         color: '#6366f1', bg: '#eef2ff' },
+    'Operations':         { icon: 'bi-gear-fill',         color: '#f59e0b', bg: '#fffbeb' },
+    'Customer & Service': { icon: 'bi-headset',           color: '#ef4444', bg: '#fef2f2' },
+    'Marketing':          { icon: 'bi-megaphone-fill',    color: '#ec4899', bg: '#fdf2f8' },
+    'Fulfillment':        { icon: 'bi-truck-fill',        color: '#10b981', bg: '#ecfdf5' },
+    'Admin':              { icon: 'bi-shield-fill-check', color: '#64748b', bg: '#f8fafc' },
+    'System':             { icon: 'bi-bell-fill',         color: '#3b82f6', bg: '#eff6ff' },
 };
 
 const ROLE_LABELS = {
@@ -73,6 +72,41 @@ const ROLE_LABELS = {
     CUSTOMER_SERVICE_AGENT: { label: 'Customer Service',    icon: 'bi-headset',           color: '#ef4444' },
     MARKETING_MANAGER:      { label: 'Marketing Manager',   icon: 'bi-megaphone-fill',    color: '#ec4899' },
 };
+
+/* ─── All overrides in one <style> block ─────────────────────────────────── */
+const globalStyles = `
+  /* Search bar – clean white look, beat Bootstrap specificity */
+  .navbar-search-wrap .navbar-search-input,
+  .navbar-search-wrap .navbar-search-input:focus,
+  .navbar-search-wrap .navbar-search-input:active,
+  .navbar-search-wrap .navbar-search-input:hover {
+    background-color: #ffffff !important;
+    background-image: none !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 10px !important;
+    color: #0f172a !important;
+    caret-color: #0f172a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18) !important;
+    outline: none !important;
+    font-size: 13px;
+    padding-left: 36px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .navbar-search-wrap .navbar-search-input:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.25), 0 2px 8px rgba(0,0,0,0.18) !important;
+  }
+  .navbar-search-wrap .navbar-search-input::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+  }
+
+  /* Module cards hover transition */
+  .module-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+                border-color 0.2s ease, background-color 0.2s ease;
+  }
+`;
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -93,69 +127,78 @@ export default function Dashboard() {
     return (
         <div className="min-vh-100" style={{ background: '#f1f5f9', fontFamily: 'Inter, sans-serif' }}>
 
+            <style>{globalStyles}</style>
+
             {/* ── Navbar ── */}
-            <nav className="navbar sticky-top px-4 py-0 shadow"
+            <nav
+                className="navbar sticky-top px-4 py-0 shadow"
                 style={{
                     background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #0f3460 100%)',
-                    height: 64
-                }}>
+                    height: 64,
+                }}
+            >
                 {/* Logo */}
                 <div className="d-flex align-items-center gap-2">
-                    <div className="d-flex align-items-center justify-content-center rounded-3"
+                    <div
+                        className="d-flex align-items-center justify-content-center rounded-3"
                         style={{
                             width: 40, height: 40,
                             background: 'linear-gradient(135deg, #6366f1, #3b82f6)',
-                            boxShadow: '0 0 0 3px rgba(99,102,241,0.25)'
-                        }}>
+                            boxShadow: '0 0 0 3px rgba(99,102,241,0.25)',
+                        }}
+                    >
                         <i className="bi bi-shop-window text-white" style={{ fontSize: 18 }}></i>
                     </div>
                     <div>
                         <div className="text-white fw-bold lh-1" style={{ fontSize: 15, letterSpacing: '-0.3px' }}>
                             RetailIQ
                         </div>
-                        <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 9, letterSpacing: '1.5px' }}>
+                        <div style={{ color: 'rgba(255,255,255,0.70)', fontSize: 9, letterSpacing: '1.5px', fontWeight: 600 }}>
                             OMNICHANNEL
                         </div>
                     </div>
                 </div>
 
-                {/* Search */}
-                <div className="position-relative" style={{ width: 260 }}>
-                    <i className="bi bi-search position-absolute"
-                        style={{ left: 12, top: '50%', transform: 'translateY(-50%)',
-                            color: 'rgba(255,255,255,0.4)', fontSize: 13 }}></i>
+                {/* ── Search bar ── */}
+                <div className="navbar-search-wrap position-relative" style={{ width: 280 }}>
+                    <i
+                        className="bi bi-search position-absolute"
+                        style={{
+                            left: 12, top: '50%', transform: 'translateY(-50%)',
+                            color: '#94a3b8', fontSize: 13,
+                            pointerEvents: 'none', zIndex: 2,
+                        }}
+                    ></i>
                     <input
                         type="text"
-                        className="form-control form-control-sm ps-4"
-                        placeholder="Search modules..."
+                        className="form-control form-control-sm navbar-search-input"
+                        placeholder="Search modules…"
                         value={search}
                         onChange={e => setSearch(e.target.value)}
-                        style={{
-                            background: 'rgba(255,255,255,0.08)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            borderRadius: 10, color: 'white', fontSize: 13,
-                            boxShadow: 'none'
-                        }}
                     />
                 </div>
 
                 {/* User */}
                 <div className="d-flex align-items-center gap-3">
-                    <div className="d-flex align-items-center gap-2 px-3 py-2 rounded-3"
+                    <div
+                        className="d-flex align-items-center gap-2 px-3 py-2 rounded-3"
                         style={{
                             background: 'rgba(255,255,255,0.07)',
-                            border: '1px solid rgba(255,255,255,0.1)'
-                        }}>
-                        <div className="d-flex align-items-center justify-content-center rounded-circle fw-bold text-white"
+                            border: '1px solid rgba(255,255,255,0.1)',
+                        }}
+                    >
+                        <div
+                            className="d-flex align-items-center justify-content-center rounded-circle fw-bold text-white"
                             style={{
                                 width: 32, height: 32, fontSize: 14,
-                                background: `linear-gradient(135deg, ${roleInfo.color}, ${roleInfo.color}99)`
-                            }}>
+                                background: `linear-gradient(135deg, ${roleInfo.color}, ${roleInfo.color}99)`,
+                            }}
+                        >
                             {userName.charAt(0).toUpperCase()}
                         </div>
                         <div>
                             <div className="text-white fw-semibold lh-1" style={{ fontSize: 13 }}>{userName}</div>
-                            <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 10 }}>{roleInfo.label}</div>
+                            <div style={{ color: 'rgba(255,255,255,0.50)', fontSize: 10 }}>{roleInfo.label}</div>
                         </div>
                     </div>
                     <button
@@ -163,9 +206,10 @@ export default function Dashboard() {
                         style={{
                             background: 'rgba(239,68,68,0.12)',
                             border: '1px solid rgba(239,68,68,0.25)',
-                            color: '#fca5a5', fontSize: 12, borderRadius: 10
+                            color: '#fca5a5', fontSize: 12, borderRadius: 10,
                         }}
-                        onClick={() => { localStorage.clear(); navigate('/login'); }}>
+                        onClick={() => { localStorage.clear(); navigate('/login'); }}
+                    >
                         <i className="bi bi-box-arrow-right"></i> Sign Out
                     </button>
                 </div>
@@ -174,25 +218,23 @@ export default function Dashboard() {
             <div className="container-fluid px-4 py-4">
 
                 {/* ── Hero Banner ── */}
-                <div className="rounded-4 p-4 mb-4 position-relative overflow-hidden"
-                    style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #1e40af 100%)' }}>
-
-                    {/* Decorative blobs */}
+                <div
+                    className="rounded-4 p-4 mb-4 position-relative overflow-hidden"
+                    style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #1e40af 100%)' }}
+                >
                     <div className="position-absolute rounded-circle"
-                        style={{ width: 200, height: 200, top: -60, right: -40,
-                            background: 'rgba(99,102,241,0.12)' }}></div>
+                        style={{ width: 200, height: 200, top: -60, right: -40, background: 'rgba(99,102,241,0.12)' }}></div>
                     <div className="position-absolute rounded-circle"
-                        style={{ width: 140, height: 140, bottom: -50, right: 100,
-                            background: 'rgba(59,130,246,0.1)' }}></div>
+                        style={{ width: 140, height: 140, bottom: -50, right: 100, background: 'rgba(59,130,246,0.1)' }}></div>
 
                     <div className="d-flex justify-content-between align-items-center position-relative">
                         <div>
                             <div className="d-flex align-items-center gap-2 mb-2">
-                                <span className="badge rounded-pill px-3 py-2"
-                                    style={{ background: 'rgba(255,255,255,0.1)',
-                                        color: 'rgba(255,255,255,0.8)', fontSize: 11 }}>
-                                    <i className={`bi ${roleInfo.icon} me-1`}
-                                        style={{ color: roleInfo.color }}></i>
+                                <span
+                                    className="badge rounded-pill px-3 py-2"
+                                    style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)', fontSize: 11 }}
+                                >
+                                    <i className={`bi ${roleInfo.icon} me-1`} style={{ color: roleInfo.color }}></i>
                                     {roleInfo.label}
                                 </span>
                             </div>
@@ -205,11 +247,11 @@ export default function Dashboard() {
                                 &nbsp;of {ALL_MODULES.length} modules today.
                             </p>
                         </div>
-                        <div className="text-center px-4 py-3 rounded-3"
-                            style={{ background: 'rgba(255,255,255,0.07)',
-                                border: '1px solid rgba(255,255,255,0.1)' }}>
-                            <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 10,
-                                textTransform: 'uppercase', letterSpacing: '1px' }}>
+                        <div
+                            className="text-center px-4 py-3 rounded-3"
+                            style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}
+                        >
+                            <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 10, textTransform: 'uppercase', letterSpacing: '1px' }}>
                                 {new Date().toLocaleDateString('en-US', { weekday: 'long' })}
                             </div>
                             <div className="text-white fw-bold" style={{ fontSize: 24, letterSpacing: '-0.5px' }}>
@@ -225,26 +267,25 @@ export default function Dashboard() {
                 {/* ── Stats ── */}
                 <div className="row g-3 mb-4">
                     {[
-                        { label: 'Total Modules',  value: ALL_MODULES.length,              icon: 'bi-grid-3x3-gap-fill', color: '#6366f1', bg: '#eef2ff' },
-                        { label: 'Accessible',     value: allowed.length,                  icon: 'bi-unlock-fill',       color: '#10b981', bg: '#ecfdf5' },
-                        { label: 'Restricted',     value: ALL_MODULES.length-allowed.length,icon: 'bi-lock-fill',        color: '#ef4444', bg: '#fef2f2' },
-                        { label: 'Your Role',      value: roleInfo.label,                  icon: roleInfo.icon,          color: roleInfo.color, bg: '#f8fafc' },
+                        { label: 'Total Modules', value: ALL_MODULES.length,                    icon: 'bi-grid-3x3-gap-fill', color: '#6366f1', bg: '#eef2ff' },
+                        { label: 'Accessible',    value: allowed.length,                        icon: 'bi-unlock-fill',       color: '#10b981', bg: '#ecfdf5' },
+                        { label: 'Restricted',    value: ALL_MODULES.length - allowed.length,   icon: 'bi-lock-fill',         color: '#ef4444', bg: '#fef2f2' },
+                        { label: 'Your Role',     value: roleInfo.label,                        icon: roleInfo.icon,          color: roleInfo.color, bg: '#f8fafc' },
                     ].map((s, i) => (
                         <div key={i} className="col-md-3">
-                            <div className="card border-0 shadow-sm h-100"
-                                style={{ borderRadius: 16 }}>
+                            <div className="card border-0 shadow-sm h-100" style={{ borderRadius: 16 }}>
                                 <div className="card-body d-flex align-items-center gap-3 py-3">
-                                    <div className="d-flex align-items-center justify-content-center rounded-3 flex-shrink-0"
-                                        style={{ width: 50, height: 50, background: s.bg }}>
+                                    <div
+                                        className="d-flex align-items-center justify-content-center rounded-3 flex-shrink-0"
+                                        style={{ width: 50, height: 50, background: s.bg }}
+                                    >
                                         <i className={`bi ${s.icon}`} style={{ fontSize: 22, color: s.color }}></i>
                                     </div>
                                     <div>
-                                        <div className="text-muted" style={{ fontSize: 11,
-                                            textTransform: 'uppercase', letterSpacing: '0.6px', fontWeight: 500 }}>
+                                        <div className="text-muted" style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.6px', fontWeight: 500 }}>
                                             {s.label}
                                         </div>
-                                        <div className="fw-bold" style={{ fontSize: 20,
-                                            color: '#0f172a', letterSpacing: '-0.5px' }}>
+                                        <div className="fw-bold" style={{ fontSize: 20, color: '#0f172a', letterSpacing: '-0.5px' }}>
                                             {s.value}
                                         </div>
                                     </div>
@@ -267,34 +308,34 @@ export default function Dashboard() {
                     const meta = SECTION_META[section];
 
                     return (
-                        <div key={section} className="card border-0 shadow-sm mb-4"
-                            style={{ borderRadius: 18 }}>
+                        <div key={section} className="card border-0 shadow-sm mb-4" style={{ borderRadius: 18 }}>
                             <div className="card-body p-4">
 
                                 {/* Section Header */}
                                 <div className="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
                                     <div className="d-flex align-items-center gap-3">
-                                        <div className="d-flex align-items-center justify-content-center rounded-3"
-                                            style={{ width: 38, height: 38, background: meta.bg }}>
-                                            <i className={`bi ${meta.icon}`}
-                                                style={{ fontSize: 17, color: meta.color }}></i>
+                                        <div
+                                            className="d-flex align-items-center justify-content-center rounded-3"
+                                            style={{ width: 38, height: 38, background: meta.bg }}
+                                        >
+                                            <i className={`bi ${meta.icon}`} style={{ fontSize: 17, color: meta.color }}></i>
                                         </div>
                                         <div>
-                                            <div className="fw-bold" style={{ fontSize: 15, color: '#0f172a' }}>
-                                                {section}
-                                            </div>
+                                            <div className="fw-bold" style={{ fontSize: 15, color: '#0f172a' }}>{section}</div>
                                             <div className="text-muted" style={{ fontSize: 11 }}>
                                                 {accessCount} of {items.length} modules accessible
                                             </div>
                                         </div>
                                     </div>
-                                    <span className="badge rounded-pill px-3 py-2"
+                                    <span
+                                        className="badge rounded-pill px-3 py-2"
                                         style={{
                                             background: accessCount === items.length ? '#ecfdf5' : '#f8fafc',
                                             color: accessCount === items.length ? '#10b981' : '#64748b',
                                             border: `1px solid ${accessCount === items.length ? '#6ee7b7' : '#e2e8f0'}`,
-                                            fontSize: 11, fontWeight: 600
-                                        }}>
+                                            fontSize: 11, fontWeight: 600,
+                                        }}
+                                    >
                                         {accessCount}/{items.length} accessible
                                     </span>
                                 </div>
@@ -306,14 +347,13 @@ export default function Dashboard() {
                                         return (
                                             <div key={m.key} className="col-6 col-md-3 col-lg-2">
                                                 <div
-                                                    className="card border h-100"
+                                                    className="card border h-100 module-card"
                                                     style={{
                                                         borderRadius: 14,
                                                         cursor: isAllowed ? 'pointer' : 'not-allowed',
                                                         opacity: isAllowed ? 1 : 0.45,
-                                                        transition: 'all 0.2s ease',
                                                         borderColor: '#e2e8f0',
-                                                        overflow: 'hidden'
+                                                        overflow: 'hidden',
                                                     }}
                                                     onClick={() => isAllowed && navigate(m.route)}
                                                     onMouseEnter={e => {
@@ -333,49 +373,28 @@ export default function Dashboard() {
                                                         }
                                                     }}
                                                 >
-                                                    {/* Top accent */}
                                                     {isAllowed && (
-                                                        <div style={{
-                                                            height: 3,
-                                                            background: m.color,
-                                                            borderRadius: '14px 14px 0 0'
-                                                        }}></div>
+                                                        <div style={{ height: 3, background: m.color, borderRadius: '14px 14px 0 0' }}></div>
                                                     )}
-
                                                     <div className="card-body p-3">
-                                                        {/* Icon */}
-                                                        <div className="d-flex align-items-center justify-content-center rounded-3 mb-3"
-                                                            style={{
-                                                                width: 42, height: 42,
-                                                                background: isAllowed ? m.bg : '#f1f5f9'
-                                                            }}>
+                                                        <div
+                                                            className="d-flex align-items-center justify-content-center rounded-3 mb-3"
+                                                            style={{ width: 42, height: 42, background: isAllowed ? m.bg : '#f1f5f9' }}
+                                                        >
                                                             <i className={`bi ${m.icon}`}
-                                                                style={{ fontSize: 19,
-                                                                    color: isAllowed ? m.color : '#cbd5e1' }}></i>
+                                                                style={{ fontSize: 19, color: isAllowed ? m.color : '#cbd5e1' }}></i>
                                                         </div>
-
-                                                        {/* Label */}
                                                         <div className="fw-bold mb-1"
-                                                            style={{ fontSize: 12,
-                                                                color: isAllowed ? '#0f172a' : '#94a3b8',
-                                                                letterSpacing: '-0.2px' }}>
+                                                            style={{ fontSize: 12, color: isAllowed ? '#0f172a' : '#94a3b8', letterSpacing: '-0.2px' }}>
                                                             {m.label}
                                                         </div>
-
-                                                        {/* Desc */}
                                                         <div className="text-muted" style={{ fontSize: 10, lineHeight: 1.4 }}>
                                                             {isAllowed ? m.desc : '🔒 No access'}
                                                         </div>
-
-                                                        {/* Status */}
                                                         {isAllowed && (
                                                             <div className="d-flex align-items-center gap-1 mt-2">
-                                                                <div className="rounded-circle bg-success"
-                                                                    style={{ width: 5, height: 5 }}></div>
-                                                                <span className="text-success"
-                                                                    style={{ fontSize: 10, fontWeight: 600 }}>
-                                                                    Active
-                                                                </span>
+                                                                <div className="rounded-circle bg-success" style={{ width: 5, height: 5 }}></div>
+                                                                <span className="text-success" style={{ fontSize: 10, fontWeight: 600 }}>Active</span>
                                                             </div>
                                                         )}
                                                     </div>
@@ -384,10 +403,12 @@ export default function Dashboard() {
                                         );
                                     })}
                                 </div>
+
                             </div>
                         </div>
                     );
                 })}
+
             </div>
         </div>
     );

@@ -14,7 +14,6 @@ export default function CreateKPIReport() {
         setErrorMsg("");
         setSuccessMsg("");
 
-        // ✅ Validation
         if (!scope || !metrics) {
             setErrorMsg("⚠️ Please fill all fields");
             return;
@@ -56,17 +55,14 @@ export default function CreateKPIReport() {
         <div className="container mt-4">
             <h2>Create KPI Report</h2>
 
-            {/* ✅ Success */}
             {successMsg && (
                 <div className="alert alert-success">{successMsg}</div>
             )}
 
-            {/* ✅ Error */}
             {errorMsg && (
                 <div className="alert alert-danger">{errorMsg}</div>
             )}
 
-            {/* Scope */}
             <div className="mb-3">
                 <label className="form-label">
                     Scope <span style={{ color: "red" }}>*</span>
@@ -85,7 +81,6 @@ export default function CreateKPIReport() {
                 )}
             </div>
 
-            {/* Metrics */}
             <div className="mb-3">
                 <label className="form-label">
                     Metrics <span style={{ color: "red" }}>*</span>

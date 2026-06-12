@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -30,19 +31,32 @@ export default function Login() {
             localStorage.setItem("token",    res.data.token);
             localStorage.setItem("role",     res.data.role);
             localStorage.setItem("username", res.data.username);
+
+            // Decode JWT and store userId
+            const decoded = jwtDecode(res.data.token);
+            console.log("Decoded token:", decoded);
+            localStorage.setItem("userId", decoded.userId || decoded.id || decoded.sub);
+
             setSuccess("Login successful! Welcome " + res.data.username + " 🎉");
             setTimeout(() => navigate("/dashboard"), 1500);
         })
         .catch((err) => {
-            const msg = err.response?.data?.error ||
-                        err.response?.data?.message || err.message;
-            if (msg?.includes("pending")) {
-                setError("Your account is pending admin approval.");
-            } else if (msg?.includes("rejected")) {
-                setError("Your account has been rejected. Contact admin.");
+            console.error(err);
+
+            if (err.response && err.response.data) {
+                if (typeof err.response.data === "string") {
+                    setError(err.response.data);
+                } else if (err.response.data.error) {
+                    setError(err.response.data.error);
+                } else if (err.response.data.message) {
+                    setError(err.response.data.message);
+                } else {
+                    setError("Login failed");
+                }
             } else {
-                setError("Invalid username or password. Please try again.");
+                setError("Login failed");
             }
+
             setLoading(false);
         });
     }
@@ -188,7 +202,7 @@ export default function Login() {
                         </div>
 
                         {/* Register link */}
-                        <p className="text-center text-muted small mb-0">
+                        <p className="text-center text-muted small mb-0 mt-2">
                             Don't have an account?{" "}
                             <Link to="/register"
                                 className="fw-medium text-decoration-none"
@@ -212,3 +226,4 @@ export default function Login() {
         </div>
     );
 }
+    

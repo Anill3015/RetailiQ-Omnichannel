@@ -2,7 +2,12 @@ package com.example.dto;
 
 public class OrderRequestDTO {
 
+<<<<<<< HEAD
     private Long customerID;
+=======
+    private int orderID;
+    private Integer customerID;
+>>>>>>> origin/nari-final
     private String channel;
     private int totalAmount;
     private int quantity;
@@ -18,6 +23,7 @@ public class OrderRequestDTO {
         this.destination = destination;
     }
 
+<<<<<<< HEAD
     public int getInventoryId() {
         return inventoryId;
     }
@@ -33,8 +39,19 @@ public class OrderRequestDTO {
     public void setCustomerID(Long customerID) {
         this.customerID = customerID;
     }
+=======
+    
 
-    public String getChannel() {
+    public Integer getCustomerID() {
+		return customerID;
+	}
+>>>>>>> origin/nari-final
+
+	public void setCustomerID(Integer customerID) {
+		this.customerID = customerID;
+	}
+
+	public String getChannel() {
         return channel;
     }
 

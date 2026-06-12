@@ -12,7 +12,7 @@ export default function DeleteCustomerProfile() {
             headers: { "Authorization": `Bearer ${token}` }
         })
             .then((response) => {
-                alert(response.data);
+               // alert(response.data);
                 navigate("/CustomerProfile/findCustomerProfile");
             })
             .catch((error) => {

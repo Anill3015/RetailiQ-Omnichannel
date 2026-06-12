@@ -18,6 +18,7 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+<<<<<<< HEAD
     private final CustomerServiceClient customerClient;
     private final InventoryAvailabilityService inventoryService;
     private final FulfillmentInstructionService fulfillmentService;
@@ -36,8 +37,25 @@ public class OrderService {
     // CREATE
     // -------------------------------------------------------------------------
     @Transactional
-    public OrderResponseDTO createOrder(OrderRequestDTO dto) {
+=======
+    
+    private final ExceptionEventService exceptionEventService;
+    
 
+    public OrderService(OrderRepository orderRepository,
+            ExceptionEventService exceptionEventService) {
+		this.orderRepository = orderRepository;
+		this.exceptionEventService = exceptionEventService;
+	}
+
+    
+
+    
+>>>>>>> origin/nari-final
+    public OrderResponseDTO createOrder(OrderRequestDTO dto) {
+    	System.out.println("👉 customerID value = " + dto.getCustomerID());
+
+<<<<<<< HEAD
         // 1. Validate customer exists
         if (!customerClient.customerExists(dto.getCustomerID())) {
             throw new ResourceNotFoundException(
@@ -82,6 +100,46 @@ public class OrderService {
         fulfillmentService.create(fulfillmentDTO);
 
         return mapToResponseDTO(savedOrder);
+=======
+        // ✅ VALIDATE FIRST (OUTSIDE TRY ❗)
+    	System.out.println("🔥 VALIDATION HIT");
+        if (dto.getCustomerID() == null || dto.getCustomerID() == 0) {
+
+            exceptionEventService.createException(
+                "ORDER_FAILED",
+                "INVALID_INPUT",
+                "HIGH"
+            );
+
+            throw new RuntimeException("Customer ID is required");
+        }
+
+        try {
+
+            Order order = new Order();
+            order.setCustomerID(dto.getCustomerID());
+            order.setChannel(dto.getChannel());
+            order.setTotalAmount(dto.getTotalAmount());
+
+            order.setOrderDate(LocalDateTime.now());
+            order.setStatus("CREATED");
+
+            Order savedOrder = orderRepository.save(order);
+
+            return mapToResponseDTO(savedOrder);
+        }
+
+        catch (Exception e) {
+
+            exceptionEventService.createException(
+                "ORDER_FAILED",
+                "SYSTEM_ERROR",
+                "HIGH"
+            );
+
+            throw new RuntimeException("Order failed: " + e.getMessage());
+        }
+>>>>>>> origin/nari-final
     }
 
     // -------------------------------------------------------------------------

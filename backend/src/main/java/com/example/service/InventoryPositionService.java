@@ -15,14 +15,25 @@ import java.util.List;
 public class InventoryPositionService {
 
     private final InventoryPositionRepository repository;
+<<<<<<< HEAD
     private final LocationServiceClient locationClient;
 
     public InventoryPositionService(InventoryPositionRepository repository,
                                     LocationServiceClient locationClient) {
         this.repository = repository;
         this.locationClient = locationClient;
-    }
+=======
+    private final ExceptionEventService exceptionEventService;
 
+    public InventoryPositionService(
+            InventoryPositionRepository repository,
+            ExceptionEventService exceptionEventService) {
+
+        this.repository = repository;
+        this.exceptionEventService = exceptionEventService;
+>>>>>>> origin/nari-final
+    }
+    
     public InventoryPositionResponseDTO create(InventoryPositionRequestDTO dto) {
 
         Long locationId = dto.getLocationID();
@@ -38,7 +49,22 @@ public class InventoryPositionService {
                 dto.getSafetyStock()
         );
 
+<<<<<<< HEAD
         return toResponseDTO(repository.save(inventory));
+=======
+        // ✅ STOCKOUT ON CREATE
+        if (dto.getQuantityOnHand() == 0) {
+
+            exceptionEventService.createException(
+                    "STOCKOUT",
+                    String.valueOf(dto.getSku()),
+                    "HIGH"
+            );
+        }
+
+        InventoryPosition saved = repository.save(inventory);
+        return toResponseDTO(saved);
+>>>>>>> origin/nari-final
     }
 
     public InventoryPositionResponseDTO getById(int id) {
@@ -73,8 +99,38 @@ public class InventoryPositionService {
         inventory.setQuantityReserved(dto.getQuantityReserved());
         inventory.setSafetyStock(dto.getSafetyStock());
 
+<<<<<<< HEAD
         return toResponseDTO(repository.save(inventory));
+=======
+        // 🔥 ✅ STOCKOUT DETECTION
+        if (inventory.getQuantityOnHand() == 0) {
+
+            System.out.println("🔥 STOCKOUT DETECTED");
+
+            exceptionEventService.createException(
+                    "STOCKOUT",
+                    String.valueOf(inventory.getSku()),
+                    "HIGH"
+            );
+        }
+
+        // ✅ LOW STOCK (Optional but good)
+        else if (inventory.getQuantityOnHand() < inventory.getSafetyStock()) {
+
+            System.out.println("⚠️ LOW STOCK DETECTED");
+
+            exceptionEventService.createException(
+                    "LOW_STOCK",
+                    String.valueOf(inventory.getSku()),
+                    "MEDIUM"
+            );
+        }
+
+        InventoryPosition saved = repository.save(inventory);
+        return toResponseDTO(saved);
+>>>>>>> origin/nari-final
     }
+    
 
     // FIX: Added existence check before delete — previously silently did nothing for a missing ID
     public void delete(int id) {

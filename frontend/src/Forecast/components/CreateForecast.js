@@ -3,79 +3,178 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function CreateForecast() {
-    const [sku, setSku] = useState("");
-    const [locationId, setLocationId] = useState("");
-    const [period, setPeriod] = useState("");
-    const [forecastQty, setForecastQty] = useState("");
     const navigate = useNavigate();
 
-    const skuHandler = (e) => setSku(e.target.value);
-    const locationIdHandler = (e) => setLocationId(e.target.value);
-    const periodHandler = (e) => setPeriod(e.target.value);
-    const forecastQtyHandler = (e) => setForecastQty(e.target.value);
+    const [form, setForm] = useState({
+        sku: "",
+        locationId: "",
+        period: "",
+        forecastQty: ""
+    });
+
+    const [errors, setErrors] = useState({});
+    const [success, setSuccess] = useState("");
+
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+        setErrors({ ...errors, [e.target.name]: "" });
+        setSuccess("");
+    };
+
+    const validate = () => {
+        let newErrors = {};
+
+        const skuRegex = /^[A-Za-z0-9-]{3,}$/;
+
+        if (!form.sku.trim()) {
+            newErrors.sku = "SKU is required";
+        } else if (!skuRegex.test(form.sku)) {
+            newErrors.sku = "Invalid SKU (e.g. NIKE-TS-RED-M)";
+        }
+
+        if (!form.locationId) {
+            newErrors.locationId = "Location ID is required";
+        } else if (!/^[1-9][0-9]*$/.test(form.locationId)) {
+            newErrors.locationId = "Must be a positive number";
+        }
+
+        if (!form.period.trim()) {
+            newErrors.period = "Period is required";
+        } else if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(form.period)) {
+            newErrors.period = "Format must be YYYY-MM (e.g. 2026-01)";
+        }
+
+        if (!form.forecastQty) {
+            newErrors.forecastQty = "Forecast Quantity is required";
+        } else if (!/^[1-9][0-9]*$/.test(form.forecastQty)) {
+            newErrors.forecastQty = "Must be greater than 0";
+        }
+
+        return newErrors;
+    };
 
     const saveHandler = () => {
-        if (!sku || !locationId || !period || !forecastQty) {
-            alert("All fields are required");
+        const validationErrors = validate();
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
 
-        const url = "http://localhost:9011/api/forecast/add";
-        const data = {
-            "forecast": {
-                "product": { "sku": sku },
-                "location": { "locationId": parseInt(locationId) },
-                "period": period,
-                "forecastQty": parseInt(forecastQty),
-                "generatedAt": new Date().toISOString().slice(0, 19)
-            }
-        };
+        const token = localStorage.getItem("token");
 
-        axios.post(url, data)
-            .then((response) => {
-                alert(response.data.message);
-                setSku("");
-                setLocationId("");
-                setPeriod("");
-                setForecastQty("");
+        axios.post("http://localhost:9011/api/forecast/add", {
+            forecast: {
+                product: { sku: form.sku },
+                location: { locationId: parseInt(form.locationId) },
+                period: form.period,
+                forecastQty: parseInt(form.forecastQty),
+                generatedAt: new Date().toISOString().slice(0, 19)
+            }
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(() => {
+            setSuccess("Forecast Created Successfully ✅");
+            setForm({ sku: "", locationId: "", period: "", forecastQty: "" });
+            setTimeout(() => {
                 navigate("/Forecast/findForecast");
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
-                } else if (error.request) {
-                    alert("No response from server. Make sure the backend is running on port 9011.");
-                } else {
-                    alert("Error: " + error.message);
-                }
+            }, 1000);
+        })
+        .catch((error) => {
+            setErrors({
+                api: error.response?.data?.message || "Failed to create forecast ❌"
             });
+        });
     };
 
     return (
         <div className="container mt-4">
-            <h2>Create Forecast</h2>
+            <div className="card p-4 shadow">
+                <h4>Create Forecast</h4>
 
-            <div className="mb-3">
-                <label className="form-label">Product SKU</label>
-                <input className="form-control" value={sku} onChange={skuHandler} placeholder="e.g. NIKE-TS-RED-M" />
+                {errors.api && (
+                    <div className="alert alert-danger">{errors.api}</div>
+                )}
+
+                {success && (
+                    <div className="alert alert-success">{success}</div>
+                )}
+
+                <div className="mb-3">
+                    <label className="form-label">
+                        Product SKU <span className="text-danger">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="sku"
+                        className={`form-control ${errors.sku ? 'is-invalid' : ''}`}
+                        value={form.sku}
+                        onChange={handleChange}
+                        placeholder="e.g. NIKE-TS-RED-M"
+                    />
+                    {errors.sku && (
+                        <div className="invalid-feedback">{errors.sku}</div>
+                    )}
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">
+                        Location ID <span className="text-danger">*</span>
+                    </label>
+                    <input
+                        type="number"
+                        name="locationId"
+                        className={`form-control ${errors.locationId ? 'is-invalid' : ''}`}
+                        value={form.locationId}
+                        onChange={handleChange}
+                        placeholder="Enter location ID"
+                    />
+                    {errors.locationId && (
+                        <div className="invalid-feedback">{errors.locationId}</div>
+                    )}
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">
+                        Period <span className="text-danger">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="period"
+                        className={`form-control ${errors.period ? 'is-invalid' : ''}`}
+                        value={form.period}
+                        onChange={handleChange}
+                        placeholder="e.g. 2026-01"
+                        maxLength={7}
+                    />
+                    {errors.period && (
+                        <div className="invalid-feedback">{errors.period}</div>
+                    )}
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">
+                        Forecast Quantity <span className="text-danger">*</span>
+                    </label>
+                    <input
+                        type="number"
+                        name="forecastQty"
+                        className={`form-control ${errors.forecastQty ? 'is-invalid' : ''}`}
+                        value={form.forecastQty}
+                        onChange={handleChange}
+                        placeholder="Enter forecast quantity"
+                    />
+                    {errors.forecastQty && (
+                        <div className="invalid-feedback">{errors.forecastQty}</div>
+                    )}
+                </div>
+
+                <button className="btn btn-primary" onClick={saveHandler}>Save</button>
             </div>
-
-            <div className="mb-3">
-                <label className="form-label">Location ID</label>
-                <input className="form-control" type="number" value={locationId} onChange={locationIdHandler} placeholder="e.g. 1" />
-            </div>
-
-            <div className="mb-3">
-                <label className="form-label">Period</label>
-                <input className="form-control" value={period} onChange={periodHandler} placeholder="e.g. 2026-05" />
-            </div>
-
-            <div className="mb-3">
-                <label className="form-label">Forecast Quantity</label>
-                <input className="form-control" type="number" value={forecastQty} onChange={forecastQtyHandler} placeholder="e.g. 150" />
-            </div>
-
-            <button className="btn btn-primary" onClick={saveHandler}>Save</button>
         </div>
     );
 }

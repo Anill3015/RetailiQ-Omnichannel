@@ -85,5 +85,5 @@ export default function CreateFulfillmentInstruction(){
 
                 <button className="btn btn-primary" onClick={saveHandler}>save</button>
         </div>
-    )
+    );
 }

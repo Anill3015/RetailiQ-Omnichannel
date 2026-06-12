@@ -12,9 +12,8 @@ export default function FindKPIReportById() {
         setErrorMsg("");
         setReport(null);
 
-        // ✅ Validation
         if (!id) {
-            setErrorMsg("⚠️ Please enter KPI Report ID");
+            setErrorMsg("Please enter KPI Report ID");
             return;
         }
 
@@ -33,7 +32,6 @@ export default function FindKPIReportById() {
             console.error(error);
             setReport(null);
 
-            // ✅ Handle backend message properly
             if (error.response && error.response.data) {
                 if (error.response.data.message) {
                     setErrorMsg(error.response.data.message);
@@ -50,7 +48,6 @@ export default function FindKPIReportById() {
         <div className="container mt-4">
             <h2>Find KPI Report By ID</h2>
 
-            {/* ✅ Error Message */}
             {errorMsg && (
                 <div className="alert alert-danger">{errorMsg}</div>
             )}
@@ -79,7 +76,6 @@ export default function FindKPIReportById() {
                 Search
             </button>
 
-            {/* ✅ Result */}
             {report && (
                 <table className="table table-bordered table-striped mt-3">
                     <tbody>

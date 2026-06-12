@@ -1,19 +1,17 @@
 package com.example.controller;
 
-import java.util.List;
-
+import com.example.entity.Notification;
+import com.example.entity.Notification.NotificationCategory;
+import com.example.entity.Notification.DeliveryChannel;
+import com.example.service.NotificationService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.dto.NotificationDTO;
-import com.example.dto.NotificationResponseDTO;
-import com.example.entity.Notification;
-import com.example.service.NotificationService;
-
-import org.springframework.data.domain.Page;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class NotificationController {
 
     private final NotificationService service;
@@ -22,73 +20,149 @@ public class NotificationController {
         this.service = service;
     }
 
-    // ✅ Add Notification
+    // ── CRUD ──────────────────────────────────────────────
+
     @PostMapping("/addNotification")
-    public ResponseEntity<NotificationResponseDTO> addNotification(
-            @RequestBody NotificationDTO dto) {
-
-        Notification saved = service.save(dto.getNotification());
-
-        NotificationResponseDTO response = new NotificationResponseDTO();
-        response.setNotification(saved);
-        response.setMessage("Notification added successfully");
-        response.setStatusCode(201);
-
-        return ResponseEntity.status(201).body(response);
+    public ResponseEntity<Notification> add(@RequestBody Notification n) {
+        return ResponseEntity.ok(service.save(n));
     }
 
-    // ✅ Update Notification
-    @PostMapping("/updateNotification")
-    public ResponseEntity<NotificationResponseDTO> updateNotification(
-            @RequestBody NotificationDTO dto) {
-
-        Notification updated = service.update(dto.getNotification());
-
-        NotificationResponseDTO response = new NotificationResponseDTO();
-        response.setNotification(updated);
-        response.setMessage("Notification updated successfully");
-        response.setStatusCode(200);
-
-        return ResponseEntity.ok(response);
+    @PutMapping("/updateNotification/{id}")
+    public ResponseEntity<Notification> update(@PathVariable Long id, @RequestBody Notification n) {
+        n.setNotificationId(id);
+        return ResponseEntity.ok(service.update(n));
     }
 
-    // ✅ Find Notification by ID
-    @GetMapping("/findNotification/{id}")
-    public Notification findNotification(@PathVariable Long id) {
-        return service.getById(id);
+    @GetMapping("/fetchNotificationById/{id}")
+    public ResponseEntity<Notification> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
-
-    @GetMapping("/fetchNotificationsWithPagination")
-    public Page<Notification> fetchNotificationsWithPagination(
-            @RequestParam int page,
-            @RequestParam int size) {
-
-        return service.getAllWithPagination(page, size);
-    }
-
-    // ✅ Fetch All Notifications
     @GetMapping("/fetchAllNotifications")
-    public List<Notification> fetchAllNotifications() {
-        return service.getAll();
+    public ResponseEntity<List<Notification>> getAll() {
+        return ResponseEntity.ok(service.getAll());
     }
 
-    // ✅ Delete Notification
-    @DeleteMapping("/deleteNotification")
-    public String deleteNotification(@RequestBody Notification notification) {
-        service.delete(notification.getNotificationId());
-        return "Notification deleted successfully";
+    @GetMapping("/fetchAllNotifications/paginated")
+    public ResponseEntity<Page<Notification>> getAllPaginated(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(service.getAllWithPagination(page, size));
     }
 
-    // ✅ Fetch unread in‑app alerts for a user
-    @GetMapping("/alerts/{userId}")
-    public List<Notification> getUnreadAlerts(@PathVariable Long userId) {
-        return service.getUnreadAlerts(userId);
+    @DeleteMapping("/deleteNotification/{id}")
+    public ResponseEntity<Notification> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(service.delete(id));
     }
 
-    // ✅ Mark alert as READ
-    @PutMapping("/alerts/read/{id}")
-    public Notification markAlertAsRead(@PathVariable Long id) {
-        return service.markAsRead(id);
+    // ── READ / UNREAD ──────────────────────────────────────
+
+    @GetMapping("/fetchUnreadNotifications/{userId}")
+    public ResponseEntity<List<Notification>> getUnread(@PathVariable Long userId) {
+        return ResponseEntity.ok(service.getUnreadAlerts(userId));
+    }
+
+    @PutMapping("/markAsRead/{id}")
+    public ResponseEntity<Notification> markAsRead(@PathVariable Long id) {
+        return ResponseEntity.ok(service.markAsRead(id));
+    }
+
+    @GetMapping("/countUnread/{userId}")
+    public ResponseEntity<Long> countUnread(@PathVariable Long userId) {
+        return ResponseEntity.ok(service.countUnread(userId));
+    }
+
+    // ── FILTER BY CATEGORY ────────────────────────────────
+
+    @GetMapping("/fetchNotificationsByCategory/{category}")
+    public ResponseEntity<List<Notification>> getByCategory(@PathVariable NotificationCategory category) {
+        return ResponseEntity.ok(service.getByCategory(category));
+    }
+
+    @GetMapping("/fetchNotificationsByUserAndCategory/{userId}/{category}")
+    public ResponseEntity<List<Notification>> getByUserAndCategory(
+            @PathVariable Long userId,
+            @PathVariable NotificationCategory category) {
+        return ResponseEntity.ok(service.getByUserAndCategory(userId, category));
+    }
+
+    // ── FILTER BY STATUS ──────────────────────────────────
+
+    @GetMapping("/fetchNotificationsByStatus/{status}")
+    public ResponseEntity<List<Notification>> getByStatus(@PathVariable String status) {
+        return ResponseEntity.ok(service.getByStatus(status));
+    }
+
+    @GetMapping("/fetchNotificationsByUserAndStatus/{userId}/{status}")
+    public ResponseEntity<List<Notification>> getByUserAndStatus(
+            @PathVariable Long userId,
+            @PathVariable String status) {
+        return ResponseEntity.ok(service.getByUserAndStatus(userId, status));
+    }
+
+    // ── FILTER BY USER ────────────────────────────────────
+
+    @GetMapping("/fetchNotificationsByUser/{userId}")
+    public ResponseEntity<List<Notification>> getByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(service.getByUser(userId));
+    }
+
+    @GetMapping("/fetchNotificationsByUser/{userId}/paginated")
+    public ResponseEntity<Page<Notification>> getByUserPaginated(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(service.getByUserWithPagination(userId, page, size));
+    }
+
+    // ── DELIVERY ──────────────────────────────────────────
+
+    @PutMapping("/markAsDelivered/{id}")
+    public ResponseEntity<Notification> markAsDelivered(@PathVariable Long id) {
+        return ResponseEntity.ok(service.markAsDelivered(id));
+    }
+
+    @GetMapping("/fetchUndeliveredNotifications")
+    public ResponseEntity<List<Notification>> getUndelivered() {
+        return ResponseEntity.ok(service.getUndelivered());
+    }
+
+    @GetMapping("/fetchUndeliveredByChannel/{channel}")
+    public ResponseEntity<List<Notification>> getUndeliveredByChannel(@PathVariable DeliveryChannel channel) {
+        return ResponseEntity.ok(service.getUndeliveredByChannel(channel));
+    }
+
+    // ── SEND ──────────────────────────────────────────────
+
+    @PostMapping("/sendInApp/{userId}")
+    public ResponseEntity<Notification> sendInApp(
+            @PathVariable Long userId,
+            @RequestParam String message,
+            @RequestParam NotificationCategory category) {
+        return ResponseEntity.ok(service.sendInApp(userId, message, category));
+    }
+
+    @PostMapping("/sendEmail/{userId}")
+    public ResponseEntity<Notification> sendEmail(
+            @PathVariable Long userId,
+            @RequestParam String message,
+            @RequestParam NotificationCategory category) {
+        return ResponseEntity.ok(service.sendEmail(userId, message, category));
+    }
+
+    @PostMapping("/sendSms/{userId}")
+    public ResponseEntity<Notification> sendSms(
+            @PathVariable Long userId,
+            @RequestParam String message,
+            @RequestParam NotificationCategory category) {
+        return ResponseEntity.ok(service.sendSms(userId, message, category));
+    }
+
+    @PostMapping("/sendWebhook/{userId}")
+    public ResponseEntity<Notification> sendWebhook(
+            @PathVariable Long userId,
+            @RequestParam String message,
+            @RequestParam NotificationCategory category) {
+        return ResponseEntity.ok(service.sendWebhook(userId, message, category));
     }
 }

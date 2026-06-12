@@ -9,20 +9,24 @@ export default function DeleteForecast() {
         const token = localStorage.getItem("token");
         axios.delete(`http://localhost:9011/api/forecast/delete/${fcid}`, {
             headers: { "Authorization": `Bearer ${token}` }
-        }   )
-            .then((response) => {
-                alert(response.data);
-                navigate("/Forecast/findForecast");
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
-                } else if (error.request) {
-                    alert("No response from server. Make sure the backend is running on port 9011.");
+        })
+        .then(() => {
+            alert("Forecast deleted successfully!");
+            navigate("/Forecast/findForecast");
+        })
+        .catch((error) => {
+            if (error.response) {
+                if (error.response.status === 403 || error.response.status === 404) {
+                    alert("Record not found with ID: " + fcid);
                 } else {
-                    alert("Error: " + error.message);
+                    alert("Error " + error.response.status + ": " + (error.response.data?.errorMessage || JSON.stringify(error.response.data)));
                 }
-            });
+            } else if (error.request) {
+                alert("No response from server. Make sure the backend is running on port 9011.");
+            } else {
+                alert("Error: " + error.message);
+            }
+        });
     };
 
     return (

@@ -18,12 +18,18 @@ import java.util.stream.Collectors;
 public class FulfillmentInstructionService {
 
     private final FulfillmentInstructionRepository repository;
+    private final ExceptionEventService exceptionEventService;
 
-    public FulfillmentInstructionService(FulfillmentInstructionRepository repository) {
+    public FulfillmentInstructionService(
+            FulfillmentInstructionRepository repository,
+            ExceptionEventService exceptionEventService) {
+
         this.repository = repository;
+        this.exceptionEventService = exceptionEventService;
     }
 
     public FulfillmentInstructionResponseDTO create(FulfillmentInstructionRequestDTO dto) {
+<<<<<<< HEAD
         FulfillmentInstruction entity = new FulfillmentInstruction();
         entity.setOrderID(dto.getOrderID());
         entity.setSourceLocationID(dto.getSourceLocationID());
@@ -43,6 +49,69 @@ public class FulfillmentInstructionService {
         }
 
         return mapToResponse(repository.save(entity)); // cascade saves items too
+=======
+
+        // ✅ VALIDATION
+        if (dto.getOrderID() <= 0) {
+
+            System.out.println("🔥 Fulfillment validation failed");
+
+            exceptionEventService.createException(
+                    "FULFILLMENT_FAILURE",
+                    "INVALID_ORDER_ID",
+                    "CRITICAL"
+            );
+
+            throw new RuntimeException("Order ID must be valid");
+        }
+
+        if (dto.getSourceLocationID() <= 0) {
+
+            exceptionEventService.createException(
+                    "FULFILLMENT_FAILURE",
+                    String.valueOf(dto.getOrderID()),
+                    "HIGH"
+            );
+
+            throw new RuntimeException("Invalid Source Location ID");
+        }
+
+        try {
+
+            FulfillmentInstruction entity = new FulfillmentInstruction();
+            entity.setOrderID(dto.getOrderID());
+            entity.setSourceLocationID(dto.getSourceLocationID());
+            entity.setDestination(dto.getDestination());
+            entity.setStatus("CREATED");
+
+            // ✅ Proper item mapping (DB relation instead of string)
+            if (dto.getItems() != null) {
+                List<FulfillmentItem> itemEntities = dto.getItems().stream()
+                        .map(i -> {
+                            FulfillmentItem item = new FulfillmentItem();
+                            item.setSku(i.getSku());
+                            item.setQuantity(i.getQuantity());
+                            item.setInstruction(entity); // link back to parent
+                            return item;
+                        }).collect(Collectors.toList());
+
+                entity.setItems(itemEntities);
+            }
+
+            return mapToResponse(repository.save(entity));
+
+        } catch (Exception e) {
+
+            // ✅ SYSTEM FAILURE HANDLING
+            exceptionEventService.createException(
+                    "FULFILLMENT_FAILURE",
+                    String.valueOf(dto.getOrderID()),
+                    "CRITICAL"
+            );
+
+            throw new RuntimeException("Fulfillment failed: " + e.getMessage());
+        }
+>>>>>>> origin/nari-final
     }
 
     public FulfillmentInstructionResponseDTO getById(int id) {
@@ -75,7 +144,13 @@ public class FulfillmentInstructionService {
                         new ResourceNotFoundException(
                                 "FulfillmentInstruction not found with id " + id));
 
+<<<<<<< HEAD
         entity.getItems().clear(); // orphanRemoval deletes old rows
+=======
+        // ✅ Clear old items (orphanRemoval)
+        entity.getItems().clear();
+
+>>>>>>> origin/nari-final
         if (dto.getItems() != null) {
             dto.getItems().forEach(i -> {
                 FulfillmentItem item = new FulfillmentItem();
@@ -85,6 +160,10 @@ public class FulfillmentInstructionService {
                 entity.getItems().add(item);
             });
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/nari-final
         return mapToResponse(repository.save(entity));
     }
 
@@ -107,6 +186,7 @@ public class FulfillmentInstructionService {
         dto.setStatus(entity.getStatus());
 
         if (entity.getItems() != null) {
+<<<<<<< HEAD
             List<FulfillmentInstructionResponseDTO.Item> itemDTOs = entity.getItems().stream()
                     .map(i -> {
                         FulfillmentInstructionResponseDTO.Item itemDTO =
@@ -117,6 +197,21 @@ public class FulfillmentInstructionService {
                     }).collect(Collectors.toList());
             dto.setItems(itemDTOs);
         }
+=======
+            List<FulfillmentInstructionResponseDTO.Item> itemDTOs =
+                    entity.getItems().stream()
+                            .map(i -> {
+                                FulfillmentInstructionResponseDTO.Item itemDTO =
+                                        new FulfillmentInstructionResponseDTO.Item();
+                                itemDTO.setSku(i.getSku());
+                                itemDTO.setQuantity(i.getQuantity());
+                                return itemDTO;
+                            }).collect(Collectors.toList());
+
+            dto.setItems(itemDTOs);
+        }
+
+>>>>>>> origin/nari-final
         return dto;
     }
 }
